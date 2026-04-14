@@ -12,8 +12,8 @@ import { env } from '@/env'
 
 import appCss from '../styles.css?url'
 
-// Google Fonts URL - 仅加载 Logo 使用的字符
-const fontUrl = `https://fonts.googleapis.cn/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['easymd', '404'].join(''))}`
+// Google Fonts URL - used by the brand mark and the editorial website shell.
+const fontUrl = 'https://fonts.googleapis.cn/css2?family=Doto:wght@700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap'
 type MetaTag = DetailedHTMLProps<MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement>
 type LinkTag = DetailedHTMLProps<LinkHTMLAttributes<HTMLLinkElement>, HTMLLinkElement>
 
@@ -87,7 +87,7 @@ function RootDocument() {
       <body>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableColorScheme
         >
           <Outlet />

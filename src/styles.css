@@ -96,7 +96,8 @@
 }
 
 @theme inline {
-  --font-sans: sans-serif;
+  --font-sans: 'Noto Sans SC', sans-serif;
+  --font-serif: 'Noto Serif SC', serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -152,10 +153,19 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    background-image:
+      radial-gradient(circle at 12% 8%, rgb(238 156 60 / 0.14), transparent 30rem),
+      radial-gradient(circle at 90% 6%, rgb(69 128 132 / 0.12), transparent 26rem);
+    min-height: 100vh;
   }
 
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: rgb(238 156 60 / 0.28);
   }
 
   button:not(:disabled),

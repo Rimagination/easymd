@@ -1,24 +1,42 @@
-import { Logo } from '@/components/logo'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { EditorActionBar } from '../editor/action-bar'
 import { PreviewerActionBar } from '../previewer/action-bar'
 
 export function FooterBar() {
   return (
     <footer
-      className="flex h-12 shrink-0 items-center border-t bg-background px-4"
+      className="shrink-0 border-t bg-background/95 backdrop-blur"
     >
-      <div className="flex flex-1 items-center">
-        <EditorActionBar />
+      <div className={`
+        hidden h-12 items-center gap-4 px-4
+        md:flex
+      `}
+      >
+        <div className="flex min-w-0 flex-1 items-center overflow-x-auto">
+          <EditorActionBar />
+        </div>
+        <div className={`
+          flex min-w-0 flex-1 items-center justify-end overflow-x-auto
+        `}
+        >
+          <PreviewerActionBar />
+        </div>
       </div>
-      <Tooltip>
-        <TooltipTrigger render={<span />}>
-          <Logo as="h1" />
-        </TooltipTrigger>
-        <TooltipContent>关于</TooltipContent>
-      </Tooltip>
-      <div className="flex flex-1 items-center justify-end">
-        <PreviewerActionBar />
+
+      <div className={`
+        space-y-2 px-3 py-3
+        md:hidden
+      `}
+      >
+        <div className="overflow-x-auto">
+          <div className="flex w-max items-center">
+            <EditorActionBar />
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <div className="flex w-max items-center">
+            <PreviewerActionBar />
+          </div>
+        </div>
       </div>
     </footer>
   )

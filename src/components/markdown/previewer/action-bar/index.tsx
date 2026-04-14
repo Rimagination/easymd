@@ -7,6 +7,7 @@ import { ExportButton } from './export-button'
 import { InfographicSettingsMenu } from './infographic-settings-menu'
 import { MarkdownStyleMenu } from './markdown-style-menu'
 import { MermaidThemeMenu } from './mermaid-theme-menu'
+import { PaletteRecolorMenu } from './palette-recolor-menu'
 
 export function PreviewerActionBar() {
   return (
@@ -17,6 +18,7 @@ export function PreviewerActionBar() {
       <ExportButton />
       <Separator orientation="vertical" className="mx-2" />
       <MarkdownStyleMenu />
+      <PaletteRecolorMenu />
       <CodeThemeMenu />
       <MermaidThemeMenu />
       <InfographicSettingsMenu />

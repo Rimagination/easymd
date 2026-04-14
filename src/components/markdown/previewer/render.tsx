@@ -25,12 +25,19 @@ export default function MarkdownRender() {
   const infographic = usePreviewStore(state => state.infographic)
   const importedMarkdownStyles = usePreviewStore(state => state.importedMarkdownStyles)
   const customCss = usePreviewStore(state => state.customCss)
+  const paletteOverrideCss = usePreviewStore(state => state.paletteOverrideCss)
   const renderedHtml = usePreviewStore(state => state.getRenderedHtml('html'))
   const setRenderedHtml = usePreviewStore(state => state.setRenderedHtml)
   const clearRenderedHtmlCache = usePreviewStore(state => state.clearRenderedHtmlCache)
   const resolvedStyle = useMemo(
-    () => resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss),
-    [markdownStyle, importedMarkdownStyles, customCss],
+    () => {
+      const style = resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss)
+      return {
+        ...style,
+        customCss: [style.customCss, paletteOverrideCss].filter(Boolean).join('\n'),
+      }
+    },
+    [markdownStyle, importedMarkdownStyles, customCss, paletteOverrideCss],
   )
 
   const { iframeRef, onIframeLoad: onScrollSyncLoad } = usePreviewScrollSync({

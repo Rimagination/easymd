@@ -25,6 +25,9 @@ interface PreviewState {
   markdownStyle: string
   setMarkdownStyle: (id: string) => void
 
+  paletteOverrideCss: string
+  setPaletteOverrideCss: (css: string) => void
+
   codeTheme: string
   setCodeTheme: (theme: string) => void
 
@@ -56,7 +59,14 @@ export const usePreviewStore = create<PreviewState>()(
       setUserPreferredWidth: userPreferredWidth => set({ previewWidth: userPreferredWidth, userPreferredWidth }),
 
       markdownStyle: 'ayu-light',
-      setMarkdownStyle: markdownStyle => set({ markdownStyle, renderedHtmlMap: {} }),
+      setMarkdownStyle: markdownStyle => set({
+        markdownStyle,
+        paletteOverrideCss: '',
+        renderedHtmlMap: {},
+      }),
+
+      paletteOverrideCss: '',
+      setPaletteOverrideCss: paletteOverrideCss => set({ paletteOverrideCss, renderedHtmlMap: {} }),
 
       codeTheme: 'kimbie-light',
       setCodeTheme: codeTheme => set({ codeTheme, renderedHtmlMap: {} }),
@@ -92,7 +102,11 @@ export const usePreviewStore = create<PreviewState>()(
       }),
 
       customCss: '',
-      setCustomCss: customCss => set({ customCss, renderedHtmlMap: {} }),
+      setCustomCss: customCss => set({
+        customCss,
+        paletteOverrideCss: '',
+        renderedHtmlMap: {},
+      }),
 
       renderedHtmlMap: {},
       setRenderedHtml: (platform, html) => set(state => ({
@@ -107,6 +121,7 @@ export const usePreviewStore = create<PreviewState>()(
       partialize: state => ({
         userPreferredWidth: state.userPreferredWidth,
         markdownStyle: state.markdownStyle,
+        paletteOverrideCss: state.paletteOverrideCss,
         codeTheme: state.codeTheme,
         mermaidTheme: state.mermaidTheme,
         infographic: state.infographic,

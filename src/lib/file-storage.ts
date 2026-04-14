@@ -8,7 +8,7 @@ interface FileDB {
   }
 }
 
-const DB_NAME = 'bm.md'
+const DB_NAME = 'easymd'
 const DB_VERSION = 1
 
 let db: Promise<IDBPDatabase<FileDB>> | null = null

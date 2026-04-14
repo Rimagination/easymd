@@ -1,5 +1,6 @@
 import type { Platform } from '@/lib/markdown/render/adapters'
 import type { InfographicPaletteId, InfographicThemeId } from '@/themes/infographic-theme'
+import type { ImportedMarkdownStyle } from '@/themes/markdown-style/custom'
 import type { MermaidThemeId } from '@/themes/mermaid-theme'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -32,6 +33,9 @@ interface PreviewState {
 
   infographic: InfographicSettings
   setInfographic: (settings: Partial<InfographicSettings>) => void
+
+  importedMarkdownStyles: ImportedMarkdownStyle[]
+  upsertImportedMarkdownStyle: (style: ImportedMarkdownStyle) => void
 
   customCss: string
   setCustomCss: (css: string) => void
@@ -66,6 +70,27 @@ export const usePreviewStore = create<PreviewState>()(
         renderedHtmlMap: {},
       })),
 
+      importedMarkdownStyles: [],
+      upsertImportedMarkdownStyle: importedMarkdownStyle => set((state) => {
+        const currentIndex = state.importedMarkdownStyles.findIndex(
+          style => style.id === importedMarkdownStyle.id,
+        )
+
+        if (currentIndex === -1) {
+          return {
+            importedMarkdownStyles: [...state.importedMarkdownStyles, importedMarkdownStyle],
+            renderedHtmlMap: {},
+          }
+        }
+
+        const importedMarkdownStyles = [...state.importedMarkdownStyles]
+        importedMarkdownStyles[currentIndex] = importedMarkdownStyle
+        return {
+          importedMarkdownStyles,
+          renderedHtmlMap: {},
+        }
+      }),
+
       customCss: '',
       setCustomCss: customCss => set({ customCss, renderedHtmlMap: {} }),
 
@@ -77,7 +102,7 @@ export const usePreviewStore = create<PreviewState>()(
       clearRenderedHtmlCache: () => set({ renderedHtmlMap: {} }),
     }),
     {
-      name: 'bm.md.preview',
+      name: 'easymd.preview',
       skipHydration: true,
       partialize: state => ({
         userPreferredWidth: state.userPreferredWidth,
@@ -85,6 +110,7 @@ export const usePreviewStore = create<PreviewState>()(
         codeTheme: state.codeTheme,
         mermaidTheme: state.mermaidTheme,
         infographic: state.infographic,
+        importedMarkdownStyles: state.importedMarkdownStyles,
         customCss: state.customCss,
       }),
     },

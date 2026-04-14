@@ -16,7 +16,7 @@
 */
 
 /* 容器 - 深宇宙背景配多层图案叠加 */
-#bm-md {
+#easymd {
   color: #ffffff;
   background-color: #0d0d1a;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -49,12 +49,12 @@
    H1-H6 使用洋红色系，逐级变淡；H4-H6 相同颜色
    ============================================ */
 
-#bm-md h1,
-#bm-md h2,
-#bm-md h3,
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h1,
+#easymd h2,
+#easymd h3,
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   font-weight: 900;
   line-height: 1.2;
   margin-top: 1.25em;
@@ -63,7 +63,7 @@
 }
 
 /* H1 - 最深洋红色，渐变背景+三层阴影堆叠 */
-#bm-md h1 {
+#easymd h1 {
   font-size: 1.875em;
   padding: 0.45em 0.65em;
   background: linear-gradient(135deg, #ff3af2 0%, #7b2fff 50%, #00f5d4 100%);
@@ -79,7 +79,7 @@
 }
 
 /* H2 - 洋红色，霓虹边框+双层阴影 */
-#bm-md h2 {
+#easymd h2 {
   font-size: 1.5em;
   padding: 0.35em 0.55em;
   background: linear-gradient(135deg, rgba(45, 27, 78, 0.95) 0%, rgba(123, 47, 255, 0.3) 100%);
@@ -94,7 +94,7 @@
 }
 
 /* H3 - 较淡洋红，左边框+发光 */
-#bm-md h3 {
+#easymd h3 {
   font-size: 1.25em;
   padding: 0.28em 0.55em;
   color: #ffa8f0;
@@ -108,14 +108,14 @@
 }
 
 /* H4-H6 - 最淡的洋红色系，统一颜色 */
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   color: #ffb8f0;
   text-shadow: 1px 1px 0 rgba(123, 47, 255, 0.5);
 }
 
-#bm-md h4 {
+#easymd h4 {
   font-size: 1.125em;
   padding: 0.2em 0.6em;
   border-left: 8px solid #ffb8f0;
@@ -123,24 +123,24 @@
   background: linear-gradient(90deg, rgba(255, 58, 242, 0.15) 0%, rgba(123, 47, 255, 0.08) 50%, transparent 100%);
 }
 
-#bm-md h5 {
+#easymd h5 {
   font-size: 1em;
   padding-left: 0.55em;
   border-left: 6px dashed #ffb8f0;
 }
 
-#bm-md h6 {
+#easymd h6 {
   font-size: 1em;
   padding-left: 0.55em;
   border-left: 4px dotted #ffb8f0;
 }
 
-#bm-md > h1:first-child,
-#bm-md > h2:first-child,
-#bm-md > h3:first-child,
-#bm-md > h4:first-child,
-#bm-md > h5:first-child,
-#bm-md > h6:first-child {
+#easymd > h1:first-child,
+#easymd > h2:first-child,
+#easymd > h3:first-child,
+#easymd > h4:first-child,
+#easymd > h5:first-child,
+#easymd > h6:first-child {
   margin-top: 0;
 }
 
@@ -148,12 +148,12 @@
    段落
    ============================================ */
 
-#bm-md p {
+#easymd p {
   margin-bottom: 1em;
   color: rgba(255, 255, 255, 0.92);
 }
 
-#bm-md p:last-child {
+#easymd p:last-child {
   margin-bottom: 0;
 }
 
@@ -162,8 +162,8 @@
    ============================================ */
 
 /* 加粗 - 黄橙渐变+洋红边框（色彩碰撞） */
-#bm-md strong,
-#bm-md b {
+#easymd strong,
+#easymd b {
   font-weight: 800;
   color: #0d0d1a;
   background: linear-gradient(135deg, #ffe600 0%, #ff6b35 100%);
@@ -175,17 +175,17 @@
 }
 
 /* 斜体 - 青色发光 */
-#bm-md em,
-#bm-md i {
+#easymd em,
+#easymd i {
   font-style: italic;
   color: #00f5d4;
   text-shadow: 0 0 4px rgba(0, 245, 212, 0.35);
 }
 
 /* 删除线 - 洋红粗线 */
-#bm-md del,
-#bm-md s,
-#bm-md strike {
+#easymd del,
+#easymd s,
+#easymd strike {
   color: rgba(255, 255, 255, 0.45);
   text-decoration: line-through;
   text-decoration-color: #ff3af2;
@@ -193,7 +193,7 @@
 }
 
 /* 高亮 - 渐变背景+多层阴影 */
-#bm-md mark {
+#easymd mark {
   background: linear-gradient(135deg, #ffe600 0%, #ff3af2 100%);
   color: #0d0d1a;
   padding: 0.15em 0.45em;
@@ -205,20 +205,20 @@
   font-weight: 800;
 }
 
-#bm-md small {
+#easymd small {
   font-size: 0.875em;
   color: rgba(255, 255, 255, 0.65);
 }
 
-#bm-md sup,
-#bm-md sub {
+#easymd sup,
+#easymd sub {
   font-size: 0.75em;
   line-height: 0;
   vertical-align: baseline;
 }
 
 /* 上标 - 洋红徽章+发光 */
-#bm-md sup {
+#easymd sup {
   vertical-align: super;
   color: #0d0d1a;
   font-weight: 800;
@@ -231,7 +231,7 @@
 }
 
 /* 下标 - 青色 */
-#bm-md sub {
+#easymd sub {
   vertical-align: sub;
   color: #00f5d4;
   font-weight: 700;
@@ -239,7 +239,7 @@
 }
 
 /* 插入文本 - 青紫渐变 */
-#bm-md ins {
+#easymd ins {
   background: linear-gradient(135deg, #00f5d4 0%, #7b2fff 100%);
   color: #ffffff;
   text-decoration: none;
@@ -250,12 +250,12 @@
     2px 2px 0 #ff3af2;
 }
 
-#bm-md q {
+#easymd q {
   quotes: '"' '"' '' ' ' '';
   color: #ffffff;
 }
 
-#bm-md q::before {
+#easymd q::before {
   content: open-quote;
   color: #ff3af2;
   font-weight: 900;
@@ -263,7 +263,7 @@
   text-shadow: 0 0 5px rgba(255, 58, 242, 0.4);
 }
 
-#bm-md q::after {
+#easymd q::after {
   content: close-quote;
   color: #00f5d4;
   font-weight: 900;
@@ -272,7 +272,7 @@
 }
 
 /* 变量 - 黄色底+虚线 */
-#bm-md var {
+#easymd var {
   font-style: italic;
   font-weight: 700;
   color: #ffe600;
@@ -283,8 +283,8 @@
 }
 
 /* 示例输出 - 紫色边框+发光 */
-#bm-md samp,
-#bm-md tt {
+#easymd samp,
+#easymd tt {
   font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
   background-color: rgba(45, 27, 78, 0.85);
@@ -297,7 +297,7 @@
 }
 
 /* 缩写 - 洋红点状下划线 */
-#bm-md abbr[title] {
+#easymd abbr[title] {
   border-bottom: 4px dotted #ff3af2;
   cursor: help;
   text-decoration: none;
@@ -307,7 +307,7 @@
    链接 - 霓虹发光+色彩碰撞
    ============================================ */
 
-#bm-md a {
+#easymd a {
   color: #00f5d4;
   text-decoration: none;
   font-weight: 600;
@@ -317,7 +317,7 @@
   text-shadow: 0 0 5px rgba(0, 245, 212, 0.3);
 }
 
-#bm-md a:hover {
+#easymd a:hover {
   color: #0d0d1a;
   background: linear-gradient(135deg, #00f5d4 0%, #ff3af2 100%);
   border-bottom-color: #ffe600;
@@ -331,18 +331,18 @@
    Ruby 注音
    ============================================ */
 
-#bm-md ruby {
+#easymd ruby {
   ruby-align: center;
 }
 
-#bm-md rt {
+#easymd rt {
   font-size: 0.5em;
   color: #ff3af2;
   font-weight: 600;
   text-shadow: 0 0 3px rgba(255, 58, 242, 0.3);
 }
 
-#bm-md rp {
+#easymd rp {
   color: rgba(255, 255, 255, 0.45);
 }
 
@@ -350,58 +350,58 @@
    列表 - 霓虹标记
    ============================================ */
 
-#bm-md ul,
-#bm-md ol {
+#easymd ul,
+#easymd ol {
   margin-bottom: 1em;
   padding-left: 1.8em;
 }
 
-#bm-md ul {
+#easymd ul {
   list-style-type: square;
 }
 
-#bm-md ol {
+#easymd ol {
   list-style-type: decimal;
 }
 
-#bm-md li {
+#easymd li {
   margin-bottom: 0.45em;
   color: rgba(255, 255, 255, 0.92);
 }
 
-#bm-md li::marker {
+#easymd li::marker {
   color: #ff3af2;
   font-weight: 900;
 }
 
-#bm-md li > ul,
-#bm-md li > ol {
+#easymd li > ul,
+#easymd li > ol {
   margin-top: 0.35em;
   margin-bottom: 0.35em;
 }
 
-#bm-md ul ul {
+#easymd ul ul {
   list-style-type: disc;
 }
 
-#bm-md ul ul ul {
+#easymd ul ul ul {
   list-style-type: circle;
 }
 
 /* 任务列表 */
-#bm-md ul.contains-task-list {
+#easymd ul.contains-task-list {
   list-style-type: none;
   padding-left: 0;
 }
 
-#bm-md li.task-list-item {
+#easymd li.task-list-item {
   display: flex;
   align-items: flex-start;
   gap: 0.55em;
   padding-left: 0.35em;
 }
 
-#bm-md input[type='checkbox'] {
+#easymd input[type='checkbox'] {
   margin-top: 0.38em;
   width: 1.3em;
   height: 1.3em;
@@ -414,7 +414,7 @@
    引用块 - 霓虹边框发光+多层阴影
    ============================================ */
 
-#bm-md blockquote {
+#easymd blockquote {
   margin: 1.25em 0;
   padding: 1em 1.3em;
   background: linear-gradient(135deg, rgba(45, 27, 78, 0.92) 0%, rgba(123, 47, 255, 0.25) 100%);
@@ -434,12 +434,12 @@
     16px 16px;
 }
 
-#bm-md blockquote p {
+#easymd blockquote p {
   margin-bottom: 0.65em;
   padding-left: 0;
 }
 
-#bm-md blockquote p:first-child::before {
+#easymd blockquote p:first-child::before {
   content: '"';
   font-size: 2.2em;
   font-weight: 900;
@@ -452,12 +452,12 @@
   vertical-align: -0.2em;
 }
 
-#bm-md blockquote p:last-child {
+#easymd blockquote p:last-child {
   margin-bottom: 0;
 }
 
 /* 嵌套引用 - 色彩反转 */
-#bm-md blockquote blockquote {
+#easymd blockquote blockquote {
   margin-top: 0.85em;
   margin-bottom: 0;
   background: linear-gradient(135deg, rgba(0, 245, 212, 0.18) 0%, rgba(255, 230, 0, 0.12) 100%);
@@ -469,7 +469,7 @@
     6px 6px 0 #00f5d4;
 }
 
-#bm-md blockquote blockquote p:first-child::before {
+#easymd blockquote blockquote p:first-child::before {
   display: none;
 }
 
@@ -478,7 +478,7 @@
    ============================================ */
 
 /* 行内代码 - 紫粉渐变+青色边框（色彩碰撞） */
-#bm-md code {
+#easymd code {
   font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
   background: linear-gradient(135deg, #7b2fff 0%, #ff3af2 100%);
@@ -491,7 +491,7 @@
 }
 
 /* 代码块 - 深色背景+三层阴影 */
-#bm-md pre {
+#easymd pre {
   margin: 1.3em 0;
   padding: 1.3em;
   background: linear-gradient(180deg, #0d0d1a 0%, #1a0a2e 50%, #0d0d1a 100%);
@@ -514,7 +514,7 @@
     );
 }
 
-#bm-md pre code {
+#easymd pre code {
   background: transparent;
   color: #00f5d4;
   padding: 0;
@@ -528,7 +528,7 @@
    表格 - 霓虹网格+多层阴影
    ============================================ */
 
-#bm-md table {
+#easymd table {
   width: 100%;
   margin: 1.3em 0;
   border-collapse: collapse;
@@ -541,19 +541,19 @@
 }
 
 /* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
+#easymd tr:first-child th {
   background-color: #ff3af2;
   background: linear-gradient(135deg, #ff3af2 0%, #7b2fff 100%);
 }
 
-#bm-md th,
-#bm-md td {
+#easymd th,
+#easymd td {
   padding: 0.65em 0.9em;
   border: 3px solid #7b2fff;
   text-align: left;
 }
 
-#bm-md th {
+#easymd th {
   font-weight: 800;
   color: #ffffff;
   text-transform: uppercase;
@@ -561,17 +561,17 @@
   text-shadow: 1px 1px 0 #0d0d1a;
 }
 
-#bm-md td {
+#easymd td {
   color: rgba(255, 255, 255, 0.92);
   background-color: rgba(45, 27, 78, 0.55);
 }
 
-#bm-md tbody tr:nth-child(even) {
+#easymd tbody tr:nth-child(even) {
   background-color: rgba(123, 47, 255, 0.15);
 }
 
 /* Frontmatter 表格 */
-#bm-md .frontmatter-table {
+#easymd .frontmatter-table {
   width: auto;
   margin-bottom: 1.5em;
   font-size: 0.875em;
@@ -580,14 +580,14 @@
   box-shadow: none;
 }
 
-#bm-md .frontmatter-table td {
+#easymd .frontmatter-table td {
   padding: 0.35em 0.85em 0.35em 0;
   border: none;
   vertical-align: top;
   background-color: transparent;
 }
 
-#bm-md .frontmatter-key {
+#easymd .frontmatter-key {
   font-weight: 800;
   color: #ff3af2;
   white-space: nowrap;
@@ -595,12 +595,12 @@
   text-shadow: 0 0 4px rgba(255, 58, 242, 0.3);
 }
 
-#bm-md .frontmatter-key::after {
+#easymd .frontmatter-key::after {
   content: ':';
   color: #00f5d4;
 }
 
-#bm-md .frontmatter-value {
+#easymd .frontmatter-value {
   color: rgba(255, 255, 255, 0.88);
 }
 
@@ -608,7 +608,7 @@
    分割线 - 霓虹彩虹渐变
    ============================================ */
 
-#bm-md hr {
+#easymd hr {
   margin: 1.85em 0;
   border: none;
   height: 8px;
@@ -624,7 +624,7 @@
    图片与媒体 - 霓虹框架+多层阴影
    ============================================ */
 
-#bm-md img {
+#easymd img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -636,25 +636,25 @@
   margin: 1.1em 0;
 }
 
-#bm-md picture {
+#easymd picture {
   display: block;
   margin: 1.1em 0;
 }
 
-#bm-md picture img {
+#easymd picture img {
   margin: 0;
 }
 
-#bm-md figure {
+#easymd figure {
   margin: 1.3em 0;
   text-align: center;
 }
 
-#bm-md figure img {
+#easymd figure img {
   margin: 0 auto;
 }
 
-#bm-md figcaption {
+#easymd figcaption {
   margin-top: 0.65em;
   font-size: 0.875em;
   color: #0d0d1a;
@@ -674,7 +674,7 @@
    脚注 - 霓虹分隔
    ============================================ */
 
-#bm-md .footnotes {
+#easymd .footnotes {
   margin-top: 2.1em;
   padding-top: 1.3em;
   border-top: 8px double #7b2fff;
@@ -684,11 +684,11 @@
   background: linear-gradient(180deg, rgba(123, 47, 255, 0.1) 0%, transparent 40px);
 }
 
-#bm-md .footnotes ol {
+#easymd .footnotes ol {
   padding-left: 1.55em;
 }
 
-#bm-md .footnote-ref {
+#easymd .footnote-ref {
   font-size: 0.75em;
   vertical-align: super;
   color: #0d0d1a;
@@ -701,8 +701,8 @@
     1px 1px 0 #ffe600;
 }
 
-#bm-md .footnote-backref,
-#bm-md .data-footnote-backref {
+#easymd .footnote-backref,
+#easymd .data-footnote-backref {
   color: #0d0d1a;
   text-decoration: none;
   font-weight: 800;
@@ -718,11 +718,11 @@
    定义列表
    ============================================ */
 
-#bm-md dl {
+#easymd dl {
   margin: 1.1em 0;
 }
 
-#bm-md dt {
+#easymd dt {
   font-weight: 900;
   color: #0d0d1a;
   margin-top: 0.65em;
@@ -736,11 +736,11 @@
   text-transform: uppercase;
 }
 
-#bm-md dt:first-child {
+#easymd dt:first-child {
   margin-top: 0;
 }
 
-#bm-md dd {
+#easymd dd {
   margin-left: 1.6em;
   margin-top: 0.35em;
   color: rgba(255, 255, 255, 0.92);
@@ -753,7 +753,7 @@
    键盘按键 - 霓虹按钮风格
    ============================================ */
 
-#bm-md kbd {
+#easymd kbd {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8125em;
   display: inline-block;
@@ -773,7 +773,7 @@
    警告框 - 霓虹色块风格+多层阴影
    ============================================ */
 
-#bm-md .markdown-alert {
+#easymd .markdown-alert {
   margin: 1.3em 0;
   padding: 1.05em 1.3em;
   border: 5px solid #7b2fff;
@@ -787,7 +787,7 @@
   background-size: 14px 14px;
 }
 
-#bm-md .markdown-alert-title {
+#easymd .markdown-alert-title {
   display: flex;
   align-items: center;
   gap: 0.5em;
@@ -797,13 +797,13 @@
 }
 
 /* Alert 图标增强可见性 */
-#bm-md .markdown-alert-title svg {
+#easymd .markdown-alert-title svg {
   color: #ffffff;
   filter: drop-shadow(0 0 3px currentColor);
 }
 
 /* Note - 青绿 */
-#bm-md .markdown-alert-note {
+#easymd .markdown-alert-note {
   border-color: #00f5d4;
   border-top: 8px solid #00f5d4;
   box-shadow:
@@ -811,13 +811,13 @@
     3px 3px 0 #7b2fff;
 }
 
-#bm-md .markdown-alert-note .markdown-alert-title {
+#easymd .markdown-alert-note .markdown-alert-title {
   color: #4fffea;
   text-shadow: 0 0 8px rgba(0, 245, 212, 0.5);
 }
 
 /* Tip - 黄色 */
-#bm-md .markdown-alert-tip {
+#easymd .markdown-alert-tip {
   border-color: #ffe600;
   border-top: 8px solid #ffe600;
   box-shadow:
@@ -825,13 +825,13 @@
     3px 3px 0 #00f5d4;
 }
 
-#bm-md .markdown-alert-tip .markdown-alert-title {
+#easymd .markdown-alert-tip .markdown-alert-title {
   color: #fff04d;
   text-shadow: 0 0 8px rgba(255, 230, 0, 0.5);
 }
 
 /* Important - 紫色 */
-#bm-md .markdown-alert-important {
+#easymd .markdown-alert-important {
   border-color: #7b2fff;
   border-top: 8px solid #c792ea;
   box-shadow:
@@ -839,13 +839,13 @@
     3px 3px 0 #ff3af2;
 }
 
-#bm-md .markdown-alert-important .markdown-alert-title {
+#easymd .markdown-alert-important .markdown-alert-title {
   color: #d4a8f0;
   text-shadow: 0 0 8px rgba(199, 146, 234, 0.5);
 }
 
 /* Warning - 橙色 */
-#bm-md .markdown-alert-warning {
+#easymd .markdown-alert-warning {
   border-color: #ff6b35;
   border-top: 8px solid #ff6b35;
   box-shadow:
@@ -853,13 +853,13 @@
     3px 3px 0 #ffe600;
 }
 
-#bm-md .markdown-alert-warning .markdown-alert-title {
+#easymd .markdown-alert-warning .markdown-alert-title {
   color: #ff9066;
   text-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
 }
 
 /* Caution - 洋红 */
-#bm-md .markdown-alert-caution {
+#easymd .markdown-alert-caution {
   border-color: #ff3af2;
   border-top: 8px solid #ff3af2;
   box-shadow:
@@ -867,7 +867,7 @@
     3px 3px 0 #ff6b35;
 }
 
-#bm-md .markdown-alert-caution .markdown-alert-title {
+#easymd .markdown-alert-caution .markdown-alert-title {
   color: #ff6bf5;
   text-shadow: 0 0 8px rgba(255, 58, 242, 0.5);
 }
@@ -876,14 +876,14 @@
    数学公式
    ============================================ */
 
-#bm-md .math-inline {
+#easymd .math-inline {
   font-size: 1em;
   padding: 0 0.28em;
   color: #00f5d4;
   text-shadow: 0 0 4px rgba(0, 245, 212, 0.25);
 }
 
-#bm-md .math-display {
+#easymd .math-display {
   margin: 1.3em 0;
   overflow-x: auto;
   text-align: center;
@@ -901,7 +901,7 @@
    折叠详情 - 霓虹可展开
    ============================================ */
 
-#bm-md details {
+#easymd details {
   margin: 1.3em 0;
   padding: 0.7em 1.1em;
   background: linear-gradient(135deg, rgba(45, 27, 78, 0.85) 0%, rgba(13, 13, 26, 0.92) 100%);
@@ -911,7 +911,7 @@
     3px 3px 0 #ff3af2;
 }
 
-#bm-md summary {
+#easymd summary {
   font-weight: 900;
   cursor: pointer;
   color: #00f5d4;
@@ -920,11 +920,11 @@
   text-shadow: 0 0 6px rgba(0, 245, 212, 0.3);
 }
 
-#bm-md summary::marker {
+#easymd summary::marker {
   color: #ff3af2;
 }
 
-#bm-md details[open] summary {
+#easymd details[open] summary {
   margin-bottom: 0.65em;
   border-bottom: 5px solid #ff3af2;
   padding-bottom: 0.55em;
@@ -934,8 +934,8 @@
    嵌入媒体
    ============================================ */
 
-#bm-md iframe,
-#bm-md video {
+#easymd iframe,
+#easymd video {
   display: block;
   max-width: 100%;
   margin: 1.3em 0;
@@ -950,8 +950,8 @@
    元信息与时间
    ============================================ */
 
-#bm-md .meta,
-#bm-md time {
+#easymd .meta,
+#easymd time {
   font-size: 0.875em;
   color: #0d0d1a;
   padding: 0.28em 0.65em;
@@ -968,6 +968,6 @@
    首行缩进变体
    ============================================ */
 
-#bm-md.indent-first-line p {
+#easymd.indent-first-line p {
   text-indent: 2em;
 }

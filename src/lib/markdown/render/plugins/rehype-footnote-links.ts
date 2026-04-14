@@ -44,7 +44,7 @@ const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
         return
       }
 
-      const text = extractText(node)
+      const text = extractReferenceText(node)
       const id = counter++
       links.push({ id, href, text })
       seenUrls.add(href)
@@ -106,7 +106,14 @@ const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
   }
 }
 
-function extractText(node: Element): string {
+function extractReferenceText(node: Element): string {
+  const title = typeof node.properties?.title === 'string'
+    ? node.properties.title.trim()
+    : ''
+  if (title) {
+    return title
+  }
+
   const texts: string[] = []
 
   function walk(n: Element | Text) {

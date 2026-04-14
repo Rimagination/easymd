@@ -19,7 +19,7 @@
 */
 
 /* 容器 - 新闻纸质感背景 */
-#bm-md {
+#easymd {
   color: #333333;
   background-color: #f9f9f7;
   font-family: Georgia, 'Times New Roman', 'Songti SC', 'SimSun', serif;
@@ -33,12 +33,12 @@
    极具层次感的黑色系标题
    ============================================ */
 
-#bm-md h1,
-#bm-md h2,
-#bm-md h3,
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h1,
+#easymd h2,
+#easymd h3,
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   font-family: Georgia, 'Times New Roman', 'Songti SC', 'SimSun', serif;
   font-weight: 700;
   line-height: 1.2;
@@ -47,7 +47,7 @@
 }
 
 /* H1 - 头版头条风格 */
-#bm-md h1 {
+#easymd h1 {
   font-size: 2.25em;
   font-weight: 900;
   color: #111111;
@@ -59,7 +59,7 @@
 }
 
 /* H2 - 专栏标题风格 */
-#bm-md h2 {
+#easymd h2 {
   font-size: 1.625em;
   color: #1a1a1a;
   padding-bottom: 0.25em;
@@ -67,7 +67,7 @@
 }
 
 /* H3 - 小节标题 */
-#bm-md h3 {
+#easymd h3 {
   font-size: 1.375em;
   color: #2a2a2a;
   padding-left: 0.5em;
@@ -75,36 +75,36 @@
 }
 
 /* H4-H6 - 次要标题，使用相同颜色 */
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   color: #444444;
 }
 
-#bm-md h4 {
+#easymd h4 {
   font-size: 1.125em;
   font-weight: 700;
 }
 
-#bm-md h5 {
+#easymd h5 {
   font-size: 1em;
   font-weight: 700;
   font-style: italic;
 }
 
-#bm-md h6 {
+#easymd h6 {
   font-size: 0.9375em;
   font-weight: 600;
   font-style: italic;
   text-transform: uppercase;
 }
 
-#bm-md > h1:first-child,
-#bm-md > h2:first-child,
-#bm-md > h3:first-child,
-#bm-md > h4:first-child,
-#bm-md > h5:first-child,
-#bm-md > h6:first-child {
+#easymd > h1:first-child,
+#easymd > h2:first-child,
+#easymd > h3:first-child,
+#easymd > h4:first-child,
+#easymd > h5:first-child,
+#easymd > h6:first-child {
   margin-top: 0;
 }
 
@@ -112,13 +112,13 @@
    段落 - 报刊正文排版
    ============================================ */
 
-#bm-md p {
+#easymd p {
   margin-bottom: 0.9em;
   text-align: justify;
   text-justify: inter-character;
 }
 
-#bm-md p:last-child {
+#easymd p:last-child {
   margin-bottom: 0;
 }
 
@@ -126,85 +126,85 @@
    行内文本样式
    ============================================ */
 
-#bm-md strong,
-#bm-md b {
+#easymd strong,
+#easymd b {
   font-weight: 700;
   color: #111111;
 }
 
-#bm-md em,
-#bm-md i {
+#easymd em,
+#easymd i {
   font-style: italic;
 }
 
-#bm-md del,
-#bm-md s,
-#bm-md strike {
+#easymd del,
+#easymd s,
+#easymd strike {
   color: #888888;
   text-decoration: line-through;
   text-decoration-thickness: 1px;
 }
 
-#bm-md mark {
+#easymd mark {
   background-color: #e8e8e6;
   color: #111111;
   padding: 0.1em 0.2em;
   border-bottom: 2px solid #111111;
 }
 
-#bm-md small {
+#easymd small {
   font-size: 0.875em;
   color: #666666;
 }
 
-#bm-md sup,
-#bm-md sub {
+#easymd sup,
+#easymd sub {
   font-size: 0.75em;
   line-height: 0;
 }
 
-#bm-md sup {
+#easymd sup {
   vertical-align: super;
 }
 
-#bm-md sub {
+#easymd sub {
   vertical-align: sub;
 }
 
-#bm-md ins {
+#easymd ins {
   background-color: #f0f0ee;
   text-decoration: none;
   padding: 0.1em 0.2em;
   border-bottom: 1px solid #111111;
 }
 
-#bm-md q {
+#easymd q {
   quotes: '"' '"' '' ' ' '';
   color: #222222;
 }
 
-#bm-md q::before {
+#easymd q::before {
   content: open-quote;
   color: #111111;
   font-weight: 700;
   font-size: 1.1em;
 }
 
-#bm-md q::after {
+#easymd q::after {
   content: close-quote;
   color: #111111;
   font-weight: 700;
   font-size: 1.1em;
 }
 
-#bm-md var {
+#easymd var {
   font-style: italic;
   font-weight: 600;
   color: #2a2a2a;
 }
 
-#bm-md samp,
-#bm-md tt {
+#easymd samp,
+#easymd tt {
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.875em;
   background-color: #f0f0ee;
@@ -213,7 +213,7 @@
   border: 1px solid #cccccc;
 }
 
-#bm-md abbr[title] {
+#easymd abbr[title] {
   border-bottom: 1px dotted #111111;
   cursor: help;
   text-decoration: none;
@@ -223,14 +223,14 @@
    链接 - 传统下划线风格
    ============================================ */
 
-#bm-md a {
+#easymd a {
   color: #111111;
   text-decoration: underline;
   text-underline-offset: 2px;
   text-decoration-thickness: 1px;
 }
 
-#bm-md a:hover {
+#easymd a:hover {
   color: #b22222;
   text-decoration-thickness: 2px;
 }
@@ -239,16 +239,16 @@
    Ruby 注音
    ============================================ */
 
-#bm-md ruby {
+#easymd ruby {
   ruby-align: center;
 }
 
-#bm-md rt {
+#easymd rt {
   font-size: 0.5em;
   color: #666666;
 }
 
-#bm-md rp {
+#easymd rp {
   color: #888888;
 }
 
@@ -256,56 +256,56 @@
    列表 - 经典报刊列表
    ============================================ */
 
-#bm-md ul,
-#bm-md ol {
+#easymd ul,
+#easymd ol {
   margin-bottom: 0.9em;
   padding-left: 1.6em;
 }
 
-#bm-md ul {
+#easymd ul {
   list-style-type: disc;
 }
 
-#bm-md ol {
+#easymd ol {
   list-style-type: decimal;
 }
 
-#bm-md li {
+#easymd li {
   margin-bottom: 0.2em;
 }
 
-#bm-md li::marker {
+#easymd li::marker {
   color: #111111;
   font-weight: 700;
 }
 
-#bm-md li > ul,
-#bm-md li > ol {
+#easymd li > ul,
+#easymd li > ol {
   margin-top: 0.2em;
   margin-bottom: 0.2em;
 }
 
-#bm-md ul ul {
+#easymd ul ul {
   list-style-type: circle;
 }
 
-#bm-md ul ul ul {
+#easymd ul ul ul {
   list-style-type: square;
 }
 
 /* 任务列表 */
-#bm-md ul.contains-task-list {
+#easymd ul.contains-task-list {
   list-style-type: none;
   padding-left: 0;
 }
 
-#bm-md li.task-list-item {
+#easymd li.task-list-item {
   display: flex;
   align-items: flex-start;
   gap: 0.4em;
 }
 
-#bm-md input[type='checkbox'] {
+#easymd input[type='checkbox'] {
   margin-top: 0.3em;
   accent-color: #111111;
 }
@@ -314,7 +314,7 @@
    引用块 - 报刊引述风格
    ============================================ */
 
-#bm-md blockquote {
+#easymd blockquote {
   margin: 1em 0;
   padding: 0.75em 1em;
   border-left: 4px solid #111111;
@@ -323,15 +323,15 @@
   color: #2a2a2a;
 }
 
-#bm-md blockquote p {
+#easymd blockquote p {
   margin-bottom: 0.4em;
 }
 
-#bm-md blockquote p:last-child {
+#easymd blockquote p:last-child {
   margin-bottom: 0;
 }
 
-#bm-md blockquote blockquote {
+#easymd blockquote blockquote {
   margin-top: 0.6em;
   margin-bottom: 0;
   border-left-color: #666666;
@@ -343,7 +343,7 @@
    代码 - 打字机风格
    ============================================ */
 
-#bm-md code {
+#easymd code {
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.875em;
   background-color: #f0f0ee;
@@ -352,7 +352,7 @@
   border: 1px solid #cccccc;
 }
 
-#bm-md pre {
+#easymd pre {
   margin: 1em 0;
   padding: 0.875em 1em;
   background-color: #f5f5f3;
@@ -361,7 +361,7 @@
   overflow-x: auto;
 }
 
-#bm-md pre code {
+#easymd pre code {
   background-color: transparent;
   color: inherit;
   padding: 0;
@@ -374,7 +374,7 @@
    表格 - 经典报刊数据表
    ============================================ */
 
-#bm-md table {
+#easymd table {
   width: 100%;
   margin: 1em 0;
   border-collapse: collapse;
@@ -383,21 +383,21 @@
 }
 
 /* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
+#easymd tr:first-child th {
   color: #f9f9f7;
   font-weight: 700;
   background-color: #111111;
   border-bottom: 2px solid #111111;
 }
 
-#bm-md th,
-#bm-md td {
+#easymd th,
+#easymd td {
   padding: 0.5em 0.75em;
   border: 1px solid #888888;
   text-align: left;
 }
 
-#bm-md th {
+#easymd th {
   font-weight: 700;
   background-color: #e8e8e6;
   color: #111111;
@@ -405,12 +405,12 @@
   font-size: 0.875em;
 }
 
-#bm-md tbody tr:nth-child(even) {
+#easymd tbody tr:nth-child(even) {
   background-color: #f5f5f3;
 }
 
 /* Frontmatter 表格 - 元信息展示 */
-#bm-md .frontmatter-table {
+#easymd .frontmatter-table {
   width: auto;
   margin-bottom: 1.25em;
   font-size: 0.875em;
@@ -418,14 +418,14 @@
   border-bottom: 1px solid #111111;
 }
 
-#bm-md .frontmatter-table td {
+#easymd .frontmatter-table td {
   padding: 0.2em 0.75em 0.2em 0;
   border: none;
   vertical-align: top;
   background-color: transparent;
 }
 
-#bm-md .frontmatter-key {
+#easymd .frontmatter-key {
   font-weight: 700;
   color: #111111;
   white-space: nowrap;
@@ -433,11 +433,11 @@
   font-size: 0.85em;
 }
 
-#bm-md .frontmatter-key::after {
+#easymd .frontmatter-key::after {
   content: ':';
 }
 
-#bm-md .frontmatter-value {
+#easymd .frontmatter-value {
   color: #444444;
 }
 
@@ -445,7 +445,7 @@
    分割线 - 报刊分隔符
    ============================================ */
 
-#bm-md hr {
+#easymd hr {
   margin: 1.5em 0;
   border: none;
   border-top: 3px double #111111;
@@ -456,7 +456,7 @@
    图片与媒体 - 新闻图片框架
    ============================================ */
 
-#bm-md img {
+#easymd img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -464,27 +464,27 @@
   margin: 1em 0;
 }
 
-#bm-md picture {
+#easymd picture {
   display: block;
   margin: 1em 0;
 }
 
-#bm-md picture img {
+#easymd picture img {
   display: block;
   margin: 0;
 }
 
-#bm-md figure {
+#easymd figure {
   margin: 1em 0;
   text-align: center;
 }
 
-#bm-md figure img {
+#easymd figure img {
   display: block;
   margin: 0 auto;
 }
 
-#bm-md figcaption {
+#easymd figcaption {
   margin-top: 0.4em;
   font-size: 0.8125em;
   color: #555555;
@@ -498,7 +498,7 @@
    脚注 - 报刊注释风格
    ============================================ */
 
-#bm-md .footnotes {
+#easymd .footnotes {
   margin-top: 1.5em;
   padding-top: 0.75em;
   border-top: 2px solid #111111;
@@ -506,11 +506,11 @@
   color: #555555;
 }
 
-#bm-md .footnotes ol {
+#easymd .footnotes ol {
   padding-left: 1.25em;
 }
 
-#bm-md .footnote-ref {
+#easymd .footnote-ref {
   font-size: 0.75em;
   vertical-align: super;
   color: #111111;
@@ -518,8 +518,8 @@
   text-decoration: none;
 }
 
-#bm-md .footnote-backref,
-#bm-md .data-footnote-backref {
+#easymd .footnote-backref,
+#easymd .data-footnote-backref {
   color: #111111;
   text-decoration: none;
   font-weight: 700;
@@ -529,11 +529,11 @@
    定义列表 - 术语解释
    ============================================ */
 
-#bm-md dl {
+#easymd dl {
   margin: 1em 0;
 }
 
-#bm-md dt {
+#easymd dt {
   font-weight: 700;
   color: #111111;
   margin-top: 0.5em;
@@ -542,11 +542,11 @@
   display: inline-block;
 }
 
-#bm-md dt:first-child {
+#easymd dt:first-child {
   margin-top: 0;
 }
 
-#bm-md dd {
+#easymd dd {
   margin-left: 1.25em;
   margin-top: 0.25em;
   color: #444444;
@@ -556,7 +556,7 @@
    键盘按键 - 打字机按键风格
    ============================================ */
 
-#bm-md kbd {
+#easymd kbd {
   font-family: 'Courier New', Courier, monospace;
   font-size: 0.8125em;
   display: inline-block;
@@ -573,7 +573,7 @@
    黑白灰色调，严肃权威
    ============================================ */
 
-#bm-md .markdown-alert {
+#easymd .markdown-alert {
   margin: 1em 0;
   padding: 0.625em 1em;
   border: 1px solid #111111;
@@ -581,7 +581,7 @@
   background-color: #f5f5f3;
 }
 
-#bm-md .markdown-alert-title {
+#easymd .markdown-alert-title {
   display: flex;
   align-items: center;
   gap: 0.4em;
@@ -592,57 +592,57 @@
 }
 
 /* Note - 中灰 */
-#bm-md .markdown-alert-note {
+#easymd .markdown-alert-note {
   background-color: #f5f5f5;
   border-color: #666666;
   border-left-color: #444444;
 }
 
-#bm-md .markdown-alert-note .markdown-alert-title {
+#easymd .markdown-alert-note .markdown-alert-title {
   color: #444444;
 }
 
 /* Tip - 浅灰 */
-#bm-md .markdown-alert-tip {
+#easymd .markdown-alert-tip {
   background-color: #f8f8f6;
   border-color: #777777;
   border-left-color: #555555;
 }
 
-#bm-md .markdown-alert-tip .markdown-alert-title {
+#easymd .markdown-alert-tip .markdown-alert-title {
   color: #555555;
 }
 
 /* Important - 深黑 */
-#bm-md .markdown-alert-important {
+#easymd .markdown-alert-important {
   background-color: #f0f0ee;
   border-color: #333333;
   border-left-color: #111111;
 }
 
-#bm-md .markdown-alert-important .markdown-alert-title {
+#easymd .markdown-alert-important .markdown-alert-title {
   color: #111111;
 }
 
 /* Warning - 深灰 */
-#bm-md .markdown-alert-warning {
+#easymd .markdown-alert-warning {
   background-color: #f6f6f4;
   border-color: #555555;
   border-left-color: #333333;
 }
 
-#bm-md .markdown-alert-warning .markdown-alert-title {
+#easymd .markdown-alert-warning .markdown-alert-title {
   color: #333333;
 }
 
 /* Caution - 编辑红 */
-#bm-md .markdown-alert-caution {
+#easymd .markdown-alert-caution {
   background-color: #faf5f5;
   border-color: #b22222;
   border-left-color: #8b1a1a;
 }
 
-#bm-md .markdown-alert-caution .markdown-alert-title {
+#easymd .markdown-alert-caution .markdown-alert-title {
   color: #8b1a1a;
 }
 
@@ -650,11 +650,11 @@
    数学公式
    ============================================ */
 
-#bm-md .math-inline {
+#easymd .math-inline {
   font-size: 1em;
 }
 
-#bm-md .math-display {
+#easymd .math-display {
   margin: 1em 0;
   overflow-x: auto;
   text-align: center;
@@ -668,7 +668,7 @@
    折叠详情 - 可展开栏目
    ============================================ */
 
-#bm-md details {
+#easymd details {
   margin: 1em 0;
   padding: 0.5em 0.75em;
   background-color: #f5f5f3;
@@ -676,7 +676,7 @@
   border-left: 3px solid #111111;
 }
 
-#bm-md summary {
+#easymd summary {
   font-weight: 700;
   cursor: pointer;
   color: #222222;
@@ -684,7 +684,7 @@
   font-size: 0.9375em;
 }
 
-#bm-md details[open] summary {
+#easymd details[open] summary {
   margin-bottom: 0.5em;
   padding-bottom: 0.5em;
   border-bottom: 1px solid #cccccc;
@@ -694,8 +694,8 @@
    嵌入媒体
    ============================================ */
 
-#bm-md iframe,
-#bm-md video {
+#easymd iframe,
+#easymd video {
   display: block;
   max-width: 100%;
   margin: 1em 0;
@@ -706,8 +706,8 @@
    元信息与时间 - 报头日期风格
    ============================================ */
 
-#bm-md .meta,
-#bm-md time {
+#easymd .meta,
+#easymd time {
   font-size: 0.8125em;
   color: #666666;
   font-style: normal;
@@ -719,6 +719,6 @@
    首行缩进变体
    ============================================ */
 
-#bm-md.indent-first-line p {
+#easymd.indent-first-line p {
   text-indent: 2em;
 }

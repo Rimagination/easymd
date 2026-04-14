@@ -16,7 +16,7 @@
 */
 
 /* 容器 - 纯净画布背景 */
-#bm-md {
+#easymd {
   color: #121212;
   background-color: #f0f0f0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -34,12 +34,12 @@
    H1-H6 使用蓝色系，逐级变淡；H4-H6 相同颜色
    ============================================ */
 
-#bm-md h1,
-#bm-md h2,
-#bm-md h3,
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h1,
+#easymd h2,
+#easymd h3,
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   font-weight: 900;
   line-height: 1.2;
   margin-top: 1.25em;
@@ -48,7 +48,7 @@
 }
 
 /* H1 - 蓝色色块 + 红色左边框 + 黄色右侧装饰 */
-#bm-md h1 {
+#easymd h1 {
   font-size: 1.875em;
   padding: 0.4em 0.6em;
   background-color: #1040c0;
@@ -61,7 +61,7 @@
 }
 
 /* H2 - 白底 + 蓝色粗左边框 + 红色底边 */
-#bm-md h2 {
+#easymd h2 {
   font-size: 1.5em;
   padding: 0.35em 0.6em;
   background-color: #ffffff;
@@ -72,7 +72,7 @@
 }
 
 /* H3 - 黄色色块标签 */
-#bm-md h3 {
+#easymd h3 {
   font-size: 1.25em;
   padding: 0.25em 0.6em;
   color: #121212;
@@ -83,14 +83,14 @@
 }
 
 /* H4-H6 - 相同的蓝灰色调 */
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   color: #2a5090;
   text-transform: none;
 }
 
-#bm-md h4 {
+#easymd h4 {
   font-size: 1.125em;
   padding-left: 0.6em;
   border-left: 5px solid #2a5090;
@@ -98,25 +98,25 @@
   background: linear-gradient(90deg, rgba(16, 64, 192, 0.08) 0%, transparent 100%);
 }
 
-#bm-md h5 {
+#easymd h5 {
   font-size: 1em;
   padding-bottom: 0.2em;
   border-bottom: 3px solid #f0c020;
   display: inline-block;
 }
 
-#bm-md h6 {
+#easymd h6 {
   font-size: 1em;
   padding-left: 0.5em;
   border-left: 3px dashed #2a5090;
 }
 
-#bm-md > h1:first-child,
-#bm-md > h2:first-child,
-#bm-md > h3:first-child,
-#bm-md > h4:first-child,
-#bm-md > h5:first-child,
-#bm-md > h6:first-child {
+#easymd > h1:first-child,
+#easymd > h2:first-child,
+#easymd > h3:first-child,
+#easymd > h4:first-child,
+#easymd > h5:first-child,
+#easymd > h6:first-child {
   margin-top: 0;
 }
 
@@ -124,11 +124,11 @@
    段落
    ============================================ */
 
-#bm-md p {
+#easymd p {
   margin-bottom: 1em;
 }
 
-#bm-md p:last-child {
+#easymd p:last-child {
   margin-bottom: 0;
 }
 
@@ -137,24 +137,24 @@
    ============================================ */
 
 /* 加粗 - 红色强调 */
-#bm-md strong,
-#bm-md b {
+#easymd strong,
+#easymd b {
   font-weight: 800;
   color: #d02020;
 }
 
 /* 斜体 - 蓝色强调 */
-#bm-md em,
-#bm-md i {
+#easymd em,
+#easymd i {
   font-style: italic;
   color: #1040c0;
   font-weight: 500;
 }
 
 /* 删除线 - 红色粗删除线 */
-#bm-md del,
-#bm-md s,
-#bm-md strike {
+#easymd del,
+#easymd s,
+#easymd strike {
   color: #666666;
   text-decoration: line-through;
   text-decoration-color: #d02020;
@@ -162,7 +162,7 @@
 }
 
 /* 高亮 - 黄色色块 + 黑边框 */
-#bm-md mark {
+#easymd mark {
   background-color: #f0c020;
   color: #121212;
   padding: 0.1em 0.35em;
@@ -171,19 +171,19 @@
   font-weight: 600;
 }
 
-#bm-md small {
+#easymd small {
   font-size: 0.875em;
   color: #444444;
 }
 
-#bm-md sup,
-#bm-md sub {
+#easymd sup,
+#easymd sub {
   font-size: 0.75em;
   line-height: 0;
 }
 
 /* 上标 - 红色徽章 */
-#bm-md sup {
+#easymd sup {
   vertical-align: super;
   color: #ffffff;
   font-weight: 700;
@@ -193,33 +193,33 @@
 }
 
 /* 下标 - 蓝色 */
-#bm-md sub {
+#easymd sub {
   vertical-align: sub;
   color: #1040c0;
   font-weight: 600;
 }
 
 /* 插入 - 蓝色底边 */
-#bm-md ins {
+#easymd ins {
   background-color: rgba(16, 64, 192, 0.1);
   text-decoration: none;
   padding: 0.1em 0.25em;
   border-bottom: 3px solid #1040c0;
 }
 
-#bm-md q {
+#easymd q {
   quotes: '«' '»' '"' '"';
   color: #121212;
 }
 
-#bm-md q::before {
+#easymd q::before {
   content: open-quote;
   color: #d02020;
   font-weight: 900;
   font-size: 1.15em;
 }
 
-#bm-md q::after {
+#easymd q::after {
   content: close-quote;
   color: #d02020;
   font-weight: 900;
@@ -227,14 +227,14 @@
 }
 
 /* 变量 - 蓝色斜体 */
-#bm-md var {
+#easymd var {
   font-style: italic;
   font-weight: 700;
   color: #1040c0;
 }
 
-#bm-md samp,
-#bm-md tt {
+#easymd samp,
+#easymd tt {
   font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
   background-color: #ffffff;
@@ -243,7 +243,7 @@
   border: 3px solid #121212;
 }
 
-#bm-md abbr[title] {
+#easymd abbr[title] {
   border-bottom: 3px dotted #1040c0;
   cursor: help;
   text-decoration: none;
@@ -253,7 +253,7 @@
    链接 - 几何下划线风格
    ============================================ */
 
-#bm-md a {
+#easymd a {
   color: #1040c0;
   text-decoration: none;
   font-weight: 600;
@@ -264,7 +264,7 @@
   padding-bottom: 2px;
 }
 
-#bm-md a:hover {
+#easymd a:hover {
   color: #d02020;
   background-image: linear-gradient(#1040c0, #1040c0);
 }
@@ -273,17 +273,17 @@
    Ruby 注音
    ============================================ */
 
-#bm-md ruby {
+#easymd ruby {
   ruby-align: center;
 }
 
-#bm-md rt {
+#easymd rt {
   font-size: 0.5em;
   color: #666666;
   font-weight: 600;
 }
 
-#bm-md rp {
+#easymd rp {
   color: #888888;
 }
 
@@ -291,58 +291,58 @@
    列表 - 几何方块标记
    ============================================ */
 
-#bm-md ul,
-#bm-md ol {
+#easymd ul,
+#easymd ol {
   margin-bottom: 1em;
   padding-left: 1.75em;
 }
 
-#bm-md ul {
+#easymd ul {
   list-style-type: square;
 }
 
-#bm-md ol {
+#easymd ol {
   list-style-type: decimal;
 }
 
-#bm-md li {
+#easymd li {
   margin-bottom: 0.35em;
 }
 
 /* 列表标记 - 红色方块 */
-#bm-md li::marker {
+#easymd li::marker {
   color: #d02020;
   font-weight: 900;
 }
 
-#bm-md li > ul,
-#bm-md li > ol {
+#easymd li > ul,
+#easymd li > ol {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }
 
-#bm-md ul ul {
+#easymd ul ul {
   list-style-type: disc;
 }
 
-#bm-md ul ul ul {
+#easymd ul ul ul {
   list-style-type: circle;
 }
 
 /* 任务列表 */
-#bm-md ul.contains-task-list {
+#easymd ul.contains-task-list {
   list-style-type: none;
   padding-left: 0;
 }
 
-#bm-md li.task-list-item {
+#easymd li.task-list-item {
   display: flex;
   align-items: flex-start;
   gap: 0.5em;
   padding-left: 0.25em;
 }
 
-#bm-md input[type='checkbox'] {
+#easymd input[type='checkbox'] {
   margin-top: 0.35em;
   width: 1.2em;
   height: 1.2em;
@@ -354,7 +354,7 @@
    引用块 - 黄色色块 + 构成主义边框
    ============================================ */
 
-#bm-md blockquote {
+#easymd blockquote {
   margin: 1.25em 0;
   padding: 0.85em 1em;
   background-color: #f0c020;
@@ -364,16 +364,16 @@
   box-shadow: 6px 6px 0 #121212;
 }
 
-#bm-md blockquote p {
+#easymd blockquote p {
   margin-bottom: 0.5em;
 }
 
-#bm-md blockquote p:last-child {
+#easymd blockquote p:last-child {
   margin-bottom: 0;
 }
 
 /* 嵌套引用 - 蓝色变体 */
-#bm-md blockquote blockquote {
+#easymd blockquote blockquote {
   margin-top: 0.75em;
   margin-bottom: 0;
   background-color: #ffffff;
@@ -386,7 +386,7 @@
    ============================================ */
 
 /* 行内代码 - 白底红色文字 */
-#bm-md code {
+#easymd code {
   font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
   background-color: #ffffff;
@@ -397,7 +397,7 @@
 }
 
 /* 代码块 - 深蓝背景 + 红色顶边 */
-#bm-md pre {
+#easymd pre {
   margin: 1.25em 0;
   padding: 1.1em;
   background-color: #1040c0;
@@ -407,7 +407,7 @@
   overflow-x: auto;
 }
 
-#bm-md pre code {
+#easymd pre code {
   background-color: transparent;
   color: #ffffff;
   padding: 0;
@@ -421,7 +421,7 @@
    表格 - 网格系统风格
    ============================================ */
 
-#bm-md table {
+#easymd table {
   width: 100%;
   margin: 1.25em 0;
   border-collapse: collapse;
@@ -431,31 +431,31 @@
 }
 
 /* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
+#easymd tr:first-child th {
   background-color: #1040c0;
   color: #ffffff;
 }
 
-#bm-md th,
-#bm-md td {
+#easymd th,
+#easymd td {
   padding: 0.55em 0.8em;
   border: 3px solid #121212;
   text-align: left;
 }
 
-#bm-md th {
+#easymd th {
   font-weight: 800;
   background-color: #1040c0;
   color: #ffffff;
   text-transform: uppercase;
 }
 
-#bm-md tbody tr:nth-child(even) {
+#easymd tbody tr:nth-child(even) {
   background-color: rgba(240, 192, 32, 0.15);
 }
 
 /* Frontmatter 表格 */
-#bm-md .frontmatter-table {
+#easymd .frontmatter-table {
   width: auto;
   margin-bottom: 1.5em;
   font-size: 0.875em;
@@ -464,25 +464,25 @@
   box-shadow: none;
 }
 
-#bm-md .frontmatter-table td {
+#easymd .frontmatter-table td {
   padding: 0.25em 0.8em 0.25em 0;
   border: none;
   vertical-align: top;
   background-color: transparent;
 }
 
-#bm-md .frontmatter-key {
+#easymd .frontmatter-key {
   font-weight: 800;
   color: #1040c0;
   white-space: nowrap;
   text-transform: uppercase;
 }
 
-#bm-md .frontmatter-key::after {
+#easymd .frontmatter-key::after {
   content: ':';
 }
 
-#bm-md .frontmatter-value {
+#easymd .frontmatter-value {
   color: #121212;
 }
 
@@ -490,7 +490,7 @@
    分割线 - 三原色条纹
    ============================================ */
 
-#bm-md hr {
+#easymd hr {
   margin: 1.75em 0;
   border: none;
   height: 8px;
@@ -503,7 +503,7 @@
    图片与媒体 - 几何边框框架
    ============================================ */
 
-#bm-md img {
+#easymd img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -512,26 +512,26 @@
   margin: 1.25em 0;
 }
 
-#bm-md picture {
+#easymd picture {
   display: block;
   margin: 1.25em 0;
 }
 
-#bm-md picture img {
+#easymd picture img {
   margin: 0;
 }
 
-#bm-md figure {
+#easymd figure {
   margin: 1.25em 0;
   text-align: center;
 }
 
-#bm-md figure img {
+#easymd figure img {
   margin: 0 auto;
 }
 
 /* 图片说明 - 黄色标签 */
-#bm-md figcaption {
+#easymd figcaption {
   margin-top: 0.6em;
   font-size: 0.875em;
   color: #121212;
@@ -548,7 +548,7 @@
    脚注 - 几何分隔
    ============================================ */
 
-#bm-md .footnotes {
+#easymd .footnotes {
   margin-top: 2em;
   padding-top: 1.25em;
   border-top: 6px solid #d02020;
@@ -556,12 +556,12 @@
   color: #444444;
 }
 
-#bm-md .footnotes ol {
+#easymd .footnotes ol {
   padding-left: 1.5em;
 }
 
 /* 脚注引用 - 红色徽章 */
-#bm-md .footnote-ref {
+#easymd .footnote-ref {
   font-size: 0.75em;
   vertical-align: super;
   color: #ffffff;
@@ -572,8 +572,8 @@
   box-shadow: 1px 1px 0 #121212;
 }
 
-#bm-md .footnote-backref,
-#bm-md .data-footnote-backref {
+#easymd .footnote-backref,
+#easymd .data-footnote-backref {
   color: #121212;
   text-decoration: none;
   font-weight: 800;
@@ -586,12 +586,12 @@
    定义列表
    ============================================ */
 
-#bm-md dl {
+#easymd dl {
   margin: 1em 0;
 }
 
 /* 定义术语 - 蓝色标签 */
-#bm-md dt {
+#easymd dt {
   font-weight: 800;
   color: #ffffff;
   margin-top: 0.6em;
@@ -603,12 +603,12 @@
   text-transform: uppercase;
 }
 
-#bm-md dt:first-child {
+#easymd dt:first-child {
   margin-top: 0;
 }
 
 /* 定义描述 - 红色左边框 */
-#bm-md dd {
+#easymd dd {
   margin-left: 1.5em;
   margin-top: 0.3em;
   color: #121212;
@@ -620,7 +620,7 @@
    键盘按键 - 物理按钮风格
    ============================================ */
 
-#bm-md kbd {
+#easymd kbd {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8125em;
   display: inline-block;
@@ -637,14 +637,14 @@
    警告框 - 色块硬阴影风格
    ============================================ */
 
-#bm-md .markdown-alert {
+#easymd .markdown-alert {
   margin: 1.25em 0;
   padding: 0.85em 1.1em;
   border: 4px solid #121212;
   box-shadow: 5px 5px 0 #121212;
 }
 
-#bm-md .markdown-alert-title {
+#easymd .markdown-alert-title {
   display: flex;
   align-items: center;
   gap: 0.45em;
@@ -654,54 +654,54 @@
 }
 
 /* Note - 蓝色 */
-#bm-md .markdown-alert-note {
+#easymd .markdown-alert-note {
   background-color: rgba(16, 64, 192, 0.12);
   border-left: 8px solid #1040c0;
 }
 
-#bm-md .markdown-alert-note .markdown-alert-title {
+#easymd .markdown-alert-note .markdown-alert-title {
   color: #1040c0;
 }
 
 /* Tip - 黄色 */
-#bm-md .markdown-alert-tip {
+#easymd .markdown-alert-tip {
   background-color: #f0c020;
   border-left: 8px solid #121212;
 }
 
-#bm-md .markdown-alert-tip .markdown-alert-title {
+#easymd .markdown-alert-tip .markdown-alert-title {
   color: #121212;
 }
 
 /* Important - 深蓝 */
-#bm-md .markdown-alert-important {
+#easymd .markdown-alert-important {
   background-color: #1040c0;
   color: #ffffff;
   border-left: 8px solid #f0c020;
 }
 
-#bm-md .markdown-alert-important .markdown-alert-title {
+#easymd .markdown-alert-important .markdown-alert-title {
   color: #ffffff;
 }
 
 /* Warning - 黄色渐变 */
-#bm-md .markdown-alert-warning {
+#easymd .markdown-alert-warning {
   background-color: rgba(240, 192, 32, 0.35);
   border-left: 8px solid #d02020;
 }
 
-#bm-md .markdown-alert-warning .markdown-alert-title {
+#easymd .markdown-alert-warning .markdown-alert-title {
   color: #9a5a00;
 }
 
 /* Caution - 红色 */
-#bm-md .markdown-alert-caution {
+#easymd .markdown-alert-caution {
   background-color: #d02020;
   color: #ffffff;
   border-left: 8px solid #121212;
 }
 
-#bm-md .markdown-alert-caution .markdown-alert-title {
+#easymd .markdown-alert-caution .markdown-alert-title {
   color: #ffffff;
 }
 
@@ -709,13 +709,13 @@
    数学公式
    ============================================ */
 
-#bm-md .math-inline {
+#easymd .math-inline {
   font-size: 1em;
   padding: 0 0.25em;
 }
 
 /* 公式块 - 白色卡片配蓝色硬阴影 */
-#bm-md .math-display {
+#easymd .math-display {
   margin: 1.25em 0;
   overflow-x: auto;
   text-align: center;
@@ -729,7 +729,7 @@
    折叠详情 - 几何风格
    ============================================ */
 
-#bm-md details {
+#easymd details {
   margin: 1.25em 0;
   padding: 0.6em 0.9em;
   background-color: #ffffff;
@@ -739,7 +739,7 @@
   background-image: linear-gradient(90deg, transparent calc(100% - 1em), #1040c0 calc(100% - 1em));
 }
 
-#bm-md summary {
+#easymd summary {
   font-weight: 800;
   cursor: pointer;
   color: #1040c0;
@@ -747,11 +747,11 @@
   text-transform: uppercase;
 }
 
-#bm-md summary::marker {
+#easymd summary::marker {
   color: #d02020;
 }
 
-#bm-md details[open] summary {
+#easymd details[open] summary {
   margin-bottom: 0.6em;
   border-bottom: 4px solid #f0c020;
   padding-bottom: 0.5em;
@@ -761,8 +761,8 @@
    嵌入媒体
    ============================================ */
 
-#bm-md iframe,
-#bm-md video {
+#easymd iframe,
+#easymd video {
   display: block;
   max-width: 100%;
   margin: 1.25em 0;
@@ -774,8 +774,8 @@
    元信息与时间
    ============================================ */
 
-#bm-md .meta,
-#bm-md time {
+#easymd .meta,
+#easymd time {
   font-size: 0.875em;
   color: #121212;
   padding: 0.2em 0.5em;
@@ -789,6 +789,6 @@
    首行缩进变体
    ============================================ */
 
-#bm-md.indent-first-line p {
+#easymd.indent-first-line p {
   text-indent: 2em;
 }

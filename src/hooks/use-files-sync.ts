@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useFilesStore } from '@/stores/files'
 
-const STORAGE_KEY = 'bm.md.files'
+const STORAGE_KEY = 'easymd.files'
 
 interface PersistedState {
   state: {

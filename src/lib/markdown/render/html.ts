@@ -2,7 +2,6 @@ import type { Plugin } from 'unified'
 import type { Platform } from './adapters'
 import juice from 'juice'
 import rehypeExternalLinks from 'rehype-external-links'
-import rehypeGithubAlert from 'rehype-github-alert'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeKatex from 'rehype-katex'
 import rehypeRaw from 'rehype-raw'
@@ -18,7 +17,7 @@ import { loadCodeThemeCss } from '@/themes/code-theme/loader'
 import { loadMarkdownStyleCss } from '@/themes/markdown-style/loader'
 import { loadKatexCss } from '../utils'
 import { getAdapterPlugins } from './adapters'
-import { rehypeDivToSection, rehypeFigureWrapper, rehypeFootnoteLinks, rehypeInfographic, rehypeMermaid, rehypeWrapTextNodes, remarkFrontmatterTable } from './plugins'
+import { rehypeDivToSection, rehypeFigureWrapper, rehypeFootnoteLinks, rehypeGithubAlert, rehypeInfographic, rehypeMermaid, rehypeSvgHeading, rehypeWrapTextNodes, remarkFrontmatterTable } from './plugins'
 import { sanitizeSchema } from './sanitize-schema'
 
 export interface RenderOptions {
@@ -71,6 +70,7 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidThe
     .use(rehypeRaw)
     .use(rehypeGithubAlert)
     .use(rehypeSanitize, sanitizeSchema)
+    .use(rehypeSvgHeading, { enabled: false })
     .use(rehypeMermaid, { theme: mermaidTheme })
     .use(rehypeInfographic, { theme: infographicTheme, palette: infographicPalette })
     .use(rehypeKatex)
@@ -138,7 +138,7 @@ export async function render(options: RenderOptions): Promise<string> {
     customCss,
   ].filter(Boolean).join('\n')
 
-  const wrapped = `<section id="bm-md">${html}</section>`
+  const wrapped = `<section id="easymd">${html}</section>`
 
   try {
     return juice.inlineContent(wrapped, css, {

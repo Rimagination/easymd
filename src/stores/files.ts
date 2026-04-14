@@ -31,7 +31,7 @@ interface FilesState {
   setHasHydrated: (value: boolean) => void
 }
 
-const DEFAULT_FILE_NAME = 'bm.md'
+const DEFAULT_FILE_NAME = 'easymd'
 
 function extractH1Title(content: string): string | null {
   const lines = content.split('\n')
@@ -301,7 +301,7 @@ export const useFilesStore = create<FilesState>()(
       },
     }),
     {
-      name: 'bm.md.files',
+      name: 'easymd.files',
       partialize: state => ({
         files: state.files,
         activeFileId: state.activeFileId,

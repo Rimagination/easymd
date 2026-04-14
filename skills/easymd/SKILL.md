@@ -1,15 +1,15 @@
 ---
-name: bm-md
-description: 使用 bm.md 服务进行 Markdown 排版、渲染和格式转换，支持微信公众号、知乎、掘金等多平台
+name: easymd
+description: 使用 easymd 服务进行 Markdown 排版、渲染和格式转换，支持微信公众号、知乎、掘金等多平台
 ---
 
-# bm.md Markdown 排版技能
+# easymd Markdown 排版技能
 
 ## 概述
 
-bm.md 是一个专业的 Markdown 排版工具，提供以下核心能力：
+easymd 是一个专业的 Markdown 排版工具，提供以下核心能力：
 
-- **Markdown 渲染**：将 Markdown 转换为带样式的 HTML，支持 14 种排版风格
+- **Markdown 渲染**：将 Markdown 转换为带样式的 HTML，支持 15 种排版风格
 - **HTML 转 Markdown**：将 HTML 内容逆向转换为 Markdown 格式
 - **纯文本提取**：从 Markdown 中提取纯文本，移除所有格式标记
 - **格式校验与修复**：自动检测并修复 Markdown 格式问题
@@ -24,26 +24,26 @@ bm.md 是一个专业的 Markdown 排版工具，提供以下核心能力：
 
 将 Markdown 源文本渲染为带内联样式的 HTML，可直接复制到富文本编辑器。
 
-**端点**: `POST https://bm.md/api/markdown/render`
+**端点**: `POST https://easymd/api/markdown/render`
 
 **请求参数**:
 
-| 参数                   | 类型    | 必填 | 默认值         | 说明                                                                  |
-| ---------------------- | ------- | ---- | -------------- | --------------------------------------------------------------------- |
-| `markdown`             | string  | 是   | -              | Markdown 源文本，支持 GFM 语法、数学公式                              |
-| `markdownStyle`        | string  | 否   | `ayu-light`    | 排版样式 ID，见下方完整列表                                           |
-| `codeTheme`            | string  | 否   | `kimbie-light` | 代码块高亮主题 ID，见下方完整列表                                     |
-| `customCss`            | string  | 否   | `""`           | 自定义 CSS，选择器需约束在 `#bm-md` 下，如 `#bm-md h1 { color: red }` |
-| `enableFootnoteLinks`  | boolean | 否   | `true`         | 是否将链接转换为脚注形式                                              |
-| `openLinksInNewWindow` | boolean | 否   | `true`         | 是否在新窗口打开链接                                                  |
-| `platform`             | string  | 否   | `html`         | 目标平台：`html`、`wechat`、`zhihu`、`juejin`                         |
-| `footnoteLabel`        | string  | 否   | `Footnotes`    | GFM 脚注区域标题                                                      |
-| `referenceTitle`       | string  | 否   | `References`   | 外部链接参考区域标题                                                  |
+| 参数                   | 类型    | 必填 | 默认值         | 说明                                                                    |
+| ---------------------- | ------- | ---- | -------------- | ----------------------------------------------------------------------- |
+| `markdown`             | string  | 是   | -              | Markdown 源文本，支持 GFM 语法、数学公式                                |
+| `markdownStyle`        | string  | 否   | `ayu-light`    | 排版样式 ID，见下方完整列表                                             |
+| `codeTheme`            | string  | 否   | `kimbie-light` | 代码块高亮主题 ID，见下方完整列表                                       |
+| `customCss`            | string  | 否   | `""`           | 自定义 CSS，选择器需约束在 `#easymd` 下，如 `#easymd h1 { color: red }` |
+| `enableFootnoteLinks`  | boolean | 否   | `true`         | 是否将链接转换为脚注形式                                                |
+| `openLinksInNewWindow` | boolean | 否   | `true`         | 是否在新窗口打开链接                                                    |
+| `platform`             | string  | 否   | `html`         | 目标平台：`html`、`wechat`、`zhihu`、`juejin`                           |
+| `footnoteLabel`        | string  | 否   | `Footnotes`    | GFM 脚注区域标题                                                        |
+| `referenceTitle`       | string  | 否   | `References`   | 外部链接参考区域标题                                                    |
 
 **curl 示例**:
 
 ````bash
-curl -X POST https://bm.md/api/markdown/render \
+curl -X POST https://easymd/api/markdown/render \
   -H "Content-Type: application/json" \
   -d '{
     "markdown": "# 标题\n\n这是一段**加粗**的文字。\n\n```javascript\nconsole.log(\"Hello, World!\");\n```",
@@ -51,14 +51,14 @@ curl -X POST https://bm.md/api/markdown/render \
     "codeTheme": "kimbie-light",
     "platform": "wechat"
   }' \
-  -o bm.md.json
+  -o easymd.json
 ````
 
 **响应示例**:
 
 ```json
 {
-  "result": "<div id=\"bm-md\"><h1 style=\"...\">标题</h1>...</div>"
+  "result": "<div id=\"easymd\"><h1 style=\"...\">标题</h1>...</div>"
 }
 ```
 
@@ -68,7 +68,7 @@ curl -X POST https://bm.md/api/markdown/render \
 
 将 HTML 源代码转换为 Markdown 格式。
 
-**端点**: `POST https://bm.md/api/markdown/parse`
+**端点**: `POST https://easymd/api/markdown/parse`
 
 **请求参数**:
 
@@ -79,12 +79,12 @@ curl -X POST https://bm.md/api/markdown/render \
 **curl 示例**:
 
 ```bash
-curl -X POST https://bm.md/api/markdown/parse \
+curl -X POST https://easymd/api/markdown/parse \
   -H "Content-Type: application/json" \
   -d '{
     "html": "<h1>标题</h1><p>这是一段<strong>加粗</strong>的文字。</p>"
   }' \
-  -o bm.md.json
+  -o easymd.json
 ```
 
 **响应示例**:
@@ -101,7 +101,7 @@ curl -X POST https://bm.md/api/markdown/parse \
 
 从 Markdown 中提取纯文本内容，移除所有格式标记，保留段落分隔。
 
-**端点**: `POST https://bm.md/api/markdown/extract`
+**端点**: `POST https://easymd/api/markdown/extract`
 
 **请求参数**:
 
@@ -112,12 +112,12 @@ curl -X POST https://bm.md/api/markdown/parse \
 **curl 示例**:
 
 ```bash
-curl -X POST https://bm.md/api/markdown/extract \
+curl -X POST https://easymd/api/markdown/extract \
   -H "Content-Type: application/json" \
   -d '{
     "markdown": "# 标题\n\n这是一段**加粗**的文字，包含[链接](https://example.com)。"
   }' \
-  -o bm.md.json
+  -o easymd.json
 ```
 
 **响应示例**:
@@ -134,7 +134,7 @@ curl -X POST https://bm.md/api/markdown/extract \
 
 校验并自动修复 Markdown 格式问题，统一代码风格。
 
-**端点**: `POST https://bm.md/api/markdown/lint`
+**端点**: `POST https://easymd/api/markdown/lint`
 
 **请求参数**:
 
@@ -145,12 +145,12 @@ curl -X POST https://bm.md/api/markdown/extract \
 **curl 示例**:
 
 ```bash
-curl -X POST https://bm.md/api/markdown/lint \
+curl -X POST https://easymd/api/markdown/lint \
   -H "Content-Type: application/json" \
   -d '{
     "markdown": "#标题\n这是一段文字,没有正确的空格。\n-列表项1\n-列表项2"
   }' \
-  -o bm.md.json
+  -o easymd.json
 ```
 
 **响应示例**:

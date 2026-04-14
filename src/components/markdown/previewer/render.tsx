@@ -8,6 +8,7 @@ import { getMarkdownLocaleTexts } from '@/lib/locale'
 import { useEditorStore } from '@/stores/editor'
 import { useFilesStore } from '@/stores/files'
 import { PREVIEW_WIDTH_MOBILE, usePreviewStore } from '@/stores/preview'
+import { resolveMarkdownRenderStyle } from '@/themes/markdown-style/custom'
 import iframeShell from './iframe-shell.html?raw'
 
 const RENDER_DEBOUNCE_MS = 100
@@ -22,10 +23,15 @@ export default function MarkdownRender() {
   const codeTheme = usePreviewStore(state => state.codeTheme)
   const mermaidTheme = usePreviewStore(state => state.mermaidTheme)
   const infographic = usePreviewStore(state => state.infographic)
+  const importedMarkdownStyles = usePreviewStore(state => state.importedMarkdownStyles)
   const customCss = usePreviewStore(state => state.customCss)
   const renderedHtml = usePreviewStore(state => state.getRenderedHtml('html'))
   const setRenderedHtml = usePreviewStore(state => state.setRenderedHtml)
   const clearRenderedHtmlCache = usePreviewStore(state => state.clearRenderedHtmlCache)
+  const resolvedStyle = useMemo(
+    () => resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss),
+    [markdownStyle, importedMarkdownStyles, customCss],
+  )
 
   const { iframeRef, onIframeLoad: onScrollSyncLoad } = usePreviewScrollSync({
     enabled: enableScrollSync,
@@ -166,13 +172,23 @@ export default function MarkdownRender() {
   useEffect(() => {
     clearRenderedHtmlCache()
     canceledRef.current = false
-    scheduleRender(content, markdownStyle, codeTheme, mermaidTheme, infographic.theme, infographic.palette, customCss, enableFootnoteLinks, openLinksInNewWindow)
+    scheduleRender(
+      content,
+      resolvedStyle.markdownStyle ?? '',
+      codeTheme,
+      mermaidTheme,
+      infographic.theme,
+      infographic.palette,
+      resolvedStyle.customCss,
+      enableFootnoteLinks,
+      openLinksInNewWindow,
+    )
 
     return () => {
       canceledRef.current = true
       scheduleRender.cancel()
     }
-  }, [content, markdownStyle, codeTheme, mermaidTheme, infographic, customCss, enableFootnoteLinks, openLinksInNewWindow, scheduleRender, clearRenderedHtmlCache])
+  }, [content, codeTheme, mermaidTheme, infographic, enableFootnoteLinks, openLinksInNewWindow, resolvedStyle, scheduleRender, clearRenderedHtmlCache])
 
   const isMobile = previewWidth === PREVIEW_WIDTH_MOBILE
 
@@ -200,7 +216,7 @@ export default function MarkdownRender() {
     <Safari
       className="h-full w-full"
       style={{ maxWidth: previewWidth }}
-      url="bm.md"
+      url="easymd"
       mode="simple"
     >
       {iframeContent}

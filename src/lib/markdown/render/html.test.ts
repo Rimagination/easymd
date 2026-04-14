@@ -16,6 +16,27 @@ describe('markdown -> html render (general)', () => {
     expect(html).toMatch(/<h2[^>]*>.*二级标题.*<\/h2>/)
   })
 
+  it('renders mdnice classic h1 as a normal heading for wysiwyg compatibility', async () => {
+    const html = await render({
+      markdown: '# easymd',
+      markdownStyle: 'mdnice-classic',
+    })
+
+    expect(html).toContain('<h1')
+    expect(html).toContain('easymd')
+    expect(html).not.toContain('<svg')
+    expect(html).not.toContain('svg-heading')
+  })
+
+  it('renders mdnice classic hr as a green simple divider', async () => {
+    const html = await render({
+      markdown: '---',
+      markdownStyle: 'mdnice-classic',
+    })
+
+    expect(html).toContain('<hr')
+  })
+
   it('renders GFM tables correctly', async () => {
     const markdown = '| 列A | 列B |\n|-----|-----|\n| 1 | 2 |'
     const html = await render({ markdown })
@@ -58,6 +79,19 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('footnote-ref')
     expect(html).toContain('[1]')
     expect(html).toContain('References')
+  })
+
+  it('uses link title as reference title while keeping a short marker in body', async () => {
+    const html = await render({
+      markdown: '杩欓噷闇€瑕佸紩鐢? [鍙傝€?](https://example.com/article "瀹屾暣鏂囩珷鍚嶇О")',
+      enableFootnoteLinks: true,
+      platform: 'html',
+    })
+
+    expect(html).toContain('>鍙傝€?<')
+    expect(html).toContain('[1]')
+    expect(html).toContain('瀹屾暣鏂囩珷鍚嶇О: ')
+    expect(html).not.toContain('鍙傝€?: https://example.com/article')
   })
 
   it('preserves links without footnotes when disabled', async () => {
@@ -114,6 +148,10 @@ describe('markdown -> html render (general)', () => {
     const html = await render({ markdown })
 
     expect(html).toContain('markdown-alert')
+    expect(html).toContain('markdown-alert-note')
+    expect(html).toContain('markdown-alert-title')
+    expect(html).toContain('Note')
+    expect(html).not.toContain('[!NOTE]')
   })
 
   it('converts div to section for platform compatibility', async () => {
@@ -182,10 +220,10 @@ describe('platform-specific rendering', () => {
     expect(html).toContain('标题')
   })
 
-  it('renders for juejin platform without errors', async () => {
+  it('renders for zhihu code blocks without errors', async () => {
     const html = await render({
       markdown: '# 标题\n\n```js\ncode\n```',
-      platform: 'juejin',
+      platform: 'zhihu',
     })
 
     expect(html).toContain('标题')

@@ -9,4 +9,3 @@ export {
   viewModeConfig,
 } from './commands'
 export type { SupportedPlatform } from './commands'
-export { scalarConfig } from './scalar'

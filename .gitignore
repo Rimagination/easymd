@@ -184,3 +184,7 @@ dev-dist/
 .agents
 
 opencode.json
+.local-uploads/
+.tmp-dev.log
+.codex-*-preview.html
+*-preview.png

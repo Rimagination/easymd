@@ -3,7 +3,7 @@
  */
 
 /** 存储提供商类型 */
-export type StorageProviderType = 's3' | 'dc'
+export type StorageProviderType = 's3' | 'dc' | 'local'
 
 /** 上传结果 */
 export interface UploadResult {

@@ -9,6 +9,7 @@ import { platforms } from './adapters'
 
 export const platformSchema = z.enum(platforms)
 export const markdownStyleSchema = z.enum(markdownStyleIds)
+export const markdownStyleInputSchema = z.union([markdownStyleSchema, z.literal('')])
 export const codeThemeSchema = z.enum(codeThemeIds)
 export const mermaidThemeSchema = z.enum(mermaidThemeIds)
 export const infographicThemeSchema = z.enum(infographicThemeIds)
@@ -16,24 +17,24 @@ export const infographicPaletteSchema = z.enum(infographicPaletteIds)
 
 export const renderDefinition = {
   name: 'render',
-  title: '渲染 Markdown 为 HTML',
-  description: '将 Markdown 内容渲染为适用于不同平台的 HTML 片段。支持 GFM 语法、数学公式（KaTeX）、代码高亮，并自动将 CSS 样式内联到元素上，确保在微信公众号等富文本编辑器中正确显示。',
+  title: 'Render Markdown to HTML',
+  description: 'Render Markdown into platform-friendly HTML with inline CSS for rich text editors.',
   inputSchema: z.object({
-    markdown: z.string().max(MAX_INPUT_SIZE, INPUT_SIZE_ERROR).describe('要渲染的 Markdown 源文本，支持 GFM（GitHub Flavored Markdown）语法、数学公式（$..$ 或 $$..$$）'),
-    markdownStyle: markdownStyleSchema.optional().default('ayu-light').describe('Markdown 排版样式 ID'),
-    codeTheme: codeThemeSchema.optional().default('kimbie-light').describe('代码块高亮主题 ID'),
-    mermaidTheme: mermaidThemeSchema.optional().default('').describe('Mermaid 流程图主题 ID，空字符串表示使用默认主题'),
-    infographicTheme: infographicThemeSchema.optional().default('default').describe('Infographic 信息图主题 ID'),
-    infographicPalette: infographicPaletteSchema.optional().default('antv').describe('Infographic 信息图配色 ID'),
-    customCss: z.string().max(50000, '自定义 CSS 不能超过 50000 字符').optional().default('').describe('自定义 CSS 样式，在主题样式之后应用。选择器需约束在 #bm-md 下，例如：#bm-md h1 { color: red; }'),
-    enableFootnoteLinks: z.boolean().optional().default(true).describe('是否将文中链接自动转换为脚注形式，便于阅读时查看原始链接'),
-    openLinksInNewWindow: z.boolean().optional().default(true).describe('是否为所有外部链接添加 target="_blank"，在新窗口打开'),
-    platform: platformSchema.optional().default('html').describe('目标发布平台，会针对平台特性进行适配优化。可选值: html（通用网页）, wechat（微信公众号）, zhihu（知乎专栏）, juejin（掘金）'),
-    footnoteLabel: z.string().max(50).optional().default('Footnotes').describe('GFM 脚注区域标题'),
-    referenceTitle: z.string().max(50).optional().default('References').describe('外部链接参考区域标题'),
+    markdown: z.string().max(MAX_INPUT_SIZE, INPUT_SIZE_ERROR).describe('Markdown source text to render.'),
+    markdownStyle: markdownStyleInputSchema.optional().default('ayu-light').describe('Markdown style id. Pass an empty string to skip built-in styles.'),
+    codeTheme: codeThemeSchema.optional().default('kimbie-light').describe('Code block highlight theme id.'),
+    mermaidTheme: mermaidThemeSchema.optional().default('').describe('Mermaid theme id. Use an empty string for the default theme.'),
+    infographicTheme: infographicThemeSchema.optional().default('default').describe('Infographic theme id.'),
+    infographicPalette: infographicPaletteSchema.optional().default('antv').describe('Infographic palette id.'),
+    customCss: z.string().max(250000, 'Custom CSS cannot exceed 250000 characters').optional().default('').describe('Custom CSS applied after the selected theme. Scope selectors under #easymd, for example: #easymd h1 { color: red; }'),
+    enableFootnoteLinks: z.boolean().optional().default(true).describe('Whether to transform links into footnotes when supported.'),
+    openLinksInNewWindow: z.boolean().optional().default(true).describe('Whether to add target="_blank" to external links.'),
+    platform: platformSchema.optional().default('html').describe('Target platform used for output-specific adaptations.'),
+    footnoteLabel: z.string().max(50).optional().default('Footnotes').describe('Footnote section title.'),
+    referenceTitle: z.string().max(50).optional().default('References').describe('Reference section title for collected links.'),
   }),
   outputSchema: z.object({
-    result: z.string().describe('渲染后的 HTML 片段，CSS 样式已内联到元素上，可直接复制粘贴到富文本编辑器'),
+    result: z.string().describe('Rendered HTML fragment with inline CSS.'),
   }),
 }
 

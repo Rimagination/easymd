@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_layout/docs/mcp')({
   loader: () => {
     const meta: PageMeta = {
       title: 'MCP 配置',
-      description: '让 AI 助手通过 MCP 协议使用 bm.md 的排版能力',
+      description: '让 AI 助手通过 MCP 协议使用 easymd 的排版能力',
     }
     return { meta }
   },
@@ -38,7 +38,7 @@ function McpConfigContent() {
   const clients = useMemo(() => getClients(), [])
 
   const serverConfig = useMemo(() => ({
-    name: 'bm-md',
+    name: 'easymd',
     type: 'http' as const,
     url: mcpUrl,
   }), [mcpUrl])

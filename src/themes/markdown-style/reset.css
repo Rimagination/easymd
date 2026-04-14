@@ -1,19 +1,19 @@
 /*
-  Josh's Custom CSS Reset (Scoped for #bm-md)
+  Josh's Custom CSS Reset (Scoped for #easymd)
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
 
-#bm-md *,
-#bm-md *::before,
-#bm-md *::after {
+#easymd *,
+#easymd *::before,
+#easymd *::after {
   box-sizing: border-box;
 }
 
-#bm-md * {
+#easymd * {
   margin: 0;
 }
 
-#bm-md {
+#easymd {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-autospace: normal;
@@ -21,38 +21,38 @@
   text-align: left;
 }
 
-#bm-md img,
-#bm-md picture,
-#bm-md video,
-#bm-md canvas,
-#bm-md svg {
+#easymd img,
+#easymd picture,
+#easymd video,
+#easymd canvas,
+#easymd svg {
   display: block;
   max-width: 100%;
 }
 
-#bm-md input,
-#bm-md button,
-#bm-md textarea,
-#bm-md select {
+#easymd input,
+#easymd button,
+#easymd textarea,
+#easymd select {
   font: inherit;
 }
 
-#bm-md p,
-#bm-md h1,
-#bm-md h2,
-#bm-md h3,
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd p,
+#easymd h1,
+#easymd h2,
+#easymd h3,
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   overflow-wrap: break-word;
 }
 
-#bm-md figure.figure-table {
+#easymd figure.figure-table {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-#bm-md figure.figure-table table {
+#easymd figure.figure-table table {
   margin: 0;
 }
 
@@ -60,34 +60,34 @@
    Print Styles - 打印/导出 PDF 分页优化
    ======================================== */
 @media print {
-  #bm-md {
+  #easymd {
     padding: 4em;
   }
 
   /* 防止块级元素被分页切割 */
-  #bm-md p,
-  #bm-md li,
-  #bm-md blockquote,
-  #bm-md pre,
-  #bm-md img,
-  #bm-md figure,
-  #bm-md table,
-  #bm-md tr,
-  #bm-md dl,
-  #bm-md details,
-  #bm-md .markdown-alert,
-  #bm-md .math-display {
+  #easymd p,
+  #easymd li,
+  #easymd blockquote,
+  #easymd pre,
+  #easymd img,
+  #easymd figure,
+  #easymd table,
+  #easymd tr,
+  #easymd dl,
+  #easymd details,
+  #easymd .markdown-alert,
+  #easymd .math-display {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
   /* 标题后不分页，保持与内容连贯 */
-  #bm-md h1,
-  #bm-md h2,
-  #bm-md h3,
-  #bm-md h4,
-  #bm-md h5,
-  #bm-md h6 {
+  #easymd h1,
+  #easymd h2,
+  #easymd h3,
+  #easymd h4,
+  #easymd h5,
+  #easymd h6 {
     break-after: avoid;
     page-break-after: avoid;
   }

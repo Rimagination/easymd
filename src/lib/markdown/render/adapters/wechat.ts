@@ -12,7 +12,7 @@ interface FootnoteLink {
 
 function isWechatArticleUrl(href: string): boolean {
   try {
-    const url = new URL(href, 'https://bm.md')
+    const url = new URL(href, 'https://example.invalid')
     return url.hostname === 'mp.weixin.qq.com'
   }
   catch {
@@ -36,6 +36,13 @@ function hasChildren(node: unknown): node is Root | Element {
 }
 
 function extractLinkText(node: Element): string {
+  const title = typeof node.properties?.title === 'string'
+    ? node.properties.title.trim()
+    : ''
+  if (title) {
+    return title
+  }
+
   const texts: string[] = []
   const walk = (n: Element | Text) => {
     if (n.type === 'text') {

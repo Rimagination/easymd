@@ -2,13 +2,22 @@ import { toast } from 'sonner'
 import { importFilesAsNewTabs, isImageFile } from '@/lib/file-importer'
 
 const ACCEPT_TYPES = 'text/html,text/markdown,.md,image/*'
+const STYLE_ACCEPT_TYPES = 'text/css,.css'
 
-export function triggerImportDialog(): Promise<File[]> {
+interface TriggerFileDialogOptions {
+  accept: string
+  multiple?: boolean
+}
+
+export function triggerFileDialog({
+  accept,
+  multiple = true,
+}: TriggerFileDialogOptions): Promise<File[]> {
   return new Promise((resolve) => {
     const input = document.createElement('input')
     input.type = 'file'
-    input.multiple = true
-    input.accept = ACCEPT_TYPES
+    input.multiple = multiple
+    input.accept = accept
 
     let resolved = false
 
@@ -39,6 +48,15 @@ export function triggerImportDialog(): Promise<File[]> {
     window.addEventListener('focus', handleWindowFocus, { once: true })
     input.click()
   })
+}
+
+export function triggerImportDialog(): Promise<File[]> {
+  return triggerFileDialog({ accept: ACCEPT_TYPES })
+}
+
+export async function triggerStyleImportDialog(): Promise<File | null> {
+  const [file] = await triggerFileDialog({ accept: STYLE_ACCEPT_TYPES, multiple: false })
+  return file ?? null
 }
 
 export async function handleImportFiles() {

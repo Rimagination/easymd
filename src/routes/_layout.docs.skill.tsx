@@ -6,13 +6,13 @@ import { CopyButton } from '@/components/copy-button'
 import PageDialog from '@/components/dialog/page'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@/components/ui/item'
 import { createPageHead } from '@/lib/seo'
-import markdown from '@/skills/bm-md/SKILL.md?raw'
+import markdown from '@/skills/easymd/SKILL.md?raw'
 
 export const Route = createFileRoute('/_layout/docs/skill')({
   loader: () => {
     const meta: PageMeta = {
       title: '技能',
-      description: '让 AI 助手掌握 bm.md 的 Markdown 排版技能',
+      description: '让 AI 助手掌握 easymd 的 Markdown 排版技能',
     }
     return { markdown, meta }
   },
@@ -24,7 +24,7 @@ export const Route = createFileRoute('/_layout/docs/skill')({
 
 function SkillModal() {
   const { markdown, meta } = Route.useLoaderData()
-  const installCommand = 'npx skills add miantiao-me/bm.md'
+  const installCommand = 'npx skills add your-org/easymd'
 
   return (
     <PageDialog

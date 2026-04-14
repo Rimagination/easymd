@@ -10,13 +10,10 @@ export function cssRawMinifyPlugin(): Plugin {
       if (!id.endsWith('.css?raw'))
         return
 
-      // Vite 已将内容转换为 export default "..."，需要提取原始 CSS
-      const match = code.match(/^export default "([\s\S]*)"/m)
-      if (!match)
-        return
-
-      // 解码转义字符
-      const css = match[1].replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\')
+      const exportDefaultMatch = code.match(/^export default ("[\s\S]*")\s*;?$/m)
+      const css = exportDefaultMatch
+        ? JSON.parse(exportDefaultMatch[1])
+        : code
 
       const { code: minified } = transform({
         filename: id.replace('?raw', ''),
@@ -24,8 +21,12 @@ export function cssRawMinifyPlugin(): Plugin {
         minify: true,
       })
 
+      const minifiedCss = minified.toString()
+
       return {
-        code: `export default ${JSON.stringify(minified.toString())}`,
+        code: exportDefaultMatch
+          ? `export default ${JSON.stringify(minifiedCss)}`
+          : minifiedCss,
         map: null,
       }
     },

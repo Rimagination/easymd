@@ -96,6 +96,30 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('\r')
     expect(html).toContain('<br>')
   })
+
+  it('does not render mdnice classic h1 as svg on wechat platform', async () => {
+    const html = await render({
+      markdown: '# easymd',
+      markdownStyle: 'mdnice-classic',
+      platform: 'wechat',
+    })
+
+    expect(html).toContain('<h1')
+    expect(html).toContain('easymd')
+    expect(html).not.toContain('<svg')
+    expect(html).not.toContain('svg-heading')
+  })
+
+  it('keeps mdnice classic h1 consistent with html preview for wysiwyg', async () => {
+    const html = await render({
+      markdown: '# easymd',
+      markdownStyle: 'mdnice-classic',
+      platform: 'wechat',
+    })
+
+    expect(html).toContain('<h1')
+    expect(html).toContain('easymd')
+  })
 })
 
 describe('katex rendering', () => {

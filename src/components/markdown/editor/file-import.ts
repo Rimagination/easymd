@@ -71,12 +71,12 @@ export async function importFilesToEditor(
           changes: { from, to, insert: md },
           selection: { anchor: from + md.length },
         })
-        toast.success(`HTML 导入成功: ${file.name}`)
+        toast.success(`Image upload success: ${file.name}`)
         break
       }
       catch (error) {
         console.error('HTML parse error:', error)
-        toast.error(`HTML 解析失败: ${file.name}`)
+        toast.error(`HTML 鐟欙絾鐎芥径杈Е: ${file.name}`)
       }
       continue
     }
@@ -90,18 +90,18 @@ export async function importFilesToEditor(
           changes: { from, to, insert: md },
           selection: { anchor: from + md.length },
         })
-        toast.success(`Markdown 导入成功: ${file.name}`)
+        toast.success(`Image upload success: ${file.name}`)
         break
       }
       catch (error) {
         console.error('Markdown read error:', error)
-        toast.error(`Markdown 读取失败: ${file.name}`)
+        toast.error(`Markdown 鐠囪褰囨径杈Е: ${file.name}`)
       }
       continue
     }
 
     if (file.type.startsWith('image/')) {
-      const toastId = toast.loading(`正在上传 ${file.name}...`)
+      const toastId = toast.loading(`濮濓絽婀稉濠佺炊 ${file.name}...`)
       try {
         const formData = new FormData()
         formData.append('file', file)
@@ -115,11 +115,17 @@ export async function importFilesToEditor(
           selection: { anchor: currentInsertPos + imageMarkdown.length },
         })
         currentInsertPos += imageMarkdown.length
-        toast.success(`图片上传成功: ${file.name}`, { id: toastId })
+        toast.success(`Image upload success: ${file.name}`, { id: toastId })
       }
       catch (error: any) {
         console.error('Image upload error:', error)
-        toast.error(error.message || `图片上传失败: ${file.name}`, { id: toastId })
+        const imageMarkdown = `\n![${file.name}](upload_failed)\n`
+        view.dispatch({
+          changes: { from: currentInsertPos, insert: imageMarkdown },
+          selection: { anchor: currentInsertPos + imageMarkdown.length },
+        })
+        currentInsertPos += imageMarkdown.length
+        toast.error(error.message || `Image upload failed: ${file.name}`, { id: toastId })
       }
       continue
     }
@@ -159,7 +165,7 @@ export const importDropPasteExtension = EditorView.domEventHandlers({
     const html = event.clipboardData?.getData('text/html') ?? ''
     const text = event.clipboardData?.getData('text/plain') ?? ''
 
-    // 如果纯文本看起来已经是 Markdown，跳过 HTML 解析
+    // 婵″倹鐏夌痪顖涙瀮閺堫剛婀呯挧閿嬫降瀹歌尙绮￠弰?Markdown閿涘矁鐑︽潻?HTML 鐟欙絾鐎?
     if (!html || looksLikeMarkdown(text)) {
       return
     }
@@ -174,11 +180,11 @@ export const importDropPasteExtension = EditorView.domEventHandlers({
           changes: { from: selection.from, to: selection.to, insert: md },
           selection: { anchor: selection.from + md.length },
         })
-        toast.success('HTML 解析成功')
+        toast.success('HTML 鐟欙絾鐎介幋鎰')
       }
       catch (error) {
         console.error('HTML parse error:', error)
-        toast.error('HTML 解析失败')
+        toast.error('HTML 鐟欙絾鐎芥径杈Е')
       }
     })()
   },

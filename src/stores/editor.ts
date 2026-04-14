@@ -64,7 +64,7 @@ export const useEditorStore = create<EditorState>()(
       setEnableScrollSync: enable => set({ enableScrollSync: enable }),
     }),
     {
-      name: 'bm.md.editor',
+      name: 'easymd.editor',
       skipHydration: true,
     },
   ),

@@ -12,6 +12,7 @@ const themeModules: Record<string, () => Promise<{ default: string }>> = {
   'blueprint': () => import('./blueprint.css?raw'),
   'botanical': () => import('./botanical.css?raw'),
   'green-simple': () => import('./green-simple.css?raw'),
+  'mdnice-classic': () => import('./mdnice-classic.css?raw'),
   'maximalism': () => import('./maximalism.css?raw'),
   'neo-brutalism': () => import('./neo-brutalism.css?raw'),
   'newsprint': () => import('./newsprint.css?raw'),

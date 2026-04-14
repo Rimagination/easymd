@@ -10,17 +10,15 @@ export function Logo({ as: Component = null }: LogoProps) {
   const link = (
     <Link
       to="/about"
-      title="关于 bm.md"
-      aria-label="关于 bm.md"
+      title="关于 easymd"
+      aria-label="关于 easymd"
       className={`
         doto-font text-2xl font-bold tracking-tight text-foreground
         transition-colors
         hover:text-primary
       `}
     >
-      bm
-      <span className="relative -top-1">.</span>
-      md
+      easymd
     </Link>
   )
 

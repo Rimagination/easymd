@@ -1,13 +1,13 @@
 /**
- * 应用基础配置
+ * Application-level metadata and optional public links.
  */
 export const appConfig = {
-  name: 'bm.md',
-  title: 'bm.md - 更好用的 Markdown 排版助手',
-  description: '更好用的 Markdown 排版助手｜一键适配微信公众号、知乎专栏、掘金、网页与图片。',
-  keywords: 'Markdown,排版,微信公众号,知乎专栏,掘金,Markdown编辑器,公众号排版,文章排版',
-  url: 'https://bm.md',
-  github: 'https://github.com/miantiao-me/bm.md',
+  name: 'easymd',
+  title: 'easymd - 微信公众号与知乎 Markdown 排版工具',
+  description: '专注微信公众号与知乎排版的 Markdown 工具，支持实时预览、自定义样式导入与一键复制。',
+  keywords: 'easymd,Markdown,微信公众号排版,知乎排版,Markdown编辑器,自定义CSS',
+  url: '',
+  github: 'https://github.com/Rimagination/easymd',
   themeColor: {
     light: '#fcfcfc',
     dark: '#0d0d0d',

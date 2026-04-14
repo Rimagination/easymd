@@ -24,23 +24,23 @@ import { trackEvent } from '@/lib/analytics'
 import { usePreviewStore } from '@/stores/preview'
 
 const CSS_EXAMPLES = `/* 修改标题颜色 */
-#bm-md h1 { color: #e74c3c; }
-#bm-md h2 { color: #3498db; }
+#easymd h1 { color: #e74c3c; }
+#easymd h2 { color: #3498db; }
 
 /* 调整段落行高 */
-#bm-md p { line-height: 1.8; }
+#easymd p { line-height: 1.8; }
 
 /* 自定义引用块样式 */
-#bm-md blockquote {
+#easymd blockquote {
   border-left-color: #9b59b6;
   background: #f8f4fc;
 }
 
 /* 调整代码块圆角 */
-#bm-md pre { border-radius: 8px; }
+#easymd pre { border-radius: 8px; }
 
 /* 图片居中并添加阴影 */
-#bm-md img {
+#easymd img {
   margin: 0 auto;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }`
@@ -103,7 +103,7 @@ export function CustomCssDialog() {
           <DialogDescription>
             CSS 选择器需约束在
             {' '}
-            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">#bm-md</code>
+            <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">#easymd</code>
             {' '}
             下，在主题样式之后应用。
           </DialogDescription>

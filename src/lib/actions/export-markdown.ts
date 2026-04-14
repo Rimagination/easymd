@@ -11,7 +11,7 @@ export function exportMarkdown(content: string, fileName?: string) {
   }
 
   const activeFile = useFilesStore.getState().getActiveFile()
-  const exportFileName = fileName ?? activeFile?.name ?? 'bm.md'
+  const exportFileName = fileName ?? activeFile?.name ?? 'easymd'
 
   const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' })
   saveAs(blob, exportFileName)

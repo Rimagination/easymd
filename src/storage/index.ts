@@ -8,9 +8,11 @@
 import type { StorageProvider } from './types'
 import { env } from '@/env'
 import { DCStorage } from './dc-storage'
+import { LocalStorage } from './local-storage'
 import { S3Storage } from './s3-storage'
 
 export { DCStorage } from './dc-storage'
+export { LocalStorage } from './local-storage'
 export { S3Storage } from './s3-storage'
 export * from './types'
 
@@ -20,8 +22,16 @@ export function isS3Configured(): boolean {
   return Boolean(S3_ACCESS_KEY_ID && S3_SECRET_ACCESS_KEY && S3_ENDPOINT)
 }
 
+/** 判断是否配置了本地存储 */
+export function isLocalConfigured(): boolean {
+  return Boolean(env.LOCAL_UPLOAD_DIR)
+}
+
 /** 获取存储提供商实例 */
 export function getStorageProvider(): StorageProvider {
+  if (isLocalConfigured()) {
+    return new LocalStorage()
+  }
   if (isS3Configured()) {
     return new S3Storage()
   }

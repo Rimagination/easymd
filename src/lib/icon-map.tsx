@@ -22,7 +22,6 @@ import {
   Twitter,
   Wand,
 } from 'lucide-react'
-import JuejinIcon from '@/icons/juejin'
 import MCPIcon from '@/icons/mcp'
 import SkillIcon from '@/icons/skill'
 import WechatIcon from '@/icons/wechat'
@@ -52,7 +51,6 @@ const iconMap = {
   Wand,
   Wechat: WechatIcon,
   Zhihu: ZhihuIcon,
-  Juejin: JuejinIcon,
   MCP: MCPIcon,
   Skill: SkillIcon,
 } as const

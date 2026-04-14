@@ -1,9 +1,10 @@
-import { Palette } from 'lucide-react'
+import { Palette, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -11,15 +12,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { importMarkdownStyle } from '@/lib/actions'
 import { usePreviewStore } from '@/stores/preview'
 import { markdownStyles } from '@/themes/markdown-style'
 
-const styleTooltip = '排版样式'
-const styleAriaLabel = '排版样式'
+const styleTooltip = 'Markdown styles'
+const styleAriaLabel = 'Markdown styles'
 
 export function MarkdownStyleMenu() {
   const currentStyle = usePreviewStore(state => state.markdownStyle)
   const setMarkdownStyle = usePreviewStore(state => state.setMarkdownStyle)
+  const importedMarkdownStyles = usePreviewStore(state => state.importedMarkdownStyles)
 
   return (
     <DropdownMenu>
@@ -37,9 +40,9 @@ export function MarkdownStyleMenu() {
         />
         <TooltipContent>{styleTooltip}</TooltipContent>
       </Tooltip>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>排版样式</DropdownMenuLabel>
+          <DropdownMenuLabel>Built-in styles</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup value={currentStyle} onValueChange={setMarkdownStyle}>
             {markdownStyles.map(style => (
@@ -52,6 +55,33 @@ export function MarkdownStyleMenu() {
               </DropdownMenuRadioItem>
             ))}
           </DropdownMenuRadioGroup>
+          {importedMarkdownStyles.length > 0 && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Imported styles</DropdownMenuLabel>
+              <DropdownMenuRadioGroup value={currentStyle} onValueChange={setMarkdownStyle}>
+                {importedMarkdownStyles.map(style => (
+                  <DropdownMenuRadioItem
+                    key={style.id}
+                    value={style.id}
+                    className="cursor-pointer"
+                  >
+                    {style.name}
+                  </DropdownMenuRadioItem>
+                ))}
+              </DropdownMenuRadioGroup>
+            </>
+          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              void importMarkdownStyle('menu')
+            }}
+          >
+            <Upload className="size-4" />
+            Import custom style...
+          </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

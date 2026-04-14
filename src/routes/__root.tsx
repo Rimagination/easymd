@@ -1,8 +1,8 @@
+import type { DetailedHTMLProps, LinkHTMLAttributes, MetaHTMLAttributes } from 'react'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ThemeProvider } from 'next-themes'
-import { useEffect } from 'react'
 
 import { NotFound } from '@/components/not-found'
 import { ThemeColorMeta } from '@/components/theme-color-meta'
@@ -13,11 +13,13 @@ import { env } from '@/env'
 import appCss from '../styles.css?url'
 
 // Google Fonts URL - 仅加载 Logo 使用的字符
-const fontUrl = `https://fonts.googleapis.cn/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['bm.md', '404'].join(''))}`
+const fontUrl = `https://fonts.googleapis.cn/css2?family=Doto:wght@700&display=swap&text=${encodeURIComponent(['easymd', '404'].join(''))}`
+type MetaTag = DetailedHTMLProps<MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement>
+type LinkTag = DetailedHTMLProps<LinkHTMLAttributes<HTMLLinkElement>, HTMLLinkElement>
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
+  head: () => {
+    const meta: MetaTag[] = [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { title: appConfig.title },
@@ -26,36 +28,41 @@ export const Route = createRootRoute({
       { name: 'author', content: appConfig.name },
       // Open Graph
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: appConfig.url },
       { property: 'og:title', content: appConfig.title },
       { property: 'og:description', content: appConfig.description },
-      { property: 'og:image', content: `${appConfig.url}/banner.png` },
       { property: 'og:site_name', content: appConfig.name },
       { property: 'og:locale', content: 'zh_CN' },
       // Twitter Card
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: appConfig.title },
       { name: 'twitter:description', content: appConfig.description },
-      { name: 'twitter:image', content: `${appConfig.url}/banner.png` },
-    ],
-    links: [
+    ]
+
+    const links: LinkTag[] = [
       // Preconnect
       { rel: 'preconnect', href: 'https://fonts.googleapis.cn' },
-      { rel: 'preconnect', href: 'https://fonts.gstatic.cn', crossOrigin: 'anonymous' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.cn', crossOrigin: 'anonymous' as const },
       // Preload 关键资源
-      { rel: 'preload', href: fontUrl, as: 'style', crossOrigin: 'anonymous' },
+      { rel: 'preload', href: fontUrl, as: 'style', crossOrigin: 'anonymous' as const },
       { rel: 'preload', href: appCss, as: 'style' },
       { rel: 'preload', href: '/blur-mask.svg', as: 'image', type: 'image/svg+xml' },
       // Stylesheets
       { rel: 'stylesheet', href: fontUrl },
       { rel: 'stylesheet', href: appCss },
-      // Meta
-      { rel: 'canonical', href: appConfig.url },
-      { rel: 'manifest', href: '/manifest.webmanifest' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-    ],
-  }),
+    ]
+
+    if (appConfig.url) {
+      meta.push(
+        { property: 'og:url', content: appConfig.url },
+        { property: 'og:image', content: `${appConfig.url}/banner.png` },
+        { name: 'twitter:image', content: `${appConfig.url}/banner.png` },
+      )
+      links.push({ rel: 'canonical', href: appConfig.url })
+    }
+
+    return { meta, links }
+  },
   beforeLoad: () => {
     return {
       analytics: {
@@ -71,13 +78,6 @@ export const Route = createRootRoute({
 function RootDocument() {
   const { analytics } = Route.useRouteContext()
   const analyticsEnabled = analytics.scriptUrl && analytics.siteId
-
-  useEffect(() => {
-    Promise.all([
-      import('@/lib/pwa').then(({ initPWA }) => initPWA()),
-      import('@/lib/file-handler').then(({ initFileHandler }) => initFileHandler()),
-    ])
-  }, [])
 
   return (
     <html lang="zh-CN" suppressHydrationWarning>

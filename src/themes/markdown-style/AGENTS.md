@@ -1,10 +1,10 @@
 # Markdown Style 设计指南
 
-为 bm.md Markdown 排版工具设计 Markdown 转 HTML 样式表。
+为 easymd Markdown 排版工具设计 Markdown 转 HTML 样式表。
 
 ## 技术约束
 
-1. 所有选择器必须以 `#bm-md` 开头，不使用其他 id 选择器（`#bm-md` 是唯一例外）
+1. 所有选择器必须以 `#easymd` 开头，不使用其他 id 选择器（`#easymd` 是唯一例外）
 2. 不使用 CSS 变量，颜色值直接硬编码
 3. 不使用外部字体（无法加载远程字体文件）
 4. hr img 等空元素（void elements）不使用 before/after 伪元素添加装饰性内容
@@ -28,9 +28,9 @@
 ## 必须包含的元素
 
 ```
-#bm-md
+#easymd
 h1, h2, h3, h4, h5, h6
-#bm-md > h1:first-child（及 h2-h6，首个标题无 margin-top）
+#easymd > h1:first-child（及 h2-h6，首个标题无 margin-top）
 p, p:last-child（最后一个 p 无 margin-bottom）
 strong, b
 em, i
@@ -90,7 +90,7 @@ summary
 details[open] summary
 iframe, video
 .meta, time
-#bm-md.indent-first-line p
+#easymd.indent-first-line p
 ```
 
 ## 输出

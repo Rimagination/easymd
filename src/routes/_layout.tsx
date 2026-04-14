@@ -1,6 +1,5 @@
-import { ClientOnly, createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { CommandPalette } from '@/components/command-palette'
 import MarkdownEditor from '@/components/markdown/editor'
 import { FooterBar } from '@/components/markdown/footer-bar'
 import MarkdownPreviewer from '@/components/markdown/previewer'
@@ -38,9 +37,6 @@ function App() {
         </ResizablePanel>
       </ResizablePanelGroup>
       <FooterBar></FooterBar>
-      <ClientOnly>
-        <CommandPalette />
-      </ClientOnly>
       <Outlet />
     </div>
   )

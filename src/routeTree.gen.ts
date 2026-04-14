@@ -10,10 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as McpRouteImport } from './routes/mcp'
-import { Route as DocsRouteImport } from './routes/docs'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
-import { Route as ApiSplatRouteImport } from './routes/api.$'
+import { Route as UploadsSplatRouteImport } from './routes/uploads.$'
 import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
 import { Route as ApiUploadImageRouteImport } from './routes/api.upload.image'
 import { Route as LayoutDocsSkillRouteImport } from './routes/_layout.docs.skill'
@@ -22,11 +21,6 @@ import { Route as LayoutDocsMcpRouteImport } from './routes/_layout.docs.mcp'
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DocsRoute = DocsRouteImport.update({
-  id: '/docs',
-  path: '/docs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LayoutRoute = LayoutRouteImport.update({
@@ -38,9 +32,9 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
-const ApiSplatRoute = ApiSplatRouteImport.update({
-  id: '/api/$',
-  path: '/api/$',
+const UploadsSplatRoute = UploadsSplatRouteImport.update({
+  id: '/uploads/$',
+  path: '/uploads/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LayoutAboutRoute = LayoutAboutRouteImport.update({
@@ -66,19 +60,17 @@ const LayoutDocsMcpRoute = LayoutDocsMcpRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
-  '/docs': typeof DocsRoute
   '/mcp': typeof McpRoute
   '/about': typeof LayoutAboutRoute
-  '/api/$': typeof ApiSplatRoute
+  '/uploads/$': typeof UploadsSplatRoute
   '/docs/mcp': typeof LayoutDocsMcpRoute
   '/docs/skill': typeof LayoutDocsSkillRoute
   '/api/upload/image': typeof ApiUploadImageRoute
 }
 export interface FileRoutesByTo {
-  '/docs': typeof DocsRoute
   '/mcp': typeof McpRoute
   '/about': typeof LayoutAboutRoute
-  '/api/$': typeof ApiSplatRoute
+  '/uploads/$': typeof UploadsSplatRoute
   '/': typeof LayoutIndexRoute
   '/docs/mcp': typeof LayoutDocsMcpRoute
   '/docs/skill': typeof LayoutDocsSkillRoute
@@ -87,10 +79,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_layout': typeof LayoutRouteWithChildren
-  '/docs': typeof DocsRoute
   '/mcp': typeof McpRoute
   '/_layout/about': typeof LayoutAboutRoute
-  '/api/$': typeof ApiSplatRoute
+  '/uploads/$': typeof UploadsSplatRoute
   '/_layout/': typeof LayoutIndexRoute
   '/_layout/docs/mcp': typeof LayoutDocsMcpRoute
   '/_layout/docs/skill': typeof LayoutDocsSkillRoute
@@ -100,19 +91,17 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/docs'
     | '/mcp'
     | '/about'
-    | '/api/$'
+    | '/uploads/$'
     | '/docs/mcp'
     | '/docs/skill'
     | '/api/upload/image'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/docs'
     | '/mcp'
     | '/about'
-    | '/api/$'
+    | '/uploads/$'
     | '/'
     | '/docs/mcp'
     | '/docs/skill'
@@ -120,10 +109,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_layout'
-    | '/docs'
     | '/mcp'
     | '/_layout/about'
-    | '/api/$'
+    | '/uploads/$'
     | '/_layout/'
     | '/_layout/docs/mcp'
     | '/_layout/docs/skill'
@@ -132,9 +120,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   LayoutRoute: typeof LayoutRouteWithChildren
-  DocsRoute: typeof DocsRoute
   McpRoute: typeof McpRoute
-  ApiSplatRoute: typeof ApiSplatRoute
+  UploadsSplatRoute: typeof UploadsSplatRoute
   ApiUploadImageRoute: typeof ApiUploadImageRoute
 }
 
@@ -145,13 +132,6 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/docs': {
-      id: '/docs'
-      path: '/docs'
-      fullPath: '/docs'
-      preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_layout': {
@@ -168,11 +148,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
-    '/api/$': {
-      id: '/api/$'
-      path: '/api/$'
-      fullPath: '/api/$'
-      preLoaderRoute: typeof ApiSplatRouteImport
+    '/uploads/$': {
+      id: '/uploads/$'
+      path: '/uploads/$'
+      fullPath: '/uploads/$'
+      preLoaderRoute: typeof UploadsSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_layout/about': {
@@ -225,9 +205,8 @@ const LayoutRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   LayoutRoute: LayoutRouteWithChildren,
-  DocsRoute: DocsRoute,
   McpRoute: McpRoute,
-  ApiSplatRoute: ApiSplatRoute,
+  UploadsSplatRoute: UploadsSplatRoute,
   ApiUploadImageRoute: ApiUploadImageRoute,
 }
 export const routeTree = rootRouteImport

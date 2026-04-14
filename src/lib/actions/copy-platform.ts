@@ -4,7 +4,7 @@ import { platformConfig } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 import { copyHtml } from '@/lib/clipboard'
 
-const developingPlatforms: SupportedPlatform[] = ['zhihu', 'juejin']
+const developingPlatforms: SupportedPlatform[] = ['zhihu']
 
 interface CopyPlatformOptions {
   platform: SupportedPlatform
@@ -28,7 +28,7 @@ export async function copyPlatform({
   getHtml,
 }: CopyPlatformOptions) {
   if (developingPlatforms.includes(platform)) {
-    toast.info('功能开发中，敬请期待')
+    toast.info('Zhihu support is still in progress.')
     return
   }
 
@@ -36,7 +36,7 @@ export async function copyPlatform({
   try {
     const html = await getHtml()
     if (!html.trim()) {
-      toast.error('没有可复制的内容')
+      toast.error('Nothing to copy.')
       return
     }
     const success = await copyHtml(html)
@@ -51,10 +51,10 @@ export async function copyPlatform({
       })
     }
     else {
-      toast.error('复制失败')
+      toast.error('Copy failed.')
     }
   }
   catch {
-    toast.error('渲染失败')
+    toast.error('Render failed.')
   }
 }

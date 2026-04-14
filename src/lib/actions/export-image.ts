@@ -18,7 +18,7 @@ export async function exportImage() {
     if (!snapshot)
       return
 
-    await snapshot.download({ filename: 'bm.md.jpg', quality: 0.99 })
+    await snapshot.download({ filename: 'easymd.jpg', quality: 0.99 })
     toast.success('已导出图片')
   }
   catch (error) {

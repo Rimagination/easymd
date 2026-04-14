@@ -14,7 +14,7 @@ export async function preloadEdgeKVEnv() {
   if (typeof EdgeKV !== 'undefined') {
     try {
       // @ts-expect-error EdgeKV
-      const edgeKV = new EdgeKV({ namespace: 'bm-md-env' })
+      const edgeKV = new EdgeKV({ namespace: 'easymd-env' })
       // 加载所有需要的环境变量
       await Promise.all(
         Object.keys(env)

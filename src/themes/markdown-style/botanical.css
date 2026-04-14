@@ -30,7 +30,7 @@
    ============================================ */
 
 /* 容器 - 古典图鉴的纸张质感 */
-#bm-md {
+#easymd {
   color: #2a2520;
   background-color: #f7f5f0;
   font-family: Georgia, 'Songti SC', 'Noto Serif SC', 'Times New Roman', serif;
@@ -44,12 +44,12 @@
    如同植物图鉴中的分类层级
    ============================================ */
 
-#bm-md h1,
-#bm-md h2,
-#bm-md h3,
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h1,
+#easymd h2,
+#easymd h3,
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   font-family: Georgia, 'Songti SC', 'Noto Serif SC', 'Times New Roman', serif;
   font-weight: 600;
   line-height: 1.35;
@@ -58,7 +58,7 @@
 }
 
 /* H1 - 深铜版绿，图鉴标题 */
-#bm-md h1 {
+#easymd h1 {
   font-size: 1.875em;
   color: #2e5d4e;
   text-align: center;
@@ -67,7 +67,7 @@
 }
 
 /* H2 - 章节标题，精致左边框 */
-#bm-md h2 {
+#easymd h2 {
   font-size: 1.5em;
   color: #2e5d4e;
   padding: 0.25em 0.75em;
@@ -77,12 +77,12 @@
 }
 
 /* H3 - 科属分类标题 */
-#bm-md h3 {
+#easymd h3 {
   font-size: 1.25em;
   color: #3a6b5a;
 }
 
-#bm-md h3::before {
+#easymd h3::before {
   content: '§';
   margin-right: 0.35em;
   color: #4a7c6f;
@@ -90,29 +90,29 @@
 }
 
 /* H4-H6 - 统一的次级标题色调 */
-#bm-md h4,
-#bm-md h5,
-#bm-md h6 {
+#easymd h4,
+#easymd h5,
+#easymd h6 {
   color: #4a7c6f;
 }
 
-#bm-md h4 {
+#easymd h4 {
   font-size: 1.125em;
 }
 
-#bm-md h5,
-#bm-md h6 {
+#easymd h5,
+#easymd h6 {
   font-size: 1em;
   font-style: italic;
 }
 
 /* 首个标题无上边距 */
-#bm-md > h1:first-child,
-#bm-md > h2:first-child,
-#bm-md > h3:first-child,
-#bm-md > h4:first-child,
-#bm-md > h5:first-child,
-#bm-md > h6:first-child {
+#easymd > h1:first-child,
+#easymd > h2:first-child,
+#easymd > h3:first-child,
+#easymd > h4:first-child,
+#easymd > h5:first-child,
+#easymd > h6:first-child {
   margin-top: 0;
 }
 
@@ -120,12 +120,12 @@
    段落 - 学术文献的阅读节奏
    ============================================ */
 
-#bm-md p {
+#easymd p {
   margin-bottom: 1em;
   text-align: justify;
 }
 
-#bm-md p:last-child {
+#easymd p:last-child {
   margin-bottom: 0;
 }
 
@@ -134,30 +134,30 @@
    ============================================ */
 
 /* 粗体 - 墨棕色强调 */
-#bm-md strong,
-#bm-md b {
+#easymd strong,
+#easymd b {
   font-weight: 700;
   color: #2a2520;
 }
 
 /* 斜体 - 拉丁学名风格 */
-#bm-md em,
-#bm-md i {
+#easymd em,
+#easymd i {
   font-style: italic;
   color: #3a6b5a;
 }
 
 /* 删除线 - 陈旧记录 */
-#bm-md del,
-#bm-md s,
-#bm-md strike {
+#easymd del,
+#easymd s,
+#easymd strike {
   color: #9a9590;
   text-decoration: line-through;
   text-decoration-color: #7a7570;
 }
 
 /* 高亮 - 标本标签感 */
-#bm-md mark {
+#easymd mark {
   background-color: #e8e4d8;
   color: #2a2520;
   padding: 0.1em 0.3em;
@@ -165,27 +165,27 @@
 }
 
 /* 小号文字 */
-#bm-md small {
+#easymd small {
   font-size: 0.875em;
   color: #5c5550;
 }
 
 /* 上标 */
-#bm-md sup {
+#easymd sup {
   font-size: 0.75em;
   line-height: 0;
   vertical-align: super;
 }
 
 /* 下标 */
-#bm-md sub {
+#easymd sub {
   font-size: 0.75em;
   line-height: 0;
   vertical-align: sub;
 }
 
 /* 插入文本 - 新发现标注 */
-#bm-md ins {
+#easymd ins {
   background-color: rgba(46, 93, 78, 0.1);
   text-decoration: none;
   padding: 0.1em 0.25em;
@@ -193,19 +193,19 @@
 }
 
 /* 行内引用 */
-#bm-md q {
+#easymd q {
   quotes: '"' '"' '' ' ' '';
   color: #2a2520;
 }
 
-#bm-md q::before {
+#easymd q::before {
   content: open-quote;
   color: #3d5a80;
   font-weight: 600;
   font-size: 1.1em;
 }
 
-#bm-md q::after {
+#easymd q::after {
   content: close-quote;
   color: #3d5a80;
   font-weight: 600;
@@ -213,15 +213,15 @@
 }
 
 /* 变量 - 学名标注色 */
-#bm-md var {
+#easymd var {
   font-style: italic;
   color: #3d5a80;
   font-weight: 500;
 }
 
 /* 示例输出 */
-#bm-md samp,
-#bm-md tt {
+#easymd samp,
+#easymd tt {
   font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
   background-color: #ede9e0;
@@ -231,7 +231,7 @@
 }
 
 /* 缩写 */
-#bm-md abbr[title] {
+#easymd abbr[title] {
   border-bottom: 1px dotted #2e5d4e;
   cursor: help;
   text-decoration: none;
@@ -241,13 +241,13 @@
    链接 - 皇家蓝，区别于 Organic 的赤陶土
    ============================================ */
 
-#bm-md a {
+#easymd a {
   color: #3d5a80;
   text-decoration: none;
   border-bottom: 1px solid rgba(61, 90, 128, 0.4);
 }
 
-#bm-md a:hover {
+#easymd a:hover {
   color: #2c4460;
   border-bottom-color: #2c4460;
   background-color: rgba(61, 90, 128, 0.06);
@@ -257,16 +257,16 @@
    Ruby 注音
    ============================================ */
 
-#bm-md ruby {
+#easymd ruby {
   ruby-align: center;
 }
 
-#bm-md rt {
+#easymd rt {
   font-size: 0.5em;
   color: #5c5550;
 }
 
-#bm-md rp {
+#easymd rp {
   color: #9a9590;
 }
 
@@ -274,56 +274,56 @@
    列表 - 图鉴索引风格
    ============================================ */
 
-#bm-md ul,
-#bm-md ol {
+#easymd ul,
+#easymd ol {
   margin-bottom: 1em;
   padding-left: 1.75em;
 }
 
-#bm-md ul {
+#easymd ul {
   list-style-type: disc;
 }
 
-#bm-md ol {
+#easymd ol {
   list-style-type: decimal;
 }
 
-#bm-md li {
+#easymd li {
   margin-bottom: 0.35em;
 }
 
 /* 列表标记使用铜版绿 */
-#bm-md li::marker {
+#easymd li::marker {
   color: #2e5d4e;
 }
 
-#bm-md li > ul,
-#bm-md li > ol {
+#easymd li > ul,
+#easymd li > ol {
   margin-top: 0.3em;
   margin-bottom: 0.3em;
 }
 
-#bm-md ul ul {
+#easymd ul ul {
   list-style-type: circle;
 }
 
-#bm-md ul ul ul {
+#easymd ul ul ul {
   list-style-type: square;
 }
 
 /* 任务列表 */
-#bm-md ul.contains-task-list {
+#easymd ul.contains-task-list {
   list-style-type: none;
   padding-left: 0;
 }
 
-#bm-md li.task-list-item {
+#easymd li.task-list-item {
   display: flex;
   align-items: flex-start;
   gap: 0.5em;
 }
 
-#bm-md input[type='checkbox'] {
+#easymd input[type='checkbox'] {
   margin-top: 0.35em;
   accent-color: #2e5d4e;
 }
@@ -332,7 +332,7 @@
    引用块 - 古籍引述风格
    ============================================ */
 
-#bm-md blockquote {
+#easymd blockquote {
   margin: 1.1em 0;
   padding: 1em 1.2em;
   background-color: #f0ede6;
@@ -341,16 +341,16 @@
   color: #3a3530;
 }
 
-#bm-md blockquote p {
+#easymd blockquote p {
   margin-bottom: 0.55em;
 }
 
-#bm-md blockquote p:last-child {
+#easymd blockquote p:last-child {
   margin-bottom: 0;
 }
 
 /* 嵌套引用 - 更浅的边框 */
-#bm-md blockquote blockquote {
+#easymd blockquote blockquote {
   margin-top: 0.75em;
   margin-bottom: 0;
   border-left-color: #4a7c6f;
@@ -363,7 +363,7 @@
    ============================================ */
 
 /* 行内代码 */
-#bm-md code {
+#easymd code {
   font-family: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   font-size: 0.875em;
   background-color: #ede9e0;
@@ -373,7 +373,7 @@
 }
 
 /* 代码块容器 */
-#bm-md pre {
+#easymd pre {
   margin: 1.1em 0;
   padding: 1.2em;
   background-color: #f0ede6;
@@ -383,7 +383,7 @@
 }
 
 /* 代码块内代码重置 */
-#bm-md pre code {
+#easymd pre code {
   background-color: transparent;
   color: inherit;
   padding: 0;
@@ -396,7 +396,7 @@
    表格 - 植物分类学数据表
    ============================================ */
 
-#bm-md table {
+#easymd table {
   width: 100%;
   margin: 1.1em 0;
   border-collapse: collapse;
@@ -405,54 +405,54 @@
 }
 
 /* 表头首行样式（替代 thead） */
-#bm-md tr:first-child th {
+#easymd tr:first-child th {
   background-color: #2e5d4e;
   color: #f7f5f0;
 }
 
-#bm-md th,
-#bm-md td {
+#easymd th,
+#easymd td {
   padding: 0.6em 0.85em;
   border: 1px solid #d4cfc6;
   text-align: left;
 }
 
-#bm-md th {
+#easymd th {
   font-weight: 600;
   color: #2e5d4e;
   background-color: rgba(46, 93, 78, 0.08);
 }
 
-#bm-md tbody tr:nth-child(even) {
+#easymd tbody tr:nth-child(even) {
   background-color: #f5f3ed;
 }
 
 /* Frontmatter 元数据表格 */
-#bm-md .frontmatter-table {
+#easymd .frontmatter-table {
   width: auto;
   margin-bottom: 1.5em;
   font-size: 0.875em;
   border: none;
 }
 
-#bm-md .frontmatter-table td {
+#easymd .frontmatter-table td {
   padding: 0.3em 0.75em 0.3em 0;
   border: none;
   vertical-align: top;
   background-color: transparent;
 }
 
-#bm-md .frontmatter-key {
+#easymd .frontmatter-key {
   font-weight: 600;
   color: #2e5d4e;
   white-space: nowrap;
 }
 
-#bm-md .frontmatter-key::after {
+#easymd .frontmatter-key::after {
   content: ':';
 }
 
-#bm-md .frontmatter-value {
+#easymd .frontmatter-value {
   color: #2a2520;
 }
 
@@ -460,7 +460,7 @@
    分割线 - 铜版装饰线
    ============================================ */
 
-#bm-md hr {
+#easymd hr {
   margin: 1.5em 0;
   border: none;
   height: 1px;
@@ -473,7 +473,7 @@
    精致的学术图版风格
    ============================================ */
 
-#bm-md img {
+#easymd img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -482,25 +482,25 @@
   box-shadow: 0 2px 8px rgba(42, 37, 32, 0.08);
 }
 
-#bm-md picture {
+#easymd picture {
   display: block;
   margin: 1.1em 0;
 }
 
-#bm-md picture img {
+#easymd picture img {
   margin: 0;
 }
 
-#bm-md figure {
+#easymd figure {
   margin: 1.35em 0;
   text-align: center;
 }
 
-#bm-md figure img {
+#easymd figure img {
   margin: 0 auto;
 }
 
-#bm-md figcaption {
+#easymd figcaption {
   margin-top: 0.7em;
   font-size: 0.875em;
   color: #5c5550;
@@ -511,7 +511,7 @@
    脚注 - 学术注释区
    ============================================ */
 
-#bm-md .footnotes {
+#easymd .footnotes {
   margin-top: 2.25em;
   padding-top: 1.1em;
   border-top: 1px solid #2e5d4e;
@@ -519,19 +519,19 @@
   color: #5c5550;
 }
 
-#bm-md .footnotes ol {
+#easymd .footnotes ol {
   padding-left: 1.25em;
 }
 
-#bm-md .footnote-ref {
+#easymd .footnote-ref {
   font-size: 0.75em;
   vertical-align: super;
   color: #3d5a80;
   font-weight: 600;
 }
 
-#bm-md .footnote-backref,
-#bm-md .data-footnote-backref {
+#easymd .footnote-backref,
+#easymd .data-footnote-backref {
   color: #2e5d4e;
   text-decoration: none;
 }
@@ -540,21 +540,21 @@
    定义列表 - 术语词典风格
    ============================================ */
 
-#bm-md dl {
+#easymd dl {
   margin: 1.1em 0;
 }
 
-#bm-md dt {
+#easymd dt {
   font-weight: 600;
   color: #2e5d4e;
   margin-top: 0.65em;
 }
 
-#bm-md dt:first-child {
+#easymd dt:first-child {
   margin-top: 0;
 }
 
-#bm-md dd {
+#easymd dd {
   margin-left: 1.35em;
   margin-top: 0.25em;
   color: #2a2520;
@@ -566,7 +566,7 @@
    键盘按键 - 古典打字机风格
    ============================================ */
 
-#bm-md kbd {
+#easymd kbd {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8125em;
   display: inline-block;
@@ -582,7 +582,7 @@
    使用冷色调，区别于 Organic 的暖色
    ============================================ */
 
-#bm-md .markdown-alert {
+#easymd .markdown-alert {
   margin: 1.1em 0;
   padding: 0.85em 1.1em;
   border: 1px solid;
@@ -590,7 +590,7 @@
   background-color: #f5f3ed;
 }
 
-#bm-md .markdown-alert-title {
+#easymd .markdown-alert-title {
   display: flex;
   align-items: center;
   gap: 0.45em;
@@ -599,57 +599,57 @@
 }
 
 /* Note - 石板蓝（冷静信息） */
-#bm-md .markdown-alert-note {
+#easymd .markdown-alert-note {
   background-color: #f3f5f8;
   border-color: #8b9cad;
   border-left-color: #5c7a95;
 }
 
-#bm-md .markdown-alert-note .markdown-alert-title {
+#easymd .markdown-alert-note .markdown-alert-title {
   color: #5c7a95;
 }
 
 /* Tip - 铜版绿（有益建议） */
-#bm-md .markdown-alert-tip {
+#easymd .markdown-alert-tip {
   background-color: #f2f5f4;
   border-color: #7a9a8e;
   border-left-color: #2e5d4e;
 }
 
-#bm-md .markdown-alert-tip .markdown-alert-title {
+#easymd .markdown-alert-tip .markdown-alert-title {
   color: #2e5d4e;
 }
 
 /* Important - 深靛蓝（重要事项） */
-#bm-md .markdown-alert-important {
+#easymd .markdown-alert-important {
   background-color: #f4f5f8;
   border-color: #8090a5;
   border-left-color: #3d5a80;
 }
 
-#bm-md .markdown-alert-important .markdown-alert-title {
+#easymd .markdown-alert-important .markdown-alert-title {
   color: #3d5a80;
 }
 
 /* Warning - 琥珀棕（注意警示） */
-#bm-md .markdown-alert-warning {
+#easymd .markdown-alert-warning {
   background-color: #f8f6f2;
   border-color: #c4a872;
   border-left-color: #a08550;
 }
 
-#bm-md .markdown-alert-warning .markdown-alert-title {
+#easymd .markdown-alert-warning .markdown-alert-title {
   color: #8a7040;
 }
 
 /* Caution - 勃艮第红（危险警告） */
-#bm-md .markdown-alert-caution {
+#easymd .markdown-alert-caution {
   background-color: #f8f4f4;
   border-color: #a87575;
   border-left-color: #8b4a4a;
 }
 
-#bm-md .markdown-alert-caution .markdown-alert-title {
+#easymd .markdown-alert-caution .markdown-alert-title {
   color: #8b4a4a;
 }
 
@@ -657,11 +657,11 @@
    数学公式 - 学术公式展示
    ============================================ */
 
-#bm-md .math-inline {
+#easymd .math-inline {
   font-size: 1em;
 }
 
-#bm-md .math-display {
+#easymd .math-display {
   margin: 1.1em 0;
   overflow-x: auto;
   text-align: center;
@@ -674,7 +674,7 @@
    折叠详情 - 展开式学术注释
    ============================================ */
 
-#bm-md details {
+#easymd details {
   margin: 1.1em 0;
   padding: 0.75em 1.05em;
   background-color: #f0ede6;
@@ -682,17 +682,17 @@
   border-left: 3px solid #2e5d4e;
 }
 
-#bm-md summary {
+#easymd summary {
   font-weight: 600;
   cursor: pointer;
   color: #2e5d4e;
 }
 
-#bm-md summary::marker {
+#easymd summary::marker {
   color: #2e5d4e;
 }
 
-#bm-md details[open] summary {
+#easymd details[open] summary {
   margin-bottom: 0.65em;
   padding-bottom: 0.55em;
   border-bottom: 1px dashed #d4cfc6;
@@ -702,8 +702,8 @@
    嵌入媒体 - 与图片保持一致的学术风格
    ============================================ */
 
-#bm-md iframe,
-#bm-md video {
+#easymd iframe,
+#easymd video {
   display: block;
   max-width: 100%;
   margin: 1.1em 0;
@@ -715,8 +715,8 @@
    元信息与时间 - 图鉴编目信息
    ============================================ */
 
-#bm-md .meta,
-#bm-md time {
+#easymd .meta,
+#easymd time {
   font-size: 0.875em;
   color: #5c5550;
   font-style: italic;
@@ -726,6 +726,6 @@
    首行缩进变体 - 传统书籍排版
    ============================================ */
 
-#bm-md.indent-first-line p {
+#easymd.indent-first-line p {
   text-indent: 2em;
 }

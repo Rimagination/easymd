@@ -183,7 +183,7 @@ export async function exportPdf() {
       prevBreak = pageBreaks[i] ?? canvas.height
     }
 
-    pdf.save('bm.md.pdf')
+    pdf.save('easymd.pdf')
     toast.success('已导出 PDF', { id: loadingToast })
   }
   catch (error) {

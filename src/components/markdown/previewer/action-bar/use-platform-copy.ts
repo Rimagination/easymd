@@ -4,6 +4,7 @@ import { getMarkdownLocaleTexts } from '@/lib/locale'
 import { useEditorStore } from '@/stores/editor'
 import { useFilesStore } from '@/stores/files'
 import { usePreviewStore } from '@/stores/preview'
+import { resolveMarkdownRenderStyle } from '@/themes/markdown-style/custom'
 
 export interface PlatformCopyResult {
   getHtml: () => Promise<string>
@@ -17,11 +18,14 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
 
   const content = useFilesStore(state => state.currentContent)
   const markdownStyle = usePreviewStore(state => state.markdownStyle)
+  const importedMarkdownStyles = usePreviewStore(state => state.importedMarkdownStyles)
   const codeTheme = usePreviewStore(state => state.codeTheme)
+  const customCss = usePreviewStore(state => state.customCss)
   const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
   const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
   const getRenderedHtml = usePreviewStore(state => state.getRenderedHtml)
   const setRenderedHtml = usePreviewStore(state => state.setRenderedHtml)
+  const resolvedStyle = resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss)
 
   const getHtml = useCallback(async (): Promise<string> => {
     const cached = getRenderedHtml(platform)
@@ -37,8 +41,9 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
       const { markdown } = await import('@/lib/markdown/browser')
       const result = await markdown.render({
         markdown: content,
-        markdownStyle,
+        markdownStyle: resolvedStyle.markdownStyle ?? '',
         codeTheme,
+        customCss: resolvedStyle.customCss,
         enableFootnoteLinks,
         openLinksInNewWindow,
         platform,
@@ -56,7 +61,7 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
     finally {
       setIsLoading(false)
     }
-  }, [content, markdownStyle, codeTheme, enableFootnoteLinks, openLinksInNewWindow, platform, getRenderedHtml, setRenderedHtml])
+  }, [content, codeTheme, enableFootnoteLinks, openLinksInNewWindow, platform, getRenderedHtml, resolvedStyle, setRenderedHtml])
 
   return { getHtml, isLoading, error }
 }

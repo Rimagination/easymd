@@ -1,6 +1,6 @@
 # 架构设计
 
-本文档介绍 bm.md 的技术架构设计。
+本文档介绍 easymd 的技术架构设计。
 
 ---
 
@@ -153,9 +153,9 @@ src/
 
 | Store               | LocalStorage Key | 持久化内容                                   |
 | ------------------- | ---------------- | -------------------------------------------- |
-| filesStore          | `bm.md.files`    | 文件元数据、activeFileId（内容存 IndexedDB） |
-| editorStore         | `bm.md.editor`   | 设置项（不含滚动状态）                       |
-| previewStore        | `bm.md.preview`  | 样式偏好、customCss（不含 HTML 缓存）        |
+| filesStore          | `easymd.files`   | 文件元数据、activeFileId（内容存 IndexedDB） |
+| editorStore         | `easymd.editor`  | 设置项（不含滚动状态）                       |
+| previewStore        | `easymd.preview` | 样式偏好、customCss（不含 HTML 缓存）        |
 | commandPaletteStore | -                | 不持久化                                     |
 
 ### Store 交互
@@ -177,7 +177,7 @@ src/
 │                    file-storage.ts                           │
 ├──────────────────────────────────────────────────────────────┤
 │  IndexedDB (idb)                                             │
-│  ├─ Database: bm.md                                          │
+│  ├─ Database: easymd                                          │
 │  └─ ObjectStore: files                                       │
 │      └─ { id: string, content: string }                      │
 ├──────────────────────────────────────────────────────────────┤

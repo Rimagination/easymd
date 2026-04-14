@@ -14,19 +14,23 @@ export function createPageHead({ pathname, meta }: CreatePageHeadOptions) {
   const { title, description = appConfig.description } = meta
   const fullTitle = `${title} | ${appConfig.name}`
   const canonicalUrl = `${appConfig.url}${pathname}`
+  const seoMeta = [
+    { title: fullTitle },
+    { name: 'description', content: description },
+    { property: 'og:title', content: fullTitle },
+    { property: 'og:description', content: description },
+    { name: 'twitter:title', content: fullTitle },
+    { name: 'twitter:description', content: description },
+  ]
+
+  if (appConfig.url) {
+    seoMeta.push({ property: 'og:url', content: canonicalUrl })
+  }
 
   return {
-    meta: [
-      { title: fullTitle },
-      { name: 'description', content: description },
-      { property: 'og:title', content: fullTitle },
-      { property: 'og:description', content: description },
-      { property: 'og:url', content: canonicalUrl },
-      { name: 'twitter:title', content: fullTitle },
-      { name: 'twitter:description', content: description },
-    ],
-    links: [
-      { rel: 'canonical', href: canonicalUrl },
-    ],
+    meta: seoMeta,
+    links: appConfig.url
+      ? [{ rel: 'canonical', href: canonicalUrl }]
+      : [],
   }
 }

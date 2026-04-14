@@ -13,7 +13,7 @@ export function getPreviewIframe(): PreviewIframe | null {
       return null
     }
 
-    const content = iframe.contentDocument.getElementById('bm-md')
+    const content = iframe.contentDocument.getElementById('easymd')
     if (!content) {
       toast.error('没有可操作的内容')
       return null

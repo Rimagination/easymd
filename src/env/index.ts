@@ -33,6 +33,9 @@ export const env = {
 
   // DC 图床配置
   get DC_UPLOAD_URL() { return getPrivate('DC_UPLOAD_URL') },
+  // Local upload
+  get LOCAL_UPLOAD_DIR() { return getPrivate('LOCAL_UPLOAD_DIR') },
+  get LOCAL_UPLOAD_PUBLIC_PATH() { return getPrivate('LOCAL_UPLOAD_PUBLIC_PATH') },
 
   // 统计分析（服务端运行时读取，支持 Docker 运行时配置）
   get ANALYTICS_SCRIPT_URL() { return getPrivate('ANALYTICS_SCRIPT_URL') },

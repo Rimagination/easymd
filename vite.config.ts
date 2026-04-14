@@ -7,11 +7,9 @@ import viteReact from '@vitejs/plugin-react'
 import { nitro } from 'nitro/vite'
 import { defineConfig } from 'vite'
 // import { analyzer } from 'vite-bundle-analyzer'
-import { VitePWA } from 'vite-plugin-pwa'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 import { name } from './package.json'
 import { cssRawMinifyPlugin, fixNitroInlineDynamicImports, htmlRawMinifyPlugin, markdownPlugin } from './scripts/vite'
-import { appConfig } from './src/config/app'
 
 const require = createRequire(import.meta.url)
 const isAliyunESA = Boolean(process.env.AliUid)
@@ -72,46 +70,6 @@ const config = defineConfig({
     viteReact({
       babel: {
         plugins: ['babel-plugin-react-compiler'],
-      },
-    }),
-    VitePWA({
-      strategies: 'injectManifest',
-      srcDir: 'src',
-      outDir: isAliyunESA ? 'dist/client' : '.output/public',
-      filename: 'sw.ts',
-      registerType: 'autoUpdate',
-      manifest: {
-        name: appConfig.name,
-        short_name: appConfig.name,
-        description: appConfig.description,
-        id: '/',
-        start_url: '/',
-        scope: '/',
-        display: 'standalone',
-        theme_color: appConfig.themeColor.dark,
-        background_color: appConfig.themeColor.dark,
-        icons: [
-          { src: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
-        ],
-        file_handlers: [
-          {
-            action: '/',
-            accept: {
-              'text/markdown': ['.md', '.markdown', '.mdown', '.mkd'],
-            },
-          },
-        ],
-        launch_handler: {
-          client_mode: 'navigate-existing',
-        },
-      },
-      injectManifest: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
-      },
-      devOptions: {
-        enabled: true,
       },
     }),
   ],

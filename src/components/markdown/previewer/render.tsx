@@ -1,5 +1,6 @@
+import type { PointerEvent as ReactPointerEvent, RefObject } from 'react'
 import { debounce } from 'es-toolkit'
-import { ImageUp, Link2, MousePointer2, Palette, PencilLine, Type } from 'lucide-react'
+import { GripHorizontal, ImageUp, Link2, MousePointer2, Palette, PencilLine, Type } from 'lucide-react'
 import morphdom from 'morphdom'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
@@ -29,6 +30,36 @@ const FONT_SIZE_OPTIONS = ['14px', '16px', '18px', '20px', '22px', '24px', '28px
 interface VisualSelectionState {
   imageSrc: string | null
   text: string
+}
+
+interface VisualPanelPosition {
+  x: number
+  y: number
+}
+
+function clampPanelPosition(
+  position: VisualPanelPosition,
+  container: HTMLElement | null,
+  panel: HTMLElement | null,
+): VisualPanelPosition {
+  if (!container) {
+    return {
+      x: Math.max(8, position.x),
+      y: Math.max(8, position.y),
+    }
+  }
+
+  const containerRect = container.getBoundingClientRect()
+  const panelRect = panel?.getBoundingClientRect()
+  const panelWidth = panelRect?.width ?? 384
+  const panelHeight = panelRect?.height ?? 190
+  const maxX = Math.max(8, containerRect.width - panelWidth - 8)
+  const maxY = Math.max(8, containerRect.height - panelHeight - 8)
+
+  return {
+    x: Math.min(Math.max(8, position.x), maxX),
+    y: Math.min(Math.max(8, position.y), maxY),
+  }
 }
 
 function installVisualEditStyle(doc: Document) {
@@ -69,15 +100,18 @@ function clearSelectedImages(doc: Document) {
 
 interface VisualEditPanelProps {
   color: string
+  containerRef: RefObject<HTMLDivElement | null>
   enabled: boolean
   fontSize: string
   imageUrl: string
+  position: VisualPanelPosition
   replacementText: string
   selection: VisualSelectionState
   onApplyTextStyle: () => void
   onColorChange: (color: string) => void
   onFontSizeChange: (fontSize: string) => void
   onImageUrlChange: (url: string) => void
+  onPositionChange: (position: VisualPanelPosition) => void
   onReplaceImageFile: () => void
   onReplaceImageUrl: () => void
   onReplaceText: () => void
@@ -87,27 +121,62 @@ interface VisualEditPanelProps {
 
 function VisualEditPanel({
   color,
+  containerRef,
   enabled,
   fontSize,
   imageUrl,
+  position,
   replacementText,
   selection,
   onApplyTextStyle,
   onColorChange,
   onFontSizeChange,
   onImageUrlChange,
+  onPositionChange,
   onReplaceImageFile,
   onReplaceImageUrl,
   onReplaceText,
   onReplacementTextChange,
   onToggle,
 }: VisualEditPanelProps) {
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  const handleDragStart = useCallback((event: ReactPointerEvent<HTMLElement>) => {
+    if (event.button !== 0) {
+      return
+    }
+
+    const startX = event.clientX
+    const startY = event.clientY
+    const startPosition = position
+
+    const handleMove = (moveEvent: PointerEvent) => {
+      onPositionChange(clampPanelPosition({
+        x: startPosition.x + moveEvent.clientX - startX,
+        y: startPosition.y + moveEvent.clientY - startY,
+      }, containerRef.current, panelRef.current))
+    }
+
+    const handleEnd = () => {
+      window.removeEventListener('pointermove', handleMove)
+      window.removeEventListener('pointerup', handleEnd)
+    }
+
+    window.addEventListener('pointermove', handleMove)
+    window.addEventListener('pointerup', handleEnd)
+    event.preventDefault()
+  }, [containerRef, onPositionChange, position])
+
   return (
     <div
+      ref={panelRef}
       className={`
-        pointer-events-none absolute top-2 left-2 z-20 flex
+        pointer-events-none absolute top-0 left-0 z-20 flex
         max-w-[calc(100%-1rem)] flex-col items-start gap-2
       `}
+      style={{
+        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+      }}
     >
       <Button
         type="button"
@@ -134,6 +203,30 @@ function VisualEditPanel({
             backdrop-blur
           `}
         >
+          <div className={`
+            mb-2 flex items-center justify-between gap-2 border-b
+            border-border/70 pb-1.5
+          `}
+          >
+            <button
+              type="button"
+              className={`
+                flex cursor-grab items-center gap-1 text-[11px]
+                text-muted-foreground
+                active:cursor-grabbing
+              `}
+              onPointerDown={handleDragStart}
+              aria-label="拖动预览编辑浮层"
+              title="拖动预览编辑浮层"
+            >
+              <GripHorizontal className="size-3.5" />
+              拖动浮层
+            </button>
+            <span className="text-[10px] text-muted-foreground">
+              组件会自动转为可编辑源码
+            </span>
+          </div>
+
           <div
             className={`
               mb-2 flex items-center justify-between gap-2 text-[11px]
@@ -254,6 +347,7 @@ export default function MarkdownRender() {
   const pendingHtmlRef = useRef<string | null>(null)
   const canceledRef = useRef(false)
   const renderedHtmlRef = useRef(renderedHtml)
+  const previewPanelContainerRef = useRef<HTMLDivElement>(null)
   const [iframeRevision, setIframeRevision] = useState(0)
   const [isVisualEditEnabled, setIsVisualEditEnabled] = useState(false)
   const [visualSelection, setVisualSelection] = useState<VisualSelectionState>({
@@ -264,6 +358,10 @@ export default function MarkdownRender() {
   const [visualColor, setVisualColor] = useState('#f59e0b')
   const [visualReplacementText, setVisualReplacementText] = useState('')
   const [visualImageUrl, setVisualImageUrl] = useState('')
+  const [visualPanelPosition, setVisualPanelPosition] = useState<VisualPanelPosition>({
+    x: 8,
+    y: 8,
+  })
 
   useEffect(() => {
     renderedHtmlRef.current = renderedHtml
@@ -621,18 +719,24 @@ export default function MarkdownRender() {
       )
 
   return (
-    <div className="relative flex h-full w-full items-center justify-center">
+    <div
+      ref={previewPanelContainerRef}
+      className="relative flex h-full w-full items-center justify-center"
+    >
       {previewSurface}
       <VisualEditPanel
         enabled={isVisualEditEnabled}
+        containerRef={previewPanelContainerRef}
         selection={visualSelection}
         fontSize={visualFontSize}
         color={visualColor}
+        position={visualPanelPosition}
         replacementText={visualReplacementText}
         imageUrl={visualImageUrl}
         onToggle={handleToggleVisualEdit}
         onFontSizeChange={setVisualFontSize}
         onColorChange={setVisualColor}
+        onPositionChange={setVisualPanelPosition}
         onReplacementTextChange={setVisualReplacementText}
         onImageUrlChange={setVisualImageUrl}
         onApplyTextStyle={handleApplyTextStyle}

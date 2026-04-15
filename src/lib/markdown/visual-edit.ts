@@ -1,3 +1,5 @@
+import { articleBlockTemplates } from '@/config/article-blocks'
+
 export interface VisualEditResult {
   changed: boolean
   markdown: string
@@ -35,6 +37,137 @@ function replaceRange(
     changed: true,
     markdown: `${markdown.slice(0, range.start)}${replacement}${markdown.slice(range.end)}`,
   }
+}
+
+function getArticleBlockReferences(markdown: string): Array<{
+  end: number
+  id: string
+  start: number
+}> {
+  const references: Array<{ end: number, id: string, start: number }> = []
+  const patterns = [
+    /^@组件\[[^\]\n]*\]\(easymd:block\/([a-z0-9-]+)\)\s*$/gm,
+    /^\{\{easymd:block\s+id=["']([a-z0-9-]+)["']\s*\}\}\s*$/gm,
+  ]
+
+  for (const pattern of patterns) {
+    for (const match of markdown.matchAll(pattern)) {
+      if (match.index === undefined || !match[1]) {
+        continue
+      }
+
+      references.push({
+        end: match.index + match[0].length,
+        id: match[1],
+        start: match.index,
+      })
+    }
+  }
+
+  return references.sort((left, right) => left.start - right.start)
+}
+
+function applyToArticleBlockReference(
+  markdown: string,
+  editBlockMarkdown: (blockMarkdown: string) => VisualEditResult,
+): VisualEditResult {
+  const templateById = new Map(articleBlockTemplates.map(template => [template.id, template]))
+
+  for (const reference of getArticleBlockReferences(markdown)) {
+    const template = templateById.get(reference.id)
+    if (!template) {
+      continue
+    }
+
+    const result = editBlockMarkdown(template.markdown)
+    if (!result.changed) {
+      continue
+    }
+
+    return replaceRange(markdown, reference, result.markdown)
+  }
+
+  return { changed: false, markdown }
+}
+
+function isLineBreakTag(tag: string): boolean {
+  return /^<\/?(?:br|p|h[1-6]|section|div|figcaption|li|tr|td|th)\b/i.test(tag)
+}
+
+function buildVisibleTextMap(markdown: string): Array<{ char: string, sourceIndex: number }> {
+  const visible: Array<{ char: string, sourceIndex: number }> = []
+
+  for (let index = 0; index < markdown.length; index += 1) {
+    const char = markdown[index]
+
+    if (char === '<') {
+      const tagEnd = markdown.indexOf('>', index + 1)
+      if (tagEnd !== -1) {
+        const tag = markdown.slice(index, tagEnd + 1)
+        if (isLineBreakTag(tag)) {
+          visible.push({ char: ' ', sourceIndex: index })
+        }
+        index = tagEnd
+        continue
+      }
+    }
+
+    visible.push({ char, sourceIndex: index })
+  }
+
+  return visible
+}
+
+function findMappedTextRange(markdown: string, search: string): { end: number, start: number } | null {
+  const visible = buildVisibleTextMap(markdown)
+
+  for (let start = 0; start < visible.length; start += 1) {
+    let sourceIndex = start
+    let searchIndex = 0
+
+    while (sourceIndex < visible.length && searchIndex < search.length) {
+      const sourceChar = visible[sourceIndex].char
+      const searchChar = search[searchIndex]
+
+      if (/\s/.test(sourceChar)) {
+        if (searchChar !== ' ') {
+          break
+        }
+
+        while (sourceIndex < visible.length && /\s/.test(visible[sourceIndex].char)) {
+          sourceIndex += 1
+        }
+
+        while (search[searchIndex] === ' ') {
+          searchIndex += 1
+        }
+        continue
+      }
+
+      if (sourceChar !== searchChar) {
+        break
+      }
+
+      sourceIndex += 1
+      searchIndex += 1
+    }
+
+    if (searchIndex === search.length) {
+      const firstVisible = visible[start]
+      const lastVisible = visible[Math.max(start, sourceIndex - 1)]
+
+      if (!firstVisible || !lastVisible) {
+        return null
+      }
+
+      return {
+        end: lastVisible.sourceIndex + 1,
+        start: firstVisible.sourceIndex,
+      }
+    }
+  }
+
+  return null
 }
 
 function findTextRange(markdown: string, search: string): { end: number, start: number } | null {
@@ -82,7 +215,7 @@ function findTextRange(markdown: string, search: string): { end: number, start: 
     }
   }
 
-  return null
+  return findMappedTextRange(markdown, search)
 }
 
 function findImageSourceRange(markdown: string, currentSrc: string): { end: number, start: number } | null {
@@ -128,7 +261,7 @@ export function normalizePreviewSelection(text: string): string {
   return text.replace(/\s+/g, ' ').trim()
 }
 
-export function replacePreviewText(
+function replacePreviewTextInSource(
   markdown: string,
   selectedText: string,
   replacementText: string,
@@ -143,7 +276,7 @@ export function replacePreviewText(
   return replaceRange(markdown, findTextRange(markdown, normalizedSelection), normalizedReplacement)
 }
 
-export function applyPreviewTextStyle(
+function applyPreviewTextStyleInSource(
   markdown: string,
   selectedText: string,
   style: TextStylePatch,
@@ -159,7 +292,7 @@ export function applyPreviewTextStyle(
   return replaceRange(markdown, findTextRange(markdown, normalizedSelection), replacement)
 }
 
-export function replacePreviewImageSource(
+function replacePreviewImageSourceInSource(
   markdown: string,
   currentSrc: string,
   nextSrc: string,
@@ -172,4 +305,52 @@ export function replacePreviewImageSource(
   }
 
   return replaceRange(markdown, findImageSourceRange(markdown, normalizedCurrent), normalizedNext)
+}
+
+export function replacePreviewText(
+  markdown: string,
+  selectedText: string,
+  replacementText: string,
+): VisualEditResult {
+  const result = replacePreviewTextInSource(markdown, selectedText, replacementText)
+  if (result.changed) {
+    return result
+  }
+
+  return applyToArticleBlockReference(
+    markdown,
+    blockMarkdown => replacePreviewTextInSource(blockMarkdown, selectedText, replacementText),
+  )
+}
+
+export function applyPreviewTextStyle(
+  markdown: string,
+  selectedText: string,
+  style: TextStylePatch,
+): VisualEditResult {
+  const result = applyPreviewTextStyleInSource(markdown, selectedText, style)
+  if (result.changed) {
+    return result
+  }
+
+  return applyToArticleBlockReference(
+    markdown,
+    blockMarkdown => applyPreviewTextStyleInSource(blockMarkdown, selectedText, style),
+  )
+}
+
+export function replacePreviewImageSource(
+  markdown: string,
+  currentSrc: string,
+  nextSrc: string,
+): VisualEditResult {
+  const result = replacePreviewImageSourceInSource(markdown, currentSrc, nextSrc)
+  if (result.changed) {
+    return result
+  }
+
+  return applyToArticleBlockReference(
+    markdown,
+    blockMarkdown => replacePreviewImageSourceInSource(blockMarkdown, currentSrc, nextSrc),
+  )
 }

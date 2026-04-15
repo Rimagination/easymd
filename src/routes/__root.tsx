@@ -1,7 +1,5 @@
 import type { DetailedHTMLProps, LinkHTMLAttributes, MetaHTMLAttributes } from 'react'
-import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { ThemeProvider } from 'next-themes'
 
 import { NotFound } from '@/components/not-found'
@@ -93,17 +91,6 @@ function RootDocument() {
           <Outlet />
           <ThemeColorMeta />
         </ThemeProvider>
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
         <Scripts />
         <Toaster />
         {analyticsEnabled && (

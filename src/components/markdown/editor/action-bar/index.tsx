@@ -12,7 +12,11 @@ import { FormatButton } from './format-button'
 import { ImportButton } from './import-button'
 import { SettingsMenu } from './settings-menu'
 
-export function EditorActionBar() {
+interface EditorActionBarProps {
+  showBlockSnippetMenu?: boolean
+}
+
+export function EditorActionBar({ showBlockSnippetMenu = true }: EditorActionBarProps) {
   return (
     <TooltipProvider>
       <ImportButton />
@@ -21,7 +25,7 @@ export function EditorActionBar() {
       <FormatButton />
       <SettingsMenu />
       <Separator orientation="vertical" className="mx-2" />
-      <BlockSnippetMenu />
+      {showBlockSnippetMenu && <BlockSnippetMenu />}
       <MarkdownStyleMenu />
       <PaletteRecolorMenu />
       <CustomCssDialog />

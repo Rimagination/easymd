@@ -8,11 +8,11 @@ export function FooterBar() {
     >
       <div className={`
         hidden h-12 items-center gap-4 px-4
-        md:flex
+        lg:flex
       `}
       >
         <div className="flex min-w-0 flex-1 items-center overflow-x-auto">
-          <EditorActionBar />
+          <EditorActionBar showBlockSnippetMenu={false} />
         </div>
         <div className={`
           flex min-w-0 flex-1 items-center justify-end overflow-x-auto
@@ -24,7 +24,7 @@ export function FooterBar() {
 
       <div className={`
         space-y-2 px-3 py-3
-        md:hidden
+        lg:hidden
       `}
       >
         <div className="overflow-x-auto">

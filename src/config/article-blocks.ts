@@ -71,6 +71,131 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
 `.trim(),
   },
   {
+    id: 'title-mint-wave',
+    category: 'title',
+    name: '薄荷波浪标题',
+    description: '清爽柔和，适合生活方式内容',
+    accent: '#7FB8A6',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 28px 0 20px;">
+  <section style="font-size: 0; white-space: nowrap;">
+    <span style="display: inline-block; width: 36px; height: 16px; margin-right: 10px; border-bottom: 3px solid #8bc5b3; border-radius: 50%; vertical-align: middle;"></span>
+    <h2 style="display: inline-block; margin: 0; color: #7fb8a6; font-size: 21px; font-weight: 700; line-height: 1.4; vertical-align: middle;">点击蓝字 关注我们</h2>
+    <span style="display: inline-block; width: 170px; height: 12px; margin-left: 14px; border-bottom: 2px solid #7fb8a6; border-radius: 50%; vertical-align: middle;"></span>
+    <span style="display: inline-block; width: 10px; height: 10px; margin-left: 10px; border-radius: 999px; background: #f3b5c1; vertical-align: middle;"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-brush-underline',
+    category: 'title',
+    name: '黄刷下划线',
+    description: '像荧光笔划过，适合强调关注',
+    accent: '#FACC15',
+    icon: PanelsTopLeft,
+    markdown: `
+<section style="margin: 28px 0 20px; text-align: left;">
+  <section style="display: inline-block; position: relative; padding: 0 46px 6px 8px;">
+    <span style="position: absolute; left: 0; right: 34px; bottom: 5px; z-index: 0; display: block; height: 10px; background: #facc15;"></span>
+    <h2 style="position: relative; z-index: 1; margin: 0; color: #2f3437; font-size: 22px; font-weight: 800; line-height: 1.35;">点击蓝字，关注我们</h2>
+    <span style="position: absolute; right: 14px; top: 7px; width: 16px; height: 16px; border: 4px solid #111827; transform: rotate(24deg);"></span>
+    <span style="position: absolute; right: -14px; top: 24px; width: 22px; height: 18px; border: 4px solid #111827; transform: rotate(-12deg);"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-cyan-dot-line',
+    category: 'title',
+    name: '蓝点长线标题',
+    description: '清晰利落，适合知识类文章',
+    accent: '#17B8C9',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 28px 0 20px;">
+  <h2 style="margin: 0 0 10px; color: #17b8c9; font-size: 23px; font-weight: 800; line-height: 1.35;">点击蓝字 关注我们</h2>
+  <section style="font-size: 0;">
+    <span style="display: inline-block; width: 8px; height: 8px; margin-right: 14px; border-radius: 999px; background: #f08bb3; vertical-align: middle;"></span>
+    <span style="display: inline-block; width: 8px; height: 8px; margin-right: 14px; border-radius: 999px; background: #17b8c9; vertical-align: middle;"></span>
+    <span style="display: inline-block; width: 8px; height: 8px; margin-right: 18px; border-radius: 999px; background: #f5a6c8; vertical-align: middle;"></span>
+    <span style="display: inline-block; width: 270px; height: 1px; background: #17b8c9; vertical-align: middle;"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-pencil-wave',
+    category: 'title',
+    name: '铅笔波浪标题',
+    description: '居中轻快，适合清单和教程',
+    accent: '#6EAEDB',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 30px 0 22px; text-align: center;">
+  <h2 style="display: inline-block; margin: 0; color: #6eaedb; font-size: 23px; font-weight: 800; line-height: 1.35;">点击蓝字 关注我们</h2>
+  <span style="display: inline-block; width: 16px; height: 36px; margin-left: 10px; background: #f7b6c7; transform: rotate(38deg); vertical-align: middle;"></span>
+  <section style="margin-top: 6px;">
+    <span style="display: inline-block; width: 104px; height: 10px; border-bottom: 4px solid #f7c9d0; border-radius: 50%;"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-leaf-rays',
+    category: 'title',
+    name: '青柠放射标题',
+    description: '更活泼，适合活动和新品推送',
+    accent: '#7BAA16',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 30px 0 22px; text-align: center;">
+  <section style="display: inline-block; position: relative; padding: 0 42px;">
+    <span style="position: absolute; left: 12px; top: 4px; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-right: 12px solid #f7d34e; transform: rotate(-22deg);"></span>
+    <span style="position: absolute; right: 10px; top: 4px; width: 0; height: 0; border-top: 12px solid transparent; border-bottom: 12px solid transparent; border-left: 12px solid #f7d34e; transform: rotate(20deg);"></span>
+    <h2 style="margin: 0; color: #7baa16; font-size: 23px; font-weight: 800; line-height: 1.35;">点击蓝字 关注我们</h2>
+    <span style="display: inline-block; width: 120px; height: 10px; margin-top: 5px; border-bottom: 4px solid #d5ea67; border-radius: 50%;"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-ribbon-stack',
+    category: 'title',
+    name: '双色斜切标题',
+    description: '视觉冲击强，适合活动标题',
+    accent: '#6ECBE7',
+    icon: PanelsTopLeft,
+    markdown: `
+<section style="margin: 30px 0 22px; text-align: center;">
+  <section style="display: inline-block; position: relative;">
+    <p style="margin: 0; padding: 8px 30px; background: #6ecbe7; color: #ffffff; font-size: 20px; font-weight: 800; line-height: 1.2; transform: skew(-16deg);"><span style="display: inline-block; transform: skew(16deg);">点击蓝字</span></p>
+    <p style="margin: -2px 0 0 54px; padding: 8px 30px; background: #c7ed18; color: #294324; font-size: 20px; font-weight: 800; line-height: 1.2; transform: skew(-16deg);"><span style="display: inline-block; transform: skew(16deg);">关注我们</span></p>
+    <span style="position: absolute; left: -26px; bottom: 2px; width: 0; height: 0; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-right: 13px solid #8ad5ef;"></span>
+    <span style="position: absolute; right: -24px; top: 12px; width: 0; height: 0; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 13px solid #8ad5ef;"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-flower-line',
+    category: 'title',
+    name: '小花横线标题',
+    description: '低调可爱，适合文末关注',
+    accent: '#436B54',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 28px 0 20px;">
+  <span style="display: inline-block; margin-right: 12px; color: #436b54; font-size: 34px; line-height: 1; vertical-align: middle;">✿</span>
+  <h2 style="display: inline-block; margin: 0; color: #333333; font-size: 22px; font-weight: 500; line-height: 1.35; vertical-align: middle;">点击蓝字 关注我们</h2>
+  <section style="margin-left: 68px; margin-top: 8px;">
+    <span style="display: inline-block; width: 86px; height: 1px; background: #436b54;"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
     id: 'card-highlight-note',
     category: 'card',
     name: '暖色重点卡片',
@@ -97,6 +222,58 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   <p style="margin: 0 0 10px; color: #14532d; line-height: 1.75;"><span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; border-radius: 999px; background: #16a34a; color: #ffffff; font-size: 13px; font-weight: 800; line-height: 24px; text-align: center;">1</span>先写下核心观点。</p>
   <p style="margin: 0 0 10px; color: #14532d; line-height: 1.75;"><span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; border-radius: 999px; background: #16a34a; color: #ffffff; font-size: 13px; font-weight: 800; line-height: 24px; text-align: center;">2</span>补充案例或证据。</p>
   <p style="margin: 0; color: #14532d; line-height: 1.75;"><span style="display: inline-block; width: 24px; height: 24px; margin-right: 8px; border-radius: 999px; background: #16a34a; color: #ffffff; font-size: 13px; font-weight: 800; line-height: 24px; text-align: center;">3</span>给读者一个明确行动。</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-red-brackets',
+    category: 'card',
+    name: '红色括号卡片',
+    description: '适合强调一段金句或摘要',
+    accent: '#DC2626',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 18px 22px; border-left: 4px solid #dc2626; border-right: 4px solid #dc2626; border-radius: 16px; background: #ffffff;">
+  <p style="margin: 0; color: #4b5563; font-size: 15px; line-height: 1.85;">敢强，但敢之强已为其他不利的因素减杀。不过此时还没有减杀到已以破坏改之优势的必要程度。</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-soft-ticket',
+    category: 'card',
+    name: '柔色票券卡片',
+    description: '适合短句、活动提示和重点信息',
+    accent: '#F1E8E5',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 18px 22px; border-radius: 18px; background: #f1e8e5; text-align: center;">
+  <p style="margin: 0; color: #4b5563; font-size: 15px; line-height: 1.8;">输入文字输入文字<br />输入文字输入文字</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-corner-frame',
+    category: 'card',
+    name: '折角边框卡片',
+    description: '轻量边框，适合清单和摘录',
+    accent: '#9CA3AF',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 18px 22px; border: 1px solid #cbd5e1; background: #ffffff;">
+  <p style="margin: 0; color: #4b5563; font-size: 15px; line-height: 1.8; text-align: center;">输入文字输入文字<br />输入文字输入文字</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-yellow-corners',
+    category: 'card',
+    name: '黄色折角卡片',
+    description: '醒目但不重，适合提示框',
+    accent: '#FDE68A',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 18px 22px; background: #fde68a; text-align: center;">
+  <p style="margin: 0; color: #4b5563; font-size: 15px; line-height: 1.8;">输入文字输入文字<br />输入文字输入文字</p>
 </section>
 `.trim(),
   },

@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
+import { ArticleBlockLibrary } from '@/components/markdown/article-block-library'
 import MarkdownEditor from '@/components/markdown/editor'
 import { FooterBar } from '@/components/markdown/footer-bar'
 import MarkdownPreviewer from '@/components/markdown/previewer'
@@ -33,7 +34,7 @@ function App() {
       />
 
       <main className={`
-        relative mx-auto flex h-screen max-w-[1800px] flex-col p-2
+        relative mx-auto flex h-screen max-w-[1920px] flex-col p-2
         sm:p-3
         lg:p-4
       `}
@@ -46,7 +47,7 @@ function App() {
         >
           <div className={`
             border-b border-border/70 bg-background/90 p-3
-            md:hidden
+            lg:hidden
           `}
           >
             <div className={`
@@ -76,22 +77,26 @@ function App() {
               tagName="div"
               className={`
                 hidden h-full
-                md:flex
+                lg:flex
               `}
               direction="horizontal"
             >
-              <ResizablePanel defaultSize={50} style={{ minWidth: 360 }}>
+              <ResizablePanel defaultSize={18} style={{ minWidth: 280 }}>
+                <ArticleBlockLibrary />
+              </ResizablePanel>
+              <ResizableHandle />
+              <ResizablePanel defaultSize={41} style={{ minWidth: 360 }}>
                 <MarkdownEditor />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={50} style={{ minWidth: 360 }}>
+              <ResizablePanel defaultSize={41} style={{ minWidth: 360 }}>
                 <MarkdownPreviewer />
               </ResizablePanel>
             </ResizablePanelGroup>
 
             <div className={`
               relative h-full
-              md:hidden
+              lg:hidden
             `}
             >
               <div className={cn('absolute inset-0', mobilePanel === 'editor'

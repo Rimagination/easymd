@@ -47,6 +47,17 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('列B')
   })
 
+  it('preserves styled article block HTML for reusable snippets', async () => {
+    const markdown = '<section style="margin: 20px 0"><h2 style="color: #111">Title</h2><img src="https://example.com/a.png" alt="demo" style="width: 100%" /></section>'
+    const html = await render({ markdown })
+
+    expect(html).toContain('style="margin: 20px 0"')
+    expect(html).toContain('style="color: #111"')
+    expect(html).toContain('src="https://example.com/a.png"')
+    expect(html).toContain('alt="demo"')
+    expect(html).toContain('style="width: 100%"')
+  })
+
   it('applies code highlighting classes', async () => {
     const markdown = '```javascript\nconst x = 1\n```'
     const html = await render({ markdown })

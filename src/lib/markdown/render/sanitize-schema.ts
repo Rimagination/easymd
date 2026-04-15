@@ -1,5 +1,8 @@
 import { defaultSchema } from 'rehype-sanitize'
 
+const styledBlockAttributes = ['className', 'style']
+const styledImageAttributes = ['className', 'style', 'src', 'alt', 'title', 'width', 'height']
+
 /**
  * Sanitize schema for rehype-sanitize
  *
@@ -10,6 +13,7 @@ export const sanitizeSchema = {
   protocols: {
     ...(defaultSchema.protocols || {}),
     href: ['http', 'https', 'mailto', 'tel'],
+    src: ['http', 'https'],
   },
   tagNames: [
     ...(defaultSchema.tagNames || []),
@@ -20,9 +24,14 @@ export const sanitizeSchema = {
   attributes: {
     ...defaultSchema.attributes,
     a: [...(defaultSchema.attributes?.a || []), 'target', 'rel'],
-    div: [...(defaultSchema.attributes?.div || []), 'className'],
-    section: [...(defaultSchema.attributes?.section || []), 'className'],
-    p: [...(defaultSchema.attributes?.p || []), 'className'],
-    figure: [...(defaultSchema.attributes?.figure || []), 'className'],
+    div: [...(defaultSchema.attributes?.div || []), ...styledBlockAttributes],
+    figcaption: [...(defaultSchema.attributes?.figcaption || []), ...styledBlockAttributes],
+    figure: [...(defaultSchema.attributes?.figure || []), ...styledBlockAttributes],
+    h2: [...(defaultSchema.attributes?.h2 || []), ...styledBlockAttributes],
+    h3: [...(defaultSchema.attributes?.h3 || []), ...styledBlockAttributes],
+    img: [...(defaultSchema.attributes?.img || []), ...styledImageAttributes],
+    p: [...(defaultSchema.attributes?.p || []), ...styledBlockAttributes],
+    section: [...(defaultSchema.attributes?.section || []), ...styledBlockAttributes],
+    span: [...(defaultSchema.attributes?.span || []), ...styledBlockAttributes],
   },
 }

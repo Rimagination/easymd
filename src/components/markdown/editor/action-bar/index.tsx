@@ -6,6 +6,7 @@ import { InfographicSettingsMenu } from '../../previewer/action-bar/infographic-
 import { MarkdownStyleMenu } from '../../previewer/action-bar/markdown-style-menu'
 import { MermaidThemeMenu } from '../../previewer/action-bar/mermaid-theme-menu'
 import { PaletteRecolorMenu } from '../../previewer/action-bar/palette-recolor-menu'
+import { BlockSnippetMenu } from './block-snippet-menu'
 import { ExportButton } from './export-button'
 import { FormatButton } from './format-button'
 import { ImportButton } from './import-button'
@@ -20,6 +21,7 @@ export function EditorActionBar() {
       <FormatButton />
       <SettingsMenu />
       <Separator orientation="vertical" className="mx-2" />
+      <BlockSnippetMenu />
       <MarkdownStyleMenu />
       <PaletteRecolorMenu />
       <CustomCssDialog />

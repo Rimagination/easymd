@@ -34,13 +34,11 @@ function App() {
       />
 
       <main className={`
-        relative mx-auto flex h-screen max-w-[1920px] flex-col p-2
-        sm:p-3
-        lg:p-4
+        easymd-shell relative mx-auto flex h-screen max-w-[1920px] flex-col
       `}
       >
         <section className={`
-          flex min-h-0 flex-1 flex-col overflow-hidden rounded-[1.5rem] border
+          easymd-workspace flex min-h-0 flex-1 flex-col overflow-hidden border
           border-border/70 bg-background/95
           shadow-[0_24px_70px_rgb(0_0_0_/_0.12)] backdrop-blur-xl
         `}
@@ -81,15 +79,15 @@ function App() {
               `}
               direction="horizontal"
             >
-              <ResizablePanel defaultSize={18} style={{ minWidth: 280 }}>
+              <ResizablePanel defaultSize={20} style={{ minWidth: 240 }}>
                 <ArticleBlockLibrary />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={41} style={{ minWidth: 360 }}>
+              <ResizablePanel defaultSize={40} style={{ minWidth: 320 }}>
                 <MarkdownEditor />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={41} style={{ minWidth: 360 }}>
+              <ResizablePanel defaultSize={40} style={{ minWidth: 320 }}>
                 <MarkdownPreviewer />
               </ResizablePanel>
             </ResizablePanelGroup>

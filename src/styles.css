@@ -51,6 +51,15 @@
   --info: var(--ayu-light-info);
   --info-foreground: var(--ayu-light-info-foreground);
   --editor: var(--ayu-light-editor);
+  --workspace-padding: 0.75rem;
+  --workspace-radius: 1.25rem;
+  --toolbar-height: 2.75rem;
+  --toolbar-padding-x: 0.75rem;
+  --file-tabs-height: 2rem;
+  --preview-gutter: 0.75rem;
+  --block-preview-height: 5.5rem;
+  --block-preview-width: 540px;
+  --block-preview-scale: 0.36;
 }
 
 .dark {
@@ -93,6 +102,33 @@
   --info: var(--ayu-mirage-info);
   --info-foreground: var(--ayu-mirage-info-foreground);
   --editor: var(--ayu-mirage-editor);
+}
+
+@media (min-width: 1024px) and (max-height: 860px), (min-width: 1024px) and (max-width: 1440px) {
+  :root {
+    --workspace-padding: 0.5rem;
+    --workspace-radius: 1rem;
+    --toolbar-height: 2.5rem;
+    --toolbar-padding-x: 0.5rem;
+    --file-tabs-height: 1.875rem;
+    --preview-gutter: 0.5rem;
+    --block-preview-height: 4.75rem;
+    --block-preview-width: 560px;
+    --block-preview-scale: 0.31;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 740px) {
+  :root {
+    --workspace-padding: 0.25rem;
+    --workspace-radius: 0.75rem;
+    --toolbar-height: 2.25rem;
+    --toolbar-padding-x: 0.375rem;
+    --file-tabs-height: 1.75rem;
+    --preview-gutter: 0.375rem;
+    --block-preview-height: 4.25rem;
+    --block-preview-scale: 0.28;
+  }
 }
 
 @theme inline {
@@ -203,5 +239,35 @@
 
   .animate-wave-bounce {
     animation: wave-bounce 1s ease-in-out infinite;
+  }
+
+  .easymd-shell {
+    padding: var(--workspace-padding);
+  }
+
+  .easymd-workspace {
+    border-radius: var(--workspace-radius);
+  }
+
+  .easymd-toolbar-desktop {
+    height: var(--toolbar-height);
+    padding-inline: var(--toolbar-padding-x);
+  }
+
+  .easymd-file-tabs {
+    height: var(--file-tabs-height);
+  }
+
+  .easymd-preview-stage {
+    padding: var(--preview-gutter);
+  }
+
+  .easymd-block-preview {
+    height: var(--block-preview-height);
+  }
+
+  .easymd-block-preview-content {
+    width: var(--block-preview-width);
+    transform: scale(var(--block-preview-scale));
   }
 }

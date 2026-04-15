@@ -54,12 +54,18 @@ export function FileTabs() {
 
   if (!isInitialized) {
     return (
-      <div className="flex h-8 shrink-0 items-center border-b bg-muted/30 px-1" />
+      <div className={`
+        easymd-file-tabs flex shrink-0 items-center border-b bg-muted/30 px-1
+      `}
+      />
     )
   }
 
   return (
-    <div className="flex h-8 shrink-0 items-center border-b bg-muted/30">
+    <div className={`
+      easymd-file-tabs flex shrink-0 items-center border-b bg-muted/30
+    `}
+    >
       <div
         role="tablist"
         aria-label="打开的文件"

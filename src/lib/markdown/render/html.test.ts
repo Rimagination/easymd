@@ -58,6 +58,18 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('style="width: 100%"')
   })
 
+  it('preserves safe animated SVG for reusable interaction snippets', async () => {
+    const markdown = '<section style="text-align: center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 48"><g transform="translate(24 24)"><circle cx="0" cy="0" r="12" fill="#fb5a78"><animate attributeName="opacity" values="0.6;1;0.6" dur="1s" repeatCount="indefinite" /></circle><animateTransform attributeName="transform" type="translate" values="24 24;24 18;24 24" dur="1s" repeatCount="indefinite" /></g><text x="48" y="29" font-size="16" font-weight="800" fill="#111827">点赞</text></svg><script>alert(1)</script></section>'
+    const html = await render({ markdown })
+
+    expect(html).toContain('<svg')
+    expect(html).toContain('<animate')
+    expect(html).toContain('<animateTransform')
+    expect(html).toContain('repeatCount="indefinite"')
+    expect(html).toContain('点赞')
+    expect(html).not.toContain('<script')
+  })
+
   it('applies code highlighting classes', async () => {
     const markdown = '```javascript\nconst x = 1\n```'
     const html = await render({ markdown })

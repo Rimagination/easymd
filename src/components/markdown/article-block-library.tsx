@@ -1,9 +1,8 @@
 import type { ArticleBlockCategory, ArticleBlockTemplate } from '@/config/article-blocks'
 /* eslint-disable react-dom/no-dangerously-set-innerhtml -- Previews render trusted local article block templates. */
-import { Plus, Sparkles } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
-import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { articleBlockCategories, articleBlockTemplates } from '@/config/article-blocks'
 import { trackEvent } from '@/lib/analytics'
@@ -70,17 +69,17 @@ function ArticleBlockCard({
   template: ArticleBlockTemplate
   onInserted?: () => void
 }) {
-  const Icon = template.icon
-
   const handleInsert = () => insertArticleBlock(template, onInserted)
 
   return (
     <article
       role="button"
       tabIndex={0}
+      title={`${template.name}：${template.description}`}
+      aria-label={`插入${template.name}`}
       className={`
-        group cursor-pointer rounded-none border border-border bg-background
-        p-2.5 text-left transition-colors
+        group cursor-pointer rounded-none border border-border/80 bg-background
+        p-1.5 text-left transition-colors
         hover:border-primary/50 hover:bg-muted/70
         focus-visible:border-ring focus-visible:ring-1
         focus-visible:ring-ring/50 focus-visible:outline-none
@@ -93,35 +92,18 @@ function ArticleBlockCard({
         }
       }}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5">
         <span
-          className={`
-            flex size-8 shrink-0 items-center justify-center rounded-none border
-          `}
+          className="size-2.5 shrink-0 rounded-full"
           style={{
-            backgroundColor: `${template.accent}14`,
-            borderColor: `${template.accent}55`,
-            color: template.accent,
+            backgroundColor: template.accent,
           }}
-        >
-          <Icon className="size-4" />
-        </span>
+        />
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-1.5">
-            <span className="truncate text-xs font-semibold">{template.name}</span>
-            <Badge variant="outline" className="h-4 px-1.5 text-[10px]">
-              插入
-            </Badge>
-          </span>
-          <span className={`
-            mt-0.5 block truncate text-[11px] text-muted-foreground
-          `}
-          >
-            {template.description}
-          </span>
+          <span className="block truncate text-[11px] font-medium">{template.name}</span>
         </span>
         <Plus className={`
-          size-4 text-muted-foreground transition-colors
+          size-3.5 text-muted-foreground transition-colors
           group-hover:text-primary
         `}
         />
@@ -129,13 +111,14 @@ function ArticleBlockCard({
 
       <div
         className={`
-          mt-2 h-28 overflow-hidden border border-border/70 bg-white p-2
-          shadow-inner
+          easymd-block-preview mt-1 overflow-hidden border border-border/60
+          bg-white p-1 shadow-inner
         `}
       >
         <div
-          className="pointer-events-none origin-top-left"
-          style={{ width: 520, transform: 'scale(0.45)' }}
+          className={`
+            easymd-block-preview-content pointer-events-none origin-top-left
+          `}
           dangerouslySetInnerHTML={{ __html: template.markdown }}
         />
       </div>
@@ -154,6 +137,22 @@ export function ArticleBlockLibrary({
     () => articleBlockTemplates.filter(template => template.category === activeCategory),
     [activeCategory],
   )
+  const categoryCounts = useMemo(
+    () => articleBlockTemplates.reduce<Record<ArticleBlockCategory, number>>((counts, template) => {
+      counts[template.category] += 1
+      return counts
+    }, {
+      title: 0,
+      card: 0,
+      image: 0,
+      follow: 0,
+      interaction: 0,
+    }),
+    [],
+  )
+  const activeCategoryName = articleBlockCategories.find(
+    category => category.id === activeCategory,
+  )?.name
 
   return (
     <aside
@@ -166,34 +165,28 @@ export function ArticleBlockLibrary({
       <header className={cn(
         'shrink-0 border-b border-border/70',
         isPanel
-          ? 'space-y-3 p-4'
-          : 'space-y-3 p-3 pb-2',
+          ? 'space-y-2 p-2.5'
+          : 'space-y-2 p-2',
       )}
       >
-        <div className="flex items-start gap-2">
-          <span className={`
-            mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-none
-            bg-primary/10 text-primary
-          `}
-          >
-            <Sparkles className="size-4" />
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-semibold text-foreground">组件</p>
+          <span className="text-[10px] text-muted-foreground">
+            {activeCategoryName}
+            {' '}
+            ·
+            {visibleTemplates.length}
           </span>
-          <div className="min-w-0">
-            <p className="text-sm font-semibold">组件库</p>
-            <p className="mt-1 text-xs/relaxed text-muted-foreground">
-              参考秀米的素材库思路，点击样式即可插入到当前光标。
-            </p>
-          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-1.5">
+        <div className="grid grid-cols-3 gap-1">
           {articleBlockCategories.map(category => (
             <button
               key={category.id}
               type="button"
               className={cn(
                 `
-                  rounded-none border px-2 py-2 text-left text-xs
+                  rounded-none border px-1.5 py-1 text-left text-[11px]
                   transition-colors
                 `,
                 activeCategory === category.id
@@ -206,15 +199,9 @@ export function ArticleBlockLibrary({
               onClick={() => setActiveCategory(category.id)}
               aria-pressed={activeCategory === category.id}
             >
-              <span className="block font-medium">{category.name}</span>
-              <span className={cn(
-                'mt-1 block truncate text-[10px]',
-                activeCategory === category.id
-                  ? 'text-primary-foreground/80'
-                  : 'text-muted-foreground',
-              )}
-              >
-                {category.description}
+              <span className="flex items-center justify-between gap-1">
+                <span className="truncate font-medium">{category.name}</span>
+                <span className="text-[9px] opacity-70">{categoryCounts[category.id]}</span>
               </span>
             </button>
           ))}
@@ -223,10 +210,10 @@ export function ArticleBlockLibrary({
 
       <ScrollArea className="min-h-0 flex-1">
         <div className={cn(
-          'grid gap-2.5',
+          'grid gap-1.5',
           isPanel
-            ? 'p-3'
-            : 'px-3 pb-3',
+            ? 'p-2'
+            : 'px-2 pb-2',
         )}
         >
           {visibleTemplates.map(template => (

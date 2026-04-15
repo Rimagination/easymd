@@ -7,7 +7,7 @@ export function FooterBar() {
       className="shrink-0 border-t bg-background/95 backdrop-blur"
     >
       <div className={`
-        hidden h-12 items-center gap-4 px-4
+        easymd-toolbar-desktop hidden items-center gap-2
         lg:flex
       `}
       >

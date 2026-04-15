@@ -42,7 +42,7 @@ export default function MarkdownPreviewer() {
     <div className="flex h-full w-full overflow-hidden bg-editor">
       <div
         ref={containerRef}
-        className="flex flex-1 items-center justify-center p-4"
+        className="easymd-preview-stage flex flex-1 items-center justify-center"
       >
         <ClientOnly fallback={<PreviewerFallback />}>
           <MarkdownRender />

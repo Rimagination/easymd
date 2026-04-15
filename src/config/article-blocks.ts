@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react'
-import { Heading2, Image, MessageSquareText, PanelsTopLeft, SquareStack } from 'lucide-react'
+import { Heading2, Image, MessageCircleHeart, MessageSquareText, PanelsTopLeft, SquareStack } from 'lucide-react'
 
-export type ArticleBlockCategory = 'title' | 'card' | 'image' | 'follow'
+export type ArticleBlockCategory = 'title' | 'card' | 'image' | 'follow' | 'interaction'
 
 export interface ArticleBlockTemplate {
   id: string
@@ -38,6 +38,11 @@ export const articleBlockCategories: Array<{
     name: '引导关注',
     description: '适合文末关注与行动召唤',
   },
+  {
+    id: 'interaction',
+    name: '文末互动',
+    description: '点赞、分享、在看等动态组件',
+  },
 ]
 
 export const articleBlockTemplates: ArticleBlockTemplate[] = [
@@ -72,7 +77,7 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   },
   {
     id: 'title-mint-wave',
-    category: 'title',
+    category: 'follow',
     name: '薄荷波浪标题',
     description: '清爽柔和，适合生活方式内容',
     accent: '#7FB8A6',
@@ -90,7 +95,7 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   },
   {
     id: 'title-brush-underline',
-    category: 'title',
+    category: 'follow',
     name: '黄刷下划线',
     description: '像荧光笔划过，适合强调关注',
     accent: '#FACC15',
@@ -108,7 +113,7 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   },
   {
     id: 'title-cyan-dot-line',
-    category: 'title',
+    category: 'follow',
     name: '蓝点长线标题',
     description: '清晰利落，适合知识类文章',
     accent: '#17B8C9',
@@ -127,7 +132,7 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   },
   {
     id: 'title-pencil-wave',
-    category: 'title',
+    category: 'follow',
     name: '铅笔波浪标题',
     description: '居中轻快，适合清单和教程',
     accent: '#6EAEDB',
@@ -144,7 +149,7 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   },
   {
     id: 'title-leaf-rays',
-    category: 'title',
+    category: 'follow',
     name: '青柠放射标题',
     description: '更活泼，适合活动和新品推送',
     accent: '#7BAA16',
@@ -162,7 +167,7 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   },
   {
     id: 'title-ribbon-stack',
-    category: 'title',
+    category: 'follow',
     name: '双色斜切标题',
     description: '视觉冲击强，适合活动标题',
     accent: '#6ECBE7',
@@ -180,7 +185,7 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   },
   {
     id: 'title-flower-line',
-    category: 'title',
+    category: 'follow',
     name: '小花横线标题',
     description: '低调可爱，适合文末关注',
     accent: '#436B54',
@@ -335,6 +340,180 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
   <p style="margin: 0 0 10px; color: #166534; font-size: 18px; font-weight: 800;">扫码关注，不错过下一篇</p>
   <img src="https://placehold.co/240x240/png?text=QR" alt="替换为二维码" style="display: block; width: 138px; height: 138px; margin: 0 auto 10px; border-radius: 12px;" />
   <p style="margin: 0; color: #15803d; font-size: 13px; line-height: 1.7;">把这里替换成你的公众号、知乎或个人介绍。</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-floating-asks',
+    category: 'interaction',
+    name: '三连求一求',
+    description: '点赞、分享、喜欢三个气泡轻轻浮动',
+    accent: '#111827',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 112" width="100%" height="112" style="display: block; max-width: 360px; margin: 0 auto;">
+    <g transform="translate(65 55)">
+      <circle cx="0" cy="22" r="26" fill="#f4f4f5" opacity="0.95">
+        <animate attributeName="opacity" values="0.72;1;0.72" dur="1.8s" repeatCount="indefinite" />
+      </circle>
+      <path d="M-37 -28 H37 Q45 -28 45 -20 V-4 Q45 4 37 4 H10 L2 16 L-6 4 H-37 Q-45 4 -45 -4 V-20 Q-45 -28 -37 -28Z" fill="#111827" />
+      <text x="0" y="-10" fill="#ffffff" font-size="15" font-weight="800" text-anchor="middle">求点赞</text>
+      <path d="M-7 20 C-13 15 -21 18 -21 27 C-21 39 0 50 0 50 C0 50 21 39 21 27 C21 18 13 15 7 20 C4 16 -4 16 -7 20Z" fill="#d4d4d8" />
+      <animateTransform attributeName="transform" type="translate" values="65 59;65 49;65 59" dur="1.8s" repeatCount="indefinite" />
+    </g>
+    <g transform="translate(180 55)">
+      <circle cx="0" cy="22" r="26" fill="#f4f4f5" opacity="0.9">
+        <animate attributeName="opacity" values="0.62;1;0.62" dur="2s" begin="0.25s" repeatCount="indefinite" />
+      </circle>
+      <path d="M-37 -28 H37 Q45 -28 45 -20 V-4 Q45 4 37 4 H10 L2 16 L-6 4 H-37 Q-45 4 -45 -4 V-20 Q-45 -28 -37 -28Z" fill="#374151" />
+      <text x="0" y="-10" fill="#ffffff" font-size="15" font-weight="800" text-anchor="middle">求分享</text>
+      <path d="M-18 32 C-2 16 12 14 23 18 L14 8 L36 12 L28 34 L22 23 C12 22 0 27 -12 40Z" fill="#e5e7eb" />
+      <animateTransform attributeName="transform" type="translate" values="180 54;180 45;180 54" dur="2s" begin="0.25s" repeatCount="indefinite" />
+    </g>
+    <g transform="translate(295 55)">
+      <circle cx="0" cy="22" r="26" fill="#f4f4f5" opacity="0.95">
+        <animate attributeName="opacity" values="0.72;1;0.72" dur="1.9s" begin="0.5s" repeatCount="indefinite" />
+      </circle>
+      <path d="M-37 -28 H37 Q45 -28 45 -20 V-4 Q45 4 37 4 H10 L2 16 L-6 4 H-37 Q-45 4 -45 -4 V-20 Q-45 -28 -37 -28Z" fill="#111827" />
+      <text x="0" y="-10" fill="#ffffff" font-size="15" font-weight="800" text-anchor="middle">求喜欢</text>
+      <path d="M-22 21 Q0 1 22 21 Q0 50 -22 21Z" fill="none" stroke="#9ca3af" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <animateTransform attributeName="transform" type="translate" values="295 58;295 48;295 58" dur="1.9s" begin="0.5s" repeatCount="indefinite" />
+    </g>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-outline-buttons',
+    category: 'interaction',
+    name: '手绘互动按钮',
+    description: '黑白描边气泡，适合简洁文末',
+    accent: '#111827',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" width="100%" height="96" style="display: block; max-width: 360px; margin: 0 auto;">
+    <g transform="translate(70 42)">
+      <path d="M-47 -17 Q-44 -28 -28 -28 H28 Q44 -28 47 -17 Q50 -4 39 8 H11 L4 23 L-4 8 H-39 Q-50 -4 -47 -17Z" fill="#ffffff" stroke="#111827" stroke-width="3" stroke-linejoin="round" />
+      <text x="0" y="0" fill="#111827" font-size="22" font-weight="900" text-anchor="middle">点赞</text>
+      <animateTransform attributeName="transform" type="translate" values="70 44;70 36;70 44" dur="1.6s" repeatCount="indefinite" />
+    </g>
+    <g transform="translate(180 42)">
+      <path d="M-47 -17 Q-44 -28 -28 -28 H28 Q44 -28 47 -17 Q50 -4 39 8 H11 L4 23 L-4 8 H-39 Q-50 -4 -47 -17Z" fill="#ffffff" stroke="#111827" stroke-width="3" stroke-linejoin="round" />
+      <text x="0" y="0" fill="#111827" font-size="22" font-weight="900" text-anchor="middle">分享</text>
+      <animateTransform attributeName="transform" type="translate" values="180 42;180 34;180 42" dur="1.8s" begin="0.2s" repeatCount="indefinite" />
+    </g>
+    <g transform="translate(290 42)">
+      <path d="M-47 -17 Q-44 -28 -28 -28 H28 Q44 -28 47 -17 Q50 -4 39 8 H11 L4 23 L-4 8 H-39 Q-50 -4 -47 -17Z" fill="#ffffff" stroke="#111827" stroke-width="3" stroke-linejoin="round" />
+      <text x="0" y="0" fill="#111827" font-size="22" font-weight="900" text-anchor="middle">喜欢</text>
+      <animateTransform attributeName="transform" type="translate" values="290 45;290 37;290 45" dur="1.7s" begin="0.4s" repeatCount="indefinite" />
+    </g>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-pastel-bubbles',
+    category: 'interaction',
+    name: '马卡龙三连',
+    description: '柔和色块交替呼吸，适合生活方式内容',
+    accent: '#8BD3E6',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" width="100%" height="96" style="display: block; max-width: 360px; margin: 0 auto;">
+    <g transform="translate(72 43)">
+      <path d="M-42 -19 H34 Q44 -19 44 -9 V11 Q44 21 34 21 H9 L3 34 L-4 21 H-34 Q-44 21 -44 11 V-9 Q-44 -19 -42 -19Z" fill="#f8c8d6" />
+      <text x="0" y="7" fill="#ffffff" font-size="24" font-weight="900" text-anchor="middle">点赞</text>
+      <animateTransform attributeName="transform" type="translate" values="72 45;72 38;72 45" dur="1.7s" repeatCount="indefinite" />
+    </g>
+    <g transform="translate(180 43)">
+      <path d="M-42 -19 H34 Q44 -19 44 -9 V11 Q44 21 34 21 H9 L3 34 L-4 21 H-34 Q-44 21 -44 11 V-9 Q-44 -19 -42 -19Z" fill="#9dd7ea" />
+      <text x="0" y="7" fill="#ffffff" font-size="24" font-weight="900" text-anchor="middle">分享</text>
+      <animateTransform attributeName="transform" type="translate" values="180 42;180 35;180 42" dur="1.9s" begin="0.2s" repeatCount="indefinite" />
+    </g>
+    <g transform="translate(288 43)">
+      <path d="M-42 -19 H34 Q44 -19 44 -9 V11 Q44 21 34 21 H9 L3 34 L-4 21 H-34 Q-44 21 -44 11 V-9 Q-44 -19 -42 -19Z" fill="#a6dfe6" />
+      <text x="0" y="7" fill="#ffffff" font-size="24" font-weight="900" text-anchor="middle">喜欢</text>
+      <animateTransform attributeName="transform" type="translate" values="288 46;288 39;288 46" dur="1.8s" begin="0.4s" repeatCount="indefinite" />
+    </g>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-look-heart',
+    category: 'interaction',
+    name: '点个看一看',
+    description: '文末一句话加跳动爱心',
+    accent: '#FB5A78',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 104" width="100%" height="104" style="display: block; max-width: 360px; margin: 0 auto;">
+    <text x="162" y="58" fill="#374151" font-size="22" font-weight="900" text-anchor="middle">点个“看一看”吧</text>
+    <g transform="translate(292 36)">
+      <path d="M0 9 C0 -3 14 -8 22 3 C30 -8 44 -3 44 9 C44 28 22 42 22 42 C22 42 0 28 0 9Z" fill="#fb5a78">
+        <animate attributeName="opacity" values="0.82;1;0.82" dur="1.1s" repeatCount="indefinite" />
+      </path>
+      <animateTransform attributeName="transform" type="translate" values="292 38;292 31;292 38" dur="1.1s" repeatCount="indefinite" />
+    </g>
+    <circle cx="332" cy="29" r="4" fill="#fb7185">
+      <animate attributeName="opacity" values="0;1;0" dur="1.1s" begin="0.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="318" cy="18" r="3" fill="#fda4af">
+      <animate attributeName="opacity" values="0;1;0" dur="1.1s" begin="0.45s" repeatCount="indefinite" />
+    </circle>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-comment-dots',
+    category: 'interaction',
+    name: '留言冒泡',
+    description: '用跳动省略号邀请读者评论',
+    accent: '#14B8A6',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 104" width="100%" height="104" style="display: block; max-width: 360px; margin: 0 auto;">
+    <path d="M46 20 H314 Q330 20 330 36 V58 Q330 74 314 74 H204 L184 92 L170 74 H46 Q30 74 30 58 V36 Q30 20 46 20Z" fill="#ecfeff" stroke="#14b8a6" stroke-width="3" stroke-linejoin="round" />
+    <text x="146" y="54" fill="#0f766e" font-size="21" font-weight="900" text-anchor="middle">留言聊聊你的想法</text>
+    <circle cx="250" cy="48" r="5" fill="#14b8a6">
+      <animate attributeName="cy" values="48;40;48" dur="1s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="270" cy="48" r="5" fill="#14b8a6">
+      <animate attributeName="cy" values="48;40;48" dur="1s" begin="0.16s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="290" cy="48" r="5" fill="#14b8a6">
+      <animate attributeName="cy" values="48;40;48" dur="1s" begin="0.32s" repeatCount="indefinite" />
+    </circle>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-share-ribbon',
+    category: 'interaction',
+    name: '转发小纸条',
+    description: '轻快飘动的转发提醒',
+    accent: '#F59E0B',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 112" width="100%" height="112" style="display: block; max-width: 360px; margin: 0 auto;">
+    <g transform="translate(180 56)">
+      <path d="M-130 -22 H108 L130 0 L108 22 H-130 L-108 0Z" fill="#fff7ed" stroke="#f59e0b" stroke-width="3" stroke-linejoin="round" />
+      <text x="-4" y="8" fill="#b45309" font-size="22" font-weight="900" text-anchor="middle">转发给需要的朋友</text>
+      <animateTransform attributeName="transform" type="translate" values="180 58;180 50;180 58" dur="1.7s" repeatCount="indefinite" />
+    </g>
+    <path d="M288 27 C310 21 324 30 332 47" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8">
+      <animate attributeName="stroke-dashoffset" values="16;0;16" dur="1.4s" repeatCount="indefinite" />
+    </path>
+    <path d="M326 47 L333 48 L329 39" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
 </section>
 `.trim(),
   },

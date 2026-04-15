@@ -202,8 +202,8 @@ export default function MarkdownRender() {
   const iframeContent = (
     <iframe
       ref={iframeRef}
-      id="bm-preview-iframe"
-      title="markdown preview"
+      id="easymd-preview-iframe"
+      title="Markdown 预览"
       className="h-full w-full border-0"
       sandbox="allow-same-origin allow-modals"
       srcDoc={iframeShell}

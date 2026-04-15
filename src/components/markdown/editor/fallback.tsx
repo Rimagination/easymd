@@ -5,26 +5,10 @@ export function EditorFallback() {
       p-4 backdrop-blur-sm select-none
     `}
     >
-      <div className={`
-        doto-font flex text-7xl font-bold text-muted-foreground/30
-        md:text-9xl
-      `}
-      >
-        <span className={`
-          animate-wave-bounce
-          [animation-delay:0s]
-        `}
-        >
-          b
-        </span>
-        <span className={`
-          animate-wave-bounce
-          [animation-delay:0.1s]
-        `}
-        >
-          m
-        </span>
-      </div>
+      <p className="doto-font text-5xl font-bold text-muted-foreground/25">
+        easymd
+      </p>
+      <p className="mt-3 text-xs text-muted-foreground">编辑器加载中...</p>
     </div>
   )
 }

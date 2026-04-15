@@ -42,20 +42,20 @@ interface ExternalNavItem {
 
 export const platformConfig = {
   wechat: {
-    label: 'Copy as WeChat format',
-    successMessage: 'Copied as WeChat format',
+    label: '导出到微信',
+    successMessage: '已复制微信格式',
     icon: 'Wechat',
     hotkey: { key: '7', shift: true },
   },
   zhihu: {
-    label: 'Copy as Zhihu format',
-    successMessage: 'Copied as Zhihu format',
+    label: '导出到知乎',
+    successMessage: '已复制知乎格式',
     icon: 'Zhihu',
     hotkey: { key: '8', shift: true },
   },
   html: {
-    label: 'Copy HTML',
-    successMessage: 'Copied HTML',
+    label: '导出 HTML',
+    successMessage: '已复制 HTML',
     icon: 'Code2',
     hotkey: { key: '0', shift: true },
   },
@@ -67,39 +67,39 @@ export const supportedPlatforms = Object.keys(platformConfig) as SupportedPlatfo
 
 export const editorCommandConfig = {
   import: {
-    label: 'Import file',
+    label: '导入文件',
     icon: 'FileUp' as IconName,
     hotkey: { key: 'o', shift: false },
   },
   export: {
-    label: 'Export Markdown',
+    label: '导出 Markdown',
     icon: 'FileDown' as IconName,
     hotkey: { key: 's', shift: false },
   },
   format: {
-    label: 'Format content',
+    label: '格式化内容',
     icon: 'Wand' as IconName,
     hotkey: { key: 'l', shift: true },
   },
   exportImage: {
-    label: 'Export image',
+    label: '导出图片',
     icon: 'ImageDown' as IconName,
   },
   copyImage: {
-    label: 'Copy image',
+    label: '复制图片',
     icon: 'ClipboardCopy' as IconName,
   },
   exportPdf: {
-    label: 'Export PDF',
+    label: '导出 PDF',
     icon: 'FileText' as IconName,
   },
   printPreview: {
-    label: 'Print preview',
+    label: '打印预览',
     icon: 'Printer' as IconName,
   },
   themeToggle: {
-    labelLight: 'Switch to dark mode',
-    labelDark: 'Switch to light mode',
+    labelLight: '切换到深色模式',
+    labelDark: '切换到浅色模式',
     iconLight: 'Moon' as IconName,
     iconDark: 'Sun' as IconName,
   },
@@ -108,21 +108,21 @@ export const editorCommandConfig = {
 export const editorSettingsConfig: readonly EditorSettingItem[] = [
   {
     id: 'footnoteLinks',
-    label: 'Reference links',
+    label: '参考链接',
     icon: 'Link',
     storeKey: 'enableFootnoteLinks',
     setterKey: 'setEnableFootnoteLinks',
   },
   {
     id: 'openLinksInNewWindow',
-    label: 'Open links in a new window',
+    label: '新窗口打开链接',
     icon: 'ExternalLink',
     storeKey: 'openLinksInNewWindow',
     setterKey: 'setOpenLinksInNewWindow',
   },
   {
     id: 'scrollSync',
-    label: 'Scroll sync',
+    label: '滚动同步',
     icon: 'RefreshCw',
     storeKey: 'enableScrollSync',
     setterKey: 'setEnableScrollSync',
@@ -131,14 +131,14 @@ export const editorSettingsConfig: readonly EditorSettingItem[] = [
 ]
 
 export const viewModeConfig = {
-  mobile: { label: 'Mobile view', icon: 'Smartphone' },
-  desktop: { label: 'Desktop view', icon: 'Monitor' },
+  mobile: { label: '手机预览', icon: 'Smartphone' },
+  desktop: { label: '桌面预览', icon: 'Monitor' },
 } as const satisfies Record<string, ViewModeItem>
 
 export const navigationConfig = {
   internal: [
-    { path: '/docs/mcp', label: 'MCP config', icon: 'MCP' },
-    { path: '/docs/skill', label: 'Skill docs', icon: 'Skill' },
+    { path: '/docs/mcp', label: 'MCP 配置', icon: 'MCP' },
+    { path: '/docs/skill', label: '技能文档', icon: 'Skill' },
   ] as const satisfies readonly InternalNavItem[],
   external: [
     ...(appConfig.github

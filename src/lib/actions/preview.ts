@@ -7,7 +7,7 @@ export interface PreviewIframe {
 
 export function getPreviewIframe(): PreviewIframe | null {
   try {
-    const iframe = document.querySelector('#bm-preview-iframe') as HTMLIFrameElement | null
+    const iframe = document.querySelector('#easymd-preview-iframe') as HTMLIFrameElement | null
     if (!iframe?.contentDocument?.body) {
       toast.error('预览区域尚未就绪')
       return null

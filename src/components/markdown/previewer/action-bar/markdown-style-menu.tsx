@@ -1,4 +1,4 @@
-import { Palette, Upload } from 'lucide-react'
+import { Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -12,12 +12,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import MarkdownStyleIcon from '@/icons/markdown-style'
 import { importMarkdownStyle } from '@/lib/actions'
 import { usePreviewStore } from '@/stores/preview'
 import { markdownStyles } from '@/themes/markdown-style'
 
-const styleTooltip = 'Markdown styles'
-const styleAriaLabel = 'Markdown styles'
+const styleTooltip = '排版样式'
+const styleAriaLabel = '排版样式'
 
 export function MarkdownStyleMenu() {
   const currentStyle = usePreviewStore(state => state.markdownStyle)
@@ -32,7 +33,7 @@ export function MarkdownStyleMenu() {
             <DropdownMenuTrigger
               render={(
                 <Button variant="ghost" size="icon" aria-label={styleAriaLabel}>
-                  <Palette className="size-4" />
+                  <MarkdownStyleIcon className="size-4" />
                 </Button>
               )}
             />
@@ -42,7 +43,7 @@ export function MarkdownStyleMenu() {
       </Tooltip>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Built-in styles</DropdownMenuLabel>
+          <DropdownMenuLabel>内置样式</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup value={currentStyle} onValueChange={setMarkdownStyle}>
             {markdownStyles.map(style => (
@@ -58,7 +59,7 @@ export function MarkdownStyleMenu() {
           {importedMarkdownStyles.length > 0 && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Imported styles</DropdownMenuLabel>
+              <DropdownMenuLabel>导入样式</DropdownMenuLabel>
               <DropdownMenuRadioGroup value={currentStyle} onValueChange={setMarkdownStyle}>
                 {importedMarkdownStyles.map(style => (
                   <DropdownMenuRadioItem
@@ -80,7 +81,7 @@ export function MarkdownStyleMenu() {
             }}
           >
             <Upload className="size-4" />
-            Import custom style...
+            导入自定义样式...
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

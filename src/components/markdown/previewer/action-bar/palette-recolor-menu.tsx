@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import {
   Popover,
   PopoverContent,
-  PopoverDescription,
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
@@ -15,7 +14,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { trackEvent } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
 import { usePreviewStore } from '@/stores/preview'
-import { loadMarkdownStyleCss, markdownStyles } from '@/themes/markdown-style'
+import { loadMarkdownStyleCss } from '@/themes/markdown-style'
 import {
   extractStyleColors,
   markdownRecolorPalettes,
@@ -28,7 +27,6 @@ const MAX_DISPLAY_COLORS = 8
 interface StylePaletteSnapshot {
   css: string
   colors: ReturnType<typeof extractStyleColors>
-  sourceName: string
 }
 
 export function PaletteRecolorMenu() {
@@ -59,7 +57,6 @@ export function PaletteRecolorMenu() {
 
       try {
         const importedStyle = importedMarkdownStyles.find(style => style.id === markdownStyle)
-        const builtInStyle = markdownStyles.find(style => style.id === markdownStyle)
         const baseCss = importedStyle?.css
           ?? await loadMarkdownStyleCss(markdownStyle)
           ?? ''
@@ -75,7 +72,6 @@ export function PaletteRecolorMenu() {
         setSnapshot({
           css,
           colors,
-          sourceName: importedStyle?.name ?? builtInStyle?.name ?? 'Current style',
         })
 
         const nextActiveHex = colors[0]?.hex ?? null
@@ -158,34 +154,25 @@ export function PaletteRecolorMenu() {
       <PopoverContent
         align="end"
         className={`
-          w-[22rem] gap-3 rounded-2xl border border-border/70 bg-background/95
+          w-[19rem] gap-3 rounded-2xl border border-border/70 bg-background/95
           p-3 shadow-2xl backdrop-blur-xl
         `}
       >
-        <PopoverHeader>
+        <PopoverHeader className={`
+          flex-row items-center justify-between gap-2 space-y-0
+        `}
+        >
           <PopoverTitle>样式配色</PopoverTitle>
-          <PopoverDescription>
-            自动识别当前排版样式里的主要颜色，点选色块后可微调，也可一键套用整组配色。
-          </PopoverDescription>
-        </PopoverHeader>
-
-        <div className="flex items-center justify-between gap-2 text-xs">
-          <span className="truncate text-muted-foreground">
-            {loading
-              ? '正在识别...'
-              : snapshot
-                ? `当前样式：${snapshot.sourceName}`
-                : '当前样式'}
-          </span>
           <Button
             variant="ghost"
             size="xs"
+            className="h-7 px-2 text-xs text-muted-foreground"
             onClick={() => setReloadKey(key => key + 1)}
             disabled={loading}
           >
-            重新识别
+            {loading ? '识别中' : '重扫'}
           </Button>
-        </div>
+        </PopoverHeader>
 
         {error && (
           <div className={`
@@ -198,15 +185,15 @@ export function PaletteRecolorMenu() {
         )}
 
         {!error && (
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-1.5">
             {(snapshot?.colors ?? []).map(color => (
               <button
                 key={color.hex}
                 type="button"
                 className={cn(
                   `
-                    group rounded-xl border border-border/70 bg-card p-2
-                    text-left transition
+                    group rounded-lg border border-border/70 bg-card p-1.5
+                    transition
                     hover:-translate-y-0.5 hover:border-primary/60
                     hover:shadow-sm
                   `,
@@ -221,20 +208,16 @@ export function PaletteRecolorMenu() {
               >
                 <span
                   className={`
-                    block h-8 rounded-lg border border-black/10 shadow-inner
+                    block h-9 rounded-md border border-black/10 shadow-inner
                   `}
                   style={{ background: color.preview }}
                 />
                 <span className={`
-                  mt-1 block font-mono text-[10px] text-foreground
+                  mt-1 block text-center font-mono text-[9px]
+                  text-muted-foreground
                 `}
                 >
                   {color.hex}
-                </span>
-                <span className="block text-[10px] text-muted-foreground">
-                  {color.usageCount}
-                  {' '}
-                  处
                 </span>
               </button>
             ))}
@@ -252,17 +235,17 @@ export function PaletteRecolorMenu() {
         )}
 
         {activeColor && (
-          <div className="rounded-2xl border border-border/70 bg-muted/30 p-3">
-            <div className="flex items-center gap-3">
+          <div className="rounded-xl border border-border/70 bg-muted/30 p-2.5">
+            <div className="flex items-center gap-2">
               <div
                 className={`
-                  size-10 rounded-full border border-black/10 shadow-inner
+                  size-8 rounded-full border border-black/10 shadow-inner
                 `}
                 style={{ background: activeColor.preview }}
               />
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium">微调选中色</p>
-                <p className="font-mono text-[11px] text-muted-foreground">{activeColor.hex}</p>
+                <p className="text-xs font-medium">替换选中色</p>
+                <p className="font-mono text-[10px] text-muted-foreground">{activeColor.hex}</p>
               </div>
               <input
                 type="color"
@@ -275,18 +258,18 @@ export function PaletteRecolorMenu() {
               />
             </div>
             <Button
-              className="mt-3 w-full rounded-xl"
+              className="mt-2 w-full rounded-lg"
               variant="outline"
               size="sm"
               onClick={handleApplyColor}
             >
-              替换这个颜色
+              应用
             </Button>
           </div>
         )}
 
         <div className="space-y-2">
-          <p className="text-xs font-medium text-foreground">一键更换配色</p>
+          <p className="text-xs font-medium text-foreground">一键配色</p>
           <div className="grid gap-2">
             {markdownRecolorPalettes.map(palette => (
               <button
@@ -300,24 +283,21 @@ export function PaletteRecolorMenu() {
                 onClick={() => handleApplyPalette(palette)}
                 disabled={!snapshot?.colors.length}
               >
-                <span className={`
-                  flex h-7 overflow-hidden rounded-xl border border-black/10
-                `}
-                >
-                  {palette.colors.map(color => (
-                    <span
-                      key={color}
-                      className="flex-1"
-                      style={{ background: color }}
-                    />
-                  ))}
-                </span>
-                <span className="mt-2 block text-xs font-medium">{palette.name}</span>
-                <span className={`
-                  block text-[11px] leading-5 text-muted-foreground
-                `}
-                >
-                  {palette.description}
+                <span className="flex items-center gap-2">
+                  <span className={`
+                    flex h-7 flex-1 overflow-hidden rounded-xl border
+                    border-black/10
+                  `}
+                  >
+                    {palette.colors.map(color => (
+                      <span
+                        key={color}
+                        className="flex-1"
+                        style={{ background: color }}
+                      />
+                    ))}
+                  </span>
+                  <span className="w-14 text-xs font-medium">{palette.name}</span>
                 </span>
               </button>
             ))}

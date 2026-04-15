@@ -11,8 +11,8 @@ import { usePreviewStore } from '@/stores/preview'
 import { usePlatformCopy } from './use-platform-copy'
 
 const platformIcons: Record<SupportedPlatform, ReactNode> = {
-  wechat: <WechatIcon className="size-4" />,
-  zhihu: <ZhihuIcon className="size-4" />,
+  wechat: <WechatIcon className="size-4 text-[#07C160]" />,
+  zhihu: <ZhihuIcon className="size-4 text-[#1772F6]" />,
   html: <Code2 className="size-4" />,
 }
 

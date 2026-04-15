@@ -70,6 +70,16 @@ describe('markdown -> html render (general)', () => {
     expect(html).not.toContain('<script')
   })
 
+  it('expands compact article block references before rendering', async () => {
+    const html = await render({
+      markdown: '@组件[手绘互动按钮](easymd:block/interaction-outline-buttons)',
+    })
+
+    expect(html).toContain('<svg')
+    expect(html).toContain('点赞')
+    expect(html).not.toContain('easymd:block/interaction-outline-buttons')
+  })
+
   it('applies code highlighting classes', async () => {
     const markdown = '```javascript\nconst x = 1\n```'
     const html = await render({ markdown })

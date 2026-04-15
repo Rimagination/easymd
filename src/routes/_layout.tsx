@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { PanelLeftOpen } from 'lucide-react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { ArticleBlockLibrary } from '@/components/markdown/article-block-library'
 import MarkdownEditor from '@/components/markdown/editor'
 import { FooterBar } from '@/components/markdown/footer-bar'
@@ -11,10 +12,40 @@ import { cn } from '@/lib/utils'
 export const Route = createFileRoute('/_layout')({ component: App })
 
 type MobilePanel = 'editor' | 'preview'
+type LibraryPanelMode = 'auto' | 'expanded' | 'collapsed'
+
+const COMPACT_WORKSPACE_QUERY = '(max-width: 1600px), (max-height: 960px)'
+
+function subscribeCompactWorkspace(onStoreChange: () => void) {
+  if (typeof window === 'undefined') {
+    return () => {}
+  }
+
+  const matcher = window.matchMedia(COMPACT_WORKSPACE_QUERY)
+  matcher.addEventListener('change', onStoreChange)
+  return () => matcher.removeEventListener('change', onStoreChange)
+}
+
+function getCompactWorkspaceSnapshot() {
+  return typeof window !== 'undefined'
+    && window.matchMedia(COMPACT_WORKSPACE_QUERY).matches
+}
+
+function getServerCompactWorkspaceSnapshot() {
+  return false
+}
 
 function App() {
   useFilesSync()
   const [mobilePanel, setMobilePanel] = useState<MobilePanel>('editor')
+  const [libraryPanelMode, setLibraryPanelMode] = useState<LibraryPanelMode>('auto')
+  const isCompactWorkspace = useSyncExternalStore(
+    subscribeCompactWorkspace,
+    getCompactWorkspaceSnapshot,
+    getServerCompactWorkspaceSnapshot,
+  )
+  const isBlockLibraryCollapsed = libraryPanelMode === 'collapsed'
+    || (libraryPanelMode === 'auto' && isCompactWorkspace)
 
   useEffect(() => {
     const prepareWorker = async () => {
@@ -72,6 +103,7 @@ function App() {
 
           <div className="min-h-0 flex-1 bg-editor/50">
             <ResizablePanelGroup
+              key={isBlockLibraryCollapsed ? 'library-collapsed' : 'library-open'}
               tagName="div"
               className={`
                 hidden h-full
@@ -79,15 +111,45 @@ function App() {
               `}
               direction="horizontal"
             >
-              <ResizablePanel defaultSize={20} style={{ minWidth: 240 }}>
-                <ArticleBlockLibrary />
+              <ResizablePanel
+                defaultSize={isBlockLibraryCollapsed ? 3 : 16}
+                minSize={isBlockLibraryCollapsed ? 3 : 12}
+                maxSize={isBlockLibraryCollapsed ? 3 : 24}
+                style={{ minWidth: isBlockLibraryCollapsed ? 44 : 220 }}
+              >
+                {isBlockLibraryCollapsed
+                  ? (
+                      <aside
+                        className={`
+                          flex h-full items-start justify-center border-r
+                          border-border/70 bg-background pt-2
+                        `}
+                      >
+                        <button
+                          type="button"
+                          className={`
+                            flex size-8 items-center justify-center rounded-none
+                            text-muted-foreground transition-colors
+                            hover:bg-muted hover:text-foreground
+                          `}
+                          onClick={() => setLibraryPanelMode('expanded')}
+                          aria-label="展开组件面板"
+                          title="展开组件面板"
+                        >
+                          <PanelLeftOpen className="size-4" />
+                        </button>
+                      </aside>
+                    )
+                  : (
+                      <ArticleBlockLibrary onCollapse={() => setLibraryPanelMode('collapsed')} />
+                    )}
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={40} style={{ minWidth: 320 }}>
+              <ResizablePanel defaultSize={isBlockLibraryCollapsed ? 51 : 44} style={{ minWidth: 300 }}>
                 <MarkdownEditor />
               </ResizablePanel>
               <ResizableHandle />
-              <ResizablePanel defaultSize={40} style={{ minWidth: 320 }}>
+              <ResizablePanel defaultSize={isBlockLibraryCollapsed ? 46 : 40} style={{ minWidth: 300 }}>
                 <MarkdownPreviewer />
               </ResizablePanel>
             </ResizablePanelGroup>

@@ -517,4 +517,387 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
 </section>
 `.trim(),
   },
+  {
+    id: 'title-corner-number',
+    category: 'title',
+    name: '角标序号标题',
+    description: '适合清单式章节',
+    accent: '#0F766E',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 26px 0 18px;">
+  <section style="display: inline-block; padding: 4px 12px; border: 2px solid #0f766e;">
+    <span style="display: inline-block; margin-right: 10px; color: #0f766e; font-size: 14px; font-weight: 900;">01</span>
+    <h2 style="display: inline-block; margin: 0; color: #1f2937; font-size: 21px; font-weight: 800; line-height: 1.35;">把小标题写在这里</h2>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-vertical-tag',
+    category: 'title',
+    name: '竖签标题',
+    description: '左侧标签强调章节',
+    accent: '#B45309',
+    icon: PanelsTopLeft,
+    markdown: `
+<section style="margin: 28px 0 18px; font-size: 0;">
+  <span style="display: inline-block; width: 28px; margin-right: 10px; padding: 8px 0; background: #b45309; color: #ffffff; font-size: 13px; font-weight: 800; line-height: 1.1; text-align: center; vertical-align: middle;">章<br />节</span>
+  <h2 style="display: inline-block; margin: 0; color: #2f2a24; font-size: 22px; font-weight: 800; line-height: 1.35; vertical-align: middle;">这里是一句标题</h2>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-double-line',
+    category: 'title',
+    name: '双线标题',
+    description: '干净稳重的分节标题',
+    accent: '#2563EB',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 28px 0 18px; text-align: center;">
+  <span style="display: inline-block; width: 72px; height: 1px; background: #2563eb; vertical-align: middle;"></span>
+  <h2 style="display: inline-block; margin: 0 12px; color: #1f2937; font-size: 21px; font-weight: 800; line-height: 1.35; vertical-align: middle;">重点小标题</h2>
+  <span style="display: inline-block; width: 72px; height: 1px; background: #2563eb; vertical-align: middle;"></span>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-speech-label',
+    category: 'title',
+    name: '对话标签标题',
+    description: '适合观点和问答段落',
+    accent: '#EA580C',
+    icon: MessageSquareText,
+    markdown: `
+<section style="margin: 26px 0 18px;">
+  <section style="display: inline-block; position: relative; padding: 8px 16px; border-radius: 999px; background: #ffedd5;">
+    <h2 style="margin: 0; color: #9a3412; font-size: 20px; font-weight: 800; line-height: 1.35;">这里是观点标题</h2>
+    <span style="position: absolute; left: 22px; bottom: -8px; width: 14px; height: 14px; background: #ffedd5; transform: rotate(45deg);"></span>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-soft-highlight',
+    category: 'title',
+    name: '柔光标题',
+    description: '轻柔背景突出标题',
+    accent: '#DB2777',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 28px 0 18px;">
+  <h2 style="display: inline; margin: 0; padding: 0 4px; background: linear-gradient(transparent 56%, #fbcfe8 56%); color: #831843; font-size: 23px; font-weight: 900; line-height: 1.55;">把这一节的关键词写在这里</h2>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-stamp',
+    category: 'title',
+    name: '印章标题',
+    description: '适合结论和重点提示',
+    accent: '#DC2626',
+    icon: PanelsTopLeft,
+    markdown: `
+<section style="margin: 28px 0 18px;">
+  <span style="display: inline-block; margin-right: 10px; padding: 4px 7px; border: 2px solid #dc2626; color: #dc2626; font-size: 13px; font-weight: 900; transform: rotate(-6deg); vertical-align: middle;">重点</span>
+  <h2 style="display: inline-block; margin: 0; color: #1f2937; font-size: 22px; font-weight: 900; line-height: 1.35; vertical-align: middle;">一句有力的小标题</h2>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-minimal-dot',
+    category: 'title',
+    name: '极简圆点标题',
+    description: '信息密度高的段落标题',
+    accent: '#111827',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 24px 0 16px;">
+  <span style="display: inline-block; width: 9px; height: 9px; margin-right: 9px; border-radius: 999px; background: #111827; vertical-align: middle;"></span>
+  <h2 style="display: inline-block; margin: 0; color: #111827; font-size: 20px; font-weight: 800; line-height: 1.35; vertical-align: middle;">小标题</h2>
+</section>
+`.trim(),
+  },
+  {
+    id: 'title-gradient-chip',
+    category: 'title',
+    name: '渐变胶囊标题',
+    description: '适合活动和新品内容',
+    accent: '#06B6D4',
+    icon: Heading2,
+    markdown: `
+<section style="margin: 28px 0 18px; text-align: center;">
+  <h2 style="display: inline-block; margin: 0; padding: 8px 20px; border-radius: 999px; background: linear-gradient(90deg, #06b6d4, #84cc16); color: #ffffff; font-size: 21px; font-weight: 900; line-height: 1.35;">醒目的章节标题</h2>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-quote-focus',
+    category: 'card',
+    name: '引语重点卡',
+    description: '适合金句和摘要',
+    accent: '#64748B',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 18px 20px; border-left: 5px solid #64748b; background: #f8fafc;">
+  <p style="margin: 0; color: #334155; font-size: 16px; font-weight: 700; line-height: 1.8;">这里放一句想让读者停下来看的金句。</p>
+  <p style="margin: 8px 0 0; color: #94a3b8; font-size: 12px;">QUOTE</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-checklist',
+    category: 'card',
+    name: '勾选清单卡',
+    description: '适合步骤和待办',
+    accent: '#16A34A',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 16px 18px; border-radius: 18px; background: #f0fdf4;">
+  <p style="margin: 0 0 10px; color: #166534; font-size: 16px; font-weight: 900;">可以检查这三件事</p>
+  <p style="margin: 0 0 6px; color: #14532d; line-height: 1.75;">✓ 第一个关键点</p>
+  <p style="margin: 0 0 6px; color: #14532d; line-height: 1.75;">✓ 第二个关键点</p>
+  <p style="margin: 0; color: #14532d; line-height: 1.75;">✓ 第三个关键点</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-warning-strip',
+    category: 'card',
+    name: '提醒条卡片',
+    description: '轻量提示和注意事项',
+    accent: '#F97316',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 14px 16px; border: 1px solid #fed7aa; background: #fff7ed;">
+  <p style="margin: 0; color: #9a3412; font-size: 15px; line-height: 1.75;"><strong style="color: #ea580c;">提醒：</strong>这里写一个需要读者特别注意的小提示。</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-metric-row',
+    category: 'card',
+    name: '数据横排卡',
+    description: '展示三个数字结论',
+    accent: '#2563EB',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; padding: 18px; border-radius: 18px; background: #eff6ff; text-align: center;">
+  <section style="display: inline-block; width: 31%; vertical-align: top;"><p style="margin: 0; color: #1d4ed8; font-size: 24px; font-weight: 900;">3</p><p style="margin: 4px 0 0; color: #475569; font-size: 12px;">步骤</p></section>
+  <section style="display: inline-block; width: 31%; vertical-align: top;"><p style="margin: 0; color: #1d4ed8; font-size: 24px; font-weight: 900;">10</p><p style="margin: 4px 0 0; color: #475569; font-size: 12px;">分钟</p></section>
+  <section style="display: inline-block; width: 31%; vertical-align: top;"><p style="margin: 0; color: #1d4ed8; font-size: 24px; font-weight: 900;">1</p><p style="margin: 4px 0 0; color: #475569; font-size: 12px;">结论</p></section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'image-polaroid',
+    category: 'image',
+    name: '拍立得图片',
+    description: '图片加手写感说明',
+    accent: '#111827',
+    icon: Image,
+    markdown: `
+<figure style="margin: 24px 0; padding: 12px 12px 18px; background: #ffffff; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); transform: rotate(-1deg);">
+  <img src="https://placehold.co/900x560/png?text=easymd" alt="替换为图片说明" style="display: block; width: 100%;" />
+  <figcaption style="margin-top: 10px; color: #475569; font-size: 13px; text-align: center;">这里写一句图片说明</figcaption>
+</figure>
+`.trim(),
+  },
+  {
+    id: 'image-hero-caption',
+    category: 'image',
+    name: '封面大图说明',
+    description: '大图叠加标题说明',
+    accent: '#0F172A',
+    icon: Image,
+    markdown: `
+<section style="margin: 24px 0; position: relative;">
+  <img src="https://placehold.co/900x520/png?text=easymd" alt="替换为图片说明" style="display: block; width: 100%; border-radius: 18px;" />
+  <section style="margin: -62px 14px 0; position: relative; padding: 14px 16px; border-radius: 14px; background: rgba(15, 23, 42, 0.86);">
+    <p style="margin: 0; color: #ffffff; font-size: 17px; font-weight: 900;">图片里的核心信息</p>
+    <p style="margin: 4px 0 0; color: #cbd5e1; font-size: 12px; line-height: 1.6;">这里补一句说明。</p>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'image-three-grid',
+    category: 'image',
+    name: '三图拼贴',
+    description: '适合过程和合集',
+    accent: '#DB2777',
+    icon: Image,
+    markdown: `
+<section style="margin: 24px 0; font-size: 0;">
+  <img src="https://placehold.co/300x360/png?text=1" alt="图片一" style="display: inline-block; width: 32%; margin-right: 2%; border-radius: 14px; vertical-align: top;" />
+  <img src="https://placehold.co/300x360/png?text=2" alt="图片二" style="display: inline-block; width: 32%; margin-right: 2%; border-radius: 14px; vertical-align: top;" />
+  <img src="https://placehold.co/300x360/png?text=3" alt="图片三" style="display: inline-block; width: 32%; border-radius: 14px; vertical-align: top;" />
+</section>
+`.trim(),
+  },
+  {
+    id: 'image-left-text',
+    category: 'image',
+    name: '图左文右',
+    description: '图片旁边放短说明',
+    accent: '#7C3AED',
+    icon: Image,
+    markdown: `
+<section style="margin: 24px 0; font-size: 0;">
+  <img src="https://placehold.co/420x420/png?text=easymd" alt="图片说明" style="display: inline-block; width: 42%; margin-right: 4%; border-radius: 16px; vertical-align: middle;" />
+  <section style="display: inline-block; width: 54%; vertical-align: middle;">
+    <p style="margin: 0 0 6px; color: #5b21b6; font-size: 16px; font-weight: 900;">图片重点</p>
+    <p style="margin: 0; color: #4b5563; font-size: 14px; line-height: 1.75;">这里放两三句解释，让图片不只是装饰。</p>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'image-film-strip',
+    category: 'image',
+    name: '胶片图组',
+    description: '适合记录感内容',
+    accent: '#111827',
+    icon: Image,
+    markdown: `
+<section style="margin: 24px 0; padding: 10px; background: #111827; font-size: 0;">
+  <img src="https://placehold.co/420x300/png?text=A" alt="图片一" style="display: inline-block; width: 49%; margin-right: 2%; vertical-align: top;" />
+  <img src="https://placehold.co/420x300/png?text=B" alt="图片二" style="display: inline-block; width: 49%; vertical-align: top;" />
+  <p style="margin: 10px 0 0; color: #e5e7eb; font-size: 12px; text-align: center;">像胶片一样记录这一刻</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'image-rounded-number',
+    category: 'image',
+    name: '序号图片',
+    description: '图上加步骤编号',
+    accent: '#F97316',
+    icon: Image,
+    markdown: `
+<section style="margin: 24px 0; position: relative;">
+  <span style="position: absolute; left: 14px; top: 14px; z-index: 1; width: 38px; height: 38px; border-radius: 999px; background: #f97316; color: #ffffff; font-size: 18px; font-weight: 900; line-height: 38px; text-align: center;">1</span>
+  <img src="https://placehold.co/900x520/png?text=step" alt="步骤图片" style="display: block; width: 100%; border-radius: 18px;" />
+</section>
+`.trim(),
+  },
+  {
+    id: 'image-soft-frame',
+    category: 'image',
+    name: '柔色相框',
+    description: '适合温柔风图片',
+    accent: '#F9A8D4',
+    icon: Image,
+    markdown: `
+<figure style="margin: 24px 0; padding: 14px; border-radius: 24px; background: #fdf2f8;">
+  <img src="https://placehold.co/900x520/png?text=easymd" alt="图片说明" style="display: block; width: 100%; border-radius: 18px;" />
+  <figcaption style="margin-top: 10px; color: #9d174d; font-size: 12px; text-align: center;">温柔一点的图片说明</figcaption>
+</figure>
+`.trim(),
+  },
+  {
+    id: 'image-torn-note',
+    category: 'image',
+    name: '便签图片',
+    description: '图片下方附便签说明',
+    accent: '#FACC15',
+    icon: Image,
+    markdown: `
+<section style="margin: 24px 0;">
+  <img src="https://placehold.co/900x520/png?text=easymd" alt="图片说明" style="display: block; width: 100%; border-radius: 14px;" />
+  <p style="display: inline-block; margin: -18px 0 0 18px; position: relative; padding: 8px 12px; background: #fef3c7; color: #92400e; font-size: 13px; line-height: 1.6;">贴一张小便签，写下图片重点。</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'follow-signature-line',
+    category: 'follow',
+    name: '签名式关注',
+    description: '轻量文末署名和关注提示',
+    accent: '#334155',
+    icon: MessageSquareText,
+    markdown: `
+<section style="margin: 30px 0 12px; text-align: center;">
+  <p style="margin: 0; color: #334155; font-size: 18px; font-weight: 800;">如果这篇对你有帮助</p>
+  <p style="margin: 8px 0 0; color: #64748b; font-size: 14px; line-height: 1.7;">欢迎关注我，下一篇继续把复杂问题讲简单。</p>
+  <span style="display: inline-block; width: 86px; height: 2px; margin-top: 14px; background: #334155;"></span>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-thanks-wave',
+    category: 'interaction',
+    name: '感谢挥手',
+    description: '文末轻轻挥手致谢',
+    accent: '#F59E0B',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" width="100%" height="96" style="display: block; max-width: 360px; margin: 0 auto;">
+    <text x="164" y="55" fill="#374151" font-size="22" font-weight="900" text-anchor="middle">谢谢你看到这里</text>
+    <g transform="translate(292 38)">
+      <text x="0" y="24" fill="#f59e0b" font-size="32" font-weight="900" text-anchor="middle">Hi</text>
+      <animateTransform attributeName="transform" type="rotate" values="-7 292 50;9 292 50;-7 292 50" dur="1.2s" repeatCount="indefinite" />
+    </g>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-star-like',
+    category: 'interaction',
+    name: '星星点赞',
+    description: '星星闪动提示点赞',
+    accent: '#EAB308',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" width="100%" height="96" style="display: block; max-width: 360px; margin: 0 auto;">
+    <path d="M76 22 L84 40 L104 42 L89 55 L94 75 L76 64 L58 75 L63 55 L48 42 L68 40Z" fill="#eab308">
+      <animate attributeName="opacity" values="0.45;1;0.45" dur="1s" repeatCount="indefinite" />
+    </path>
+    <text x="196" y="58" fill="#3f3f46" font-size="22" font-weight="900" text-anchor="middle">点亮一个赞吧</text>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-read-next',
+    category: 'interaction',
+    name: '继续阅读',
+    description: '引导读者看下一篇',
+    accent: '#2563EB',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 104" width="100%" height="104" style="display: block; max-width: 360px; margin: 0 auto;">
+    <rect x="52" y="25" width="256" height="50" rx="25" fill="#eff6ff" stroke="#2563eb" stroke-width="3" />
+    <text x="168" y="58" fill="#1d4ed8" font-size="21" font-weight="900" text-anchor="middle">下一篇继续见</text>
+    <path d="M268 42 L284 52 L268 62" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="1.1s" repeatCount="indefinite" />
+    </path>
+  </svg>
+</section>
+`.trim(),
+  },
+  {
+    id: 'interaction-save-card',
+    category: 'interaction',
+    name: '收藏提醒',
+    description: '提醒读者收藏备用',
+    accent: '#7C3AED',
+    icon: MessageCircleHeart,
+    markdown: `
+<section style="margin: 30px 0 14px; text-align: center;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 104" width="100%" height="104" style="display: block; max-width: 360px; margin: 0 auto;">
+    <path d="M82 24 H278 Q292 24 292 38 V70 Q292 84 278 84 H82 Q68 84 68 70 V38 Q68 24 82 24Z" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3" />
+    <path d="M104 35 H126 V73 L115 64 L104 73Z" fill="#7c3aed">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="1.2s" repeatCount="indefinite" />
+    </path>
+    <text x="205" y="60" fill="#5b21b6" font-size="21" font-weight="900" text-anchor="middle">先收藏，慢慢看</text>
+  </svg>
+</section>
+`.trim(),
+  },
 ]

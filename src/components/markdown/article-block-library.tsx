@@ -1,11 +1,12 @@
 import type { ArticleBlockCategory, ArticleBlockTemplate } from '@/config/article-blocks'
 /* eslint-disable react-dom/no-dangerously-set-innerhtml -- Previews render trusted local article block templates. */
-import { Plus } from 'lucide-react'
+import { PanelLeftClose, Plus } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { articleBlockCategories, articleBlockTemplates } from '@/config/article-blocks'
 import { trackEvent } from '@/lib/analytics'
+import { createArticleBlockReference } from '@/lib/markdown/render/article-blocks'
 import { cn } from '@/lib/utils'
 import { getImportEditorView } from './editor/file-import'
 
@@ -13,6 +14,7 @@ interface ArticleBlockLibraryProps {
   className?: string
   mode?: 'panel' | 'popover'
   onInserted?: () => void
+  onCollapse?: () => void
 }
 
 const defaultCategory: ArticleBlockCategory = 'title'
@@ -47,7 +49,12 @@ function insertArticleBlock(template: ArticleBlockTemplate, onInserted?: () => v
 
   const selection = view.state.selection.main
   const doc = view.state.doc.toString()
-  const insertion = buildInsertion(template.markdown, selection.from, selection.to, doc)
+  const insertion = buildInsertion(
+    createArticleBlockReference(template.id, template.name),
+    selection.from,
+    selection.to,
+    doc,
+  )
 
   view.dispatch({
     changes: { from: selection.from, to: selection.to, insert: insertion },
@@ -112,7 +119,8 @@ function ArticleBlockCard({
       <div
         className={`
           easymd-block-preview mt-1 overflow-hidden border border-border/60
-          bg-white p-1 shadow-inner
+          bg-white p-1 shadow-inner transition-colors
+          group-hover:border-primary/25
         `}
       >
         <div
@@ -130,6 +138,7 @@ export function ArticleBlockLibrary({
   className,
   mode = 'panel',
   onInserted,
+  onCollapse,
 }: ArticleBlockLibraryProps) {
   const [activeCategory, setActiveCategory] = useState<ArticleBlockCategory>(defaultCategory)
   const isPanel = mode === 'panel'
@@ -171,12 +180,29 @@ export function ArticleBlockLibrary({
       >
         <div className="flex items-center justify-between gap-2">
           <p className="text-xs font-semibold text-foreground">组件</p>
-          <span className="text-[10px] text-muted-foreground">
-            {activeCategoryName}
-            {' '}
-            ·
-            {visibleTemplates.length}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-muted-foreground">
+              {activeCategoryName}
+              {' '}
+              ·
+              {visibleTemplates.length}
+            </span>
+            {isPanel && onCollapse && (
+              <button
+                type="button"
+                className={`
+                  flex size-6 items-center justify-center rounded-none
+                  text-muted-foreground transition-colors
+                  hover:bg-muted hover:text-foreground
+                `}
+                onClick={onCollapse}
+                aria-label="折叠组件面板"
+                title="折叠组件面板"
+              >
+                <PanelLeftClose className="size-3.5" />
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-3 gap-1">
@@ -210,7 +236,7 @@ export function ArticleBlockLibrary({
 
       <ScrollArea className="min-h-0 flex-1">
         <div className={cn(
-          'grid gap-1.5',
+          'grid grid-cols-[repeat(auto-fill,minmax(9.5rem,1fr))] gap-1.5',
           isPanel
             ? 'p-2'
             : 'px-2 pb-2',

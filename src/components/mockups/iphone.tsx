@@ -111,6 +111,7 @@ export function Phone({
 }: IphoneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [phoneHeight, setPhoneHeight] = useState(MAX_PHONE_HEIGHT)
+  const [phoneScale, setPhoneScale] = useState(1)
 
   const updateHeight = useCallback(() => {
     const container = containerRef.current
@@ -121,10 +122,14 @@ export function Phone({
     if (!parent)
       return
 
-    const availableHeight = parent.clientHeight - 20
+    const availableHeight = parent.clientHeight - 12
+    const availableWidth = parent.clientWidth - 12
     const clampedHeight = Math.min(Math.max(availableHeight, MIN_PHONE_HEIGHT), MAX_PHONE_HEIGHT)
+    const nextScale = Math.min(1, availableWidth / PHONE_WIDTH, availableHeight / clampedHeight)
     // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect -- ResizeObserver 回调中设置状态是合理的模式
     setPhoneHeight(clampedHeight)
+    // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect -- ResizeObserver 回调中设置状态是合理的模式
+    setPhoneScale(Math.max(0.62, nextScale))
   }, [])
 
   useLayoutEffect(() => {
@@ -169,9 +174,9 @@ export function Phone({
         ${className}
       `}
       style={{
-        width: PHONE_WIDTH,
-        height: phoneHeight,
-        minHeight: MIN_PHONE_HEIGHT,
+        width: PHONE_WIDTH * phoneScale,
+        height: phoneHeight * phoneScale,
+        minHeight: MIN_PHONE_HEIGHT * phoneScale,
         maxHeight: MAX_PHONE_HEIGHT,
         ...style,
       }}

@@ -57,9 +57,9 @@
   --toolbar-padding-x: 0.75rem;
   --file-tabs-height: 2rem;
   --preview-gutter: 0.75rem;
-  --block-preview-height: 5.5rem;
-  --block-preview-width: 540px;
-  --block-preview-scale: 0.36;
+  --block-preview-height: 4.9rem;
+  --block-preview-width: 440px;
+  --block-preview-scale: 0.34;
 }
 
 .dark {
@@ -104,7 +104,7 @@
   --editor: var(--ayu-mirage-editor);
 }
 
-@media (min-width: 1024px) and (max-height: 860px), (min-width: 1024px) and (max-width: 1440px) {
+@media (min-width: 1024px) and (max-height: 960px), (min-width: 1024px) and (max-width: 1600px) {
   :root {
     --workspace-padding: 0.5rem;
     --workspace-radius: 1rem;
@@ -112,13 +112,13 @@
     --toolbar-padding-x: 0.5rem;
     --file-tabs-height: 1.875rem;
     --preview-gutter: 0.5rem;
-    --block-preview-height: 4.75rem;
-    --block-preview-width: 560px;
-    --block-preview-scale: 0.31;
+    --block-preview-height: 4.45rem;
+    --block-preview-width: 420px;
+    --block-preview-scale: 0.3;
   }
 }
 
-@media (min-width: 1024px) and (max-height: 740px) {
+@media (min-width: 1024px) and (max-height: 800px) {
   :root {
     --workspace-padding: 0.25rem;
     --workspace-radius: 0.75rem;
@@ -126,8 +126,8 @@
     --toolbar-padding-x: 0.375rem;
     --file-tabs-height: 1.75rem;
     --preview-gutter: 0.375rem;
-    --block-preview-height: 4.25rem;
-    --block-preview-scale: 0.28;
+    --block-preview-height: 4rem;
+    --block-preview-scale: 0.27;
   }
 }
 

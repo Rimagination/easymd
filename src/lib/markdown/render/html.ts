@@ -17,6 +17,7 @@ import { loadCodeThemeCss } from '@/themes/code-theme/loader'
 import { loadMarkdownStyleCss } from '@/themes/markdown-style/loader'
 import { loadKatexCss } from '../utils'
 import { getAdapterPlugins } from './adapters'
+import { expandArticleBlockReferences } from './article-blocks'
 import { rehypeDivToSection, rehypeFigureWrapper, rehypeFootnoteLinks, rehypeGithubAlert, rehypeInfographic, rehypeMermaid, rehypeSvgHeading, rehypeWrapTextNodes, remarkFrontmatterTable } from './plugins'
 import { sanitizeSchema } from './sanitize-schema'
 
@@ -116,7 +117,8 @@ export async function render(options: RenderOptions): Promise<string> {
   } = options
 
   const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform, footnoteLabel, referenceTitle })
-  const html = (await processor.process(markdown)).toString()
+  const expandedMarkdown = expandArticleBlockReferences(markdown)
+  const html = (await processor.process(expandedMarkdown)).toString()
 
   const hasKatex = html.includes('class="katex"')
     || html.includes('class="katex-display"')

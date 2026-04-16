@@ -28,6 +28,8 @@ interface ScrollState {
   rafId: number | null
   locked: boolean
   enabled: boolean
+  ignoreScroll: boolean
+  ignoreScrollTimer: ReturnType<typeof setTimeout> | null
   onScrollRatioChange: (ratio: number) => void
 }
 
@@ -37,7 +39,14 @@ const previewScrollStates = new WeakMap<HTMLIFrameElement, ScrollState>()
 function getEditorScrollState(view: EditorView, onScrollRatioChange: (ratio: number) => void, enabled: boolean): ScrollState {
   let state = editorScrollStates.get(view)
   if (!state) {
-    state = { rafId: null, locked: false, enabled, onScrollRatioChange }
+    state = {
+      rafId: null,
+      locked: false,
+      enabled,
+      ignoreScroll: false,
+      ignoreScrollTimer: null,
+      onScrollRatioChange,
+    }
     editorScrollStates.set(view, state)
   }
   return state
@@ -46,7 +55,14 @@ function getEditorScrollState(view: EditorView, onScrollRatioChange: (ratio: num
 function getPreviewScrollState(iframe: HTMLIFrameElement, onScrollRatioChange: (ratio: number) => void, enabled: boolean): ScrollState {
   let state = previewScrollStates.get(iframe)
   if (!state) {
-    state = { rafId: null, locked: false, enabled, onScrollRatioChange }
+    state = {
+      rafId: null,
+      locked: false,
+      enabled,
+      ignoreScroll: false,
+      ignoreScrollTimer: null,
+      onScrollRatioChange,
+    }
     previewScrollStates.set(iframe, state)
   }
   return state
@@ -74,10 +90,29 @@ export function useEditorScrollSync(options: EditorScrollSyncOptions = {}): {
   }, [enabled])
 
   const editorExtensions = useMemo<Extension[]>(() => [
+    EditorViewClass.updateListener.of((update) => {
+      const state = editorScrollStates.get(update.view)
+      if (!state || !state.enabled || !update.docChanged) {
+        return
+      }
+
+      state.ignoreScroll = true
+      if (state.ignoreScrollTimer) {
+        clearTimeout(state.ignoreScrollTimer)
+      }
+      state.ignoreScrollTimer = setTimeout(() => {
+        state.ignoreScroll = false
+        state.ignoreScrollTimer = null
+      }, 350)
+    }),
     EditorViewClass.domEventHandlers({
       scroll: (_event: Event, view: EditorView) => {
         const state = editorScrollStates.get(view)
         if (!state || !state.enabled || state.locked) {
+          return
+        }
+
+        if (state.ignoreScroll) {
           return
         }
 
@@ -129,7 +164,15 @@ export function useEditorScrollSync(options: EditorScrollSyncOptions = {}): {
       })
     })
 
-    return unsubscribe
+    return () => {
+      const view = editorViewRef.current
+      const scrollState = view ? editorScrollStates.get(view) : null
+      if (scrollState?.ignoreScrollTimer) {
+        clearTimeout(scrollState.ignoreScrollTimer)
+        scrollState.ignoreScrollTimer = null
+      }
+      unsubscribe()
+    }
   }, [])
 
   return { editorExtensions, onCreateEditor }

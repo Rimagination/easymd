@@ -5,6 +5,7 @@
   "private": true,
   "packageManager": "pnpm@10.28.2",
   "description": "A focused Markdown formatter for WeChat Official Accounts and Zhihu.",
+  "license": "AGPL-3.0-only",
   "homepage": "https://easymd.vercel.app",
   "repository": {
     "type": "git",

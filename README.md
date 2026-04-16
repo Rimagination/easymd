@@ -2,7 +2,11 @@
 
 [https://easymd.vercel.app](https://easymd.vercel.app)
 
+本项目基于 [miantiao-me/bm.md](https://github.com/miantiao-me/bm.md) 二次开发，感谢原项目的开源基础。
+
 聚焦微信公众号与知乎排版的 Markdown 工具。
+
+源代码：[Rimagination/easymd](https://github.com/Rimagination/easymd)
 
 ---
 
@@ -49,4 +53,4 @@ pnpm dev
 
 ## 许可证
 
-[AGPL-3.0](./LICENSE)
+本项目以 [AGPL-3.0](./LICENSE) 发布。软件按许可证原样提供，不附带任何担保；你可以在许可证条款下复制、分发和修改本项目。

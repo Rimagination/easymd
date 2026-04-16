@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { createEditedArticleBlockReference } from './article-blocks'
 import { render } from './html'
 
 describe('markdown -> html render (general)', () => {
@@ -58,6 +59,18 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('style="width: 100%"')
   })
 
+  it('keeps visual edit font family declarations valid after CSS inlining', async () => {
+    const html = await render({
+      markdown: '<span style="font-family: Microsoft YaHei, PingFang SC, sans-serif;">CodeMirror 6</span>',
+      markdownStyle: 'professional',
+    })
+
+    expect(html).toContain('CodeMirror 6')
+    expect(html).toContain('font-family: Microsoft YaHei, PingFang SC, sans-serif')
+    expect(html).not.toContain('undefined:')
+    expect(html).not.toContain('&quot;')
+  })
+
   it('preserves safe animated SVG for reusable interaction snippets', async () => {
     const markdown = '<section style="text-align: center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 48"><g transform="translate(24 24)"><circle cx="0" cy="0" r="12" fill="#fb5a78"><animate attributeName="opacity" values="0.6;1;0.6" dur="1s" repeatCount="indefinite" /></circle><animateTransform attributeName="transform" type="translate" values="24 24;24 18;24 24" dur="1s" repeatCount="indefinite" /></g><text x="48" y="29" font-size="16" font-weight="800" fill="#111827">点赞</text></svg><script>alert(1)</script></section>'
     const html = await render({ markdown })
@@ -78,6 +91,19 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('<svg')
     expect(html).toContain('点赞')
     expect(html).not.toContain('easymd:block/interaction-outline-buttons')
+  })
+
+  it('renders edited article block shortcode sources', async () => {
+    const html = await render({
+      markdown: createEditedArticleBlockReference(
+        'title-center-line',
+        '<section><h2 style="color: #22c55e">新的组件标题</h2></section>',
+      ),
+    })
+
+    expect(html).toContain('新的组件标题')
+    expect(html).toContain('#22c55e')
+    expect(html).not.toContain('source=')
   })
 
   it('applies code highlighting classes', async () => {

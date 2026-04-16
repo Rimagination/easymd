@@ -283,6 +283,95 @@ export const articleBlockTemplates: ArticleBlockTemplate[] = [
 `.trim(),
   },
   {
+    id: 'card-green-tab',
+    category: 'card',
+    name: '绿签边框卡片',
+    description: '顶部标签加细边框，适合正文摘要',
+    accent: '#3E8549',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 0; text-align: center;">
+  <section style="display: inline-block; width: 95%; max-width: 100%; padding: 0 10px 12px; border-top: 2px solid #3e8549; border-radius: 10px; box-shadow: 0 0 2px #989898; background: #ffffff; box-sizing: border-box; text-align: left;">
+    <p style="margin: 0 0 15px; text-align: center;"><span style="display: inline-block; padding: 4px 14px 5px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; background: #3e8549; color: #ffffff; font-size: 16px; font-weight: 700; line-height: 1.45;">舌尖上的中国</span></p>
+    <p style="margin: 0; color: #3f3f3f; font-size: 15px; line-height: 1.85; text-align: justify;">这是盐的味道。山的味道，风的味道，阳光的味道，也是时间的味道。把一段想让读者停下来的内容写在这里。</p>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-mint-shadow',
+    category: 'card',
+    name: '薄荷投影卡',
+    description: '清爽描边和偏移投影，适合提示说明',
+    accent: '#4ACDA8',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 22px 6px 26px 0;">
+  <section style="padding: 20px; border: 1px solid #4acda8; border-radius: 12px; box-shadow: 6px 6px 0 #d0f1d5; background: #ffffff; box-sizing: border-box;">
+    <p style="margin: 0; color: #3f3f3f; font-size: 15px; line-height: 1.85; text-align: justify;">全国中小学生安全教育日，是为了加强校园安全教育，提高法治意识、安全防范意识和自我防护能力而设定的教育宣传活动日。</p>
+  </section>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-loop-progress',
+    category: 'card',
+    name: '循环进度卡',
+    description: '带循环加载动效，适合进度和等待提示',
+    accent: '#E95A3B',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 24px 0; padding: 18px 18px 16px; border: 1px solid #ffd2c2; border-radius: 12px; background: #ffffff; box-sizing: border-box;">
+  <p style="margin: 0 0 12px; color: #c2410c; font-size: 16px; font-weight: 800; line-height: 1.5;">加载中，请稍候</p>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" width="100%" height="64" style="display: block; margin: 0 auto;">
+    <rect x="0" y="28" width="320" height="8" rx="4" fill="#ffe4d7" />
+    <rect x="-96" y="28" width="96" height="8" rx="4" fill="#e95a3b">
+      <animate attributeName="x" values="-96;320" dur="1.8s" repeatCount="indefinite" />
+    </rect>
+    <circle cx="112" cy="48" r="4" fill="#e95a3b">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="1.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="138" cy="48" r="4" fill="#f59e0b">
+      <animate attributeName="opacity" values="1;0.35;1" dur="1.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="164" cy="48" r="4" fill="#e95a3b">
+      <animate attributeName="opacity" values="0.35;1;0.35" dur="1.2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="190" cy="48" r="4" fill="#f59e0b">
+      <animate attributeName="opacity" values="1;0.35;1" dur="1.2s" repeatCount="indefinite" />
+    </circle>
+  </svg>
+  <p style="margin: 8px 0 0; color: #7c2d12; font-size: 14px; line-height: 1.75;">循环加载的动效会自动播放，可把这里改成排队、处理或上传提示。</p>
+</section>
+`.trim(),
+  },
+  {
+    id: 'card-reading-marquee',
+    category: 'card',
+    name: '导读跑马灯卡',
+    description: '顶部短色条和右下动态圆点，适合正文导读',
+    accent: '#8BCBD0',
+    icon: SquareStack,
+    markdown: `
+<section style="margin: 24px 0; padding: 0; background: #ffffff; box-sizing: border-box;">
+  <span style="display: block; width: 108px; height: 10px; margin: 0 0 18px; background: #8bcbd0;"></span>
+  <h2 style="margin: 0 0 12px; color: #3f3f3f; font-size: 22px; font-weight: 900; line-height: 1.35;">导读标题</h2>
+  <p style="margin: 0; color: #4a4a4a; font-size: 17px; line-height: 1.8; letter-spacing: 0.02em; text-align: justify;">导读，是一种阅读辅导的行为。近几年出现的一种标题形式，它类似于20世纪80年代中期出现的标题新闻，现在许多报纸都在运用这一特殊的新闻品种，它主要是方便人们阅读，激起人们阅读的兴趣。</p>
+  <section style="margin-top: 12px; text-align: right; line-height: 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82 22" width="82" height="22" style="display: inline-block;">
+      <circle cx="10" cy="11" r="5" fill="none" stroke="#ff4d34" stroke-width="2" />
+      <circle cx="30" cy="11" r="5" fill="none" stroke="#ff4d34" stroke-width="2" />
+      <circle cx="50" cy="11" r="5" fill="none" stroke="#ff4d34" stroke-width="2" />
+      <circle cx="70" cy="11" r="5" fill="none" stroke="#ff4d34" stroke-width="2" />
+      <circle cx="10" cy="11" r="5" fill="#ff4d34">
+        <animate attributeName="cx" values="10;30;50;70;10" dur="1.6s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  </section>
+</section>
+`.trim(),
+  },
+  {
     id: 'image-rounded-caption',
     category: 'image',
     name: '圆角大图',

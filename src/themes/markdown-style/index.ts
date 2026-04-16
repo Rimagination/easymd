@@ -8,6 +8,7 @@ export const markdownStyles: MarkdownStyle[] = [
   { id: 'bauhaus', name: 'Bauhaus' },
   { id: 'blueprint', name: 'Blueprint' },
   { id: 'botanical', name: 'Botanical' },
+  { id: 'coral-notes', name: 'Coral Notes' },
   { id: 'green-simple', name: 'GreenSimple' },
   { id: 'mdnice-classic', name: 'MDNice Classic' },
   { id: 'maximalism', name: 'Maximalism' },

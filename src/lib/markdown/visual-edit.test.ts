@@ -113,6 +113,47 @@ describe('preview visual edit helpers', () => {
     expect(result.markdown).toContain('vertical-align: super')
   })
 
+  it('updates direct html heading styles instead of wrapping component text', () => {
+    const result = applyPreviewTextStyle(
+      '<section><h2 style="color: #111827;">Hello component</h2></section>',
+      'Hello component',
+      {
+        fontSize: '24px',
+        fontWeight: '700',
+      },
+    )
+
+    expect(result.changed).toBe(true)
+    expect(result.markdown).toContain('<h2 style="color: #111827; font-size: 24px; font-weight: 700">Hello component</h2>')
+    expect(result.markdown).not.toContain('<span')
+  })
+
+  it('targets repeated html component text by clicked occurrence', () => {
+    const result = applyPreviewTextStyle(
+      '<section><p style="color:#111">Repeat</p><p style="color:#111">Repeat</p></section>',
+      'Repeat',
+      { fontSize: '24px' },
+      { occurrenceIndex: 1, tagName: 'p', text: 'Repeat' },
+    )
+
+    expect(result.changed).toBe(true)
+    expect(result.markdown).toBe(
+      '<section><p style="color:#111">Repeat</p><p style="color:#111; font-size: 24px">Repeat</p></section>',
+    )
+  })
+
+  it('replaces repeated html component text by clicked occurrence', () => {
+    const result = replacePreviewText(
+      '<section><p>Repeat</p><p>Repeat</p></section>',
+      'Repeat',
+      'Changed',
+      { occurrenceIndex: 1, tagName: 'p', text: 'Repeat' },
+    )
+
+    expect(result.changed).toBe(true)
+    expect(result.markdown).toBe('<section><p>Repeat</p><p>Changed</p></section>')
+  })
+
   it('updates svg text attributes instead of nesting html spans', () => {
     const result = applyPreviewTextStyle(
       '<svg><text x="10" y="20" fill="#111827" font-size="21">先收藏，慢慢</text></svg>',
@@ -261,7 +302,38 @@ describe('preview visual edit helpers', () => {
 
     expect(result.changed).toBe(true)
     expect(result.markdown).toContain('{{easymd:block id="card-highlight-note" source="')
-    expect(expandArticleBlockReferences(result.markdown)).toContain('<span style="font-size: 22px; color: #ef4444;">重点提示</span>')
+    expect(expandArticleBlockReferences(result.markdown)).toContain('<p style="margin: 0 0 8px; color: #ef4444; font-size: 22px; font-weight: 800">重点提示</p>')
+  })
+
+  it('targets repeated article block text by rendered occurrence', () => {
+    const blockText = expandArticleBlockReferences(cardBlockReference).match(/<p[^>]*>([^<]+)/)?.[1] ?? ''
+    const result = applyPreviewTextStyle(
+      `${cardBlockReference}\n\n${cardBlockReference}`,
+      blockText,
+      { fontSize: '22px' },
+      { occurrenceIndex: 1, tagName: 'p', text: blockText },
+    )
+    const expanded = expandArticleBlockReferences(result.markdown)
+
+    expect(result.changed).toBe(true)
+    expect(result.markdown.match(/\{\{easymd:block/g)).toHaveLength(1)
+    expect(expanded.match(/font-size: 22px/g)).toHaveLength(1)
+  })
+
+  it('replaces repeated article block text by rendered occurrence', () => {
+    const blockText = expandArticleBlockReferences(cardBlockReference).match(/<p[^>]*>([^<]+)/)?.[1] ?? ''
+    const result = replacePreviewText(
+      `${cardBlockReference}\n\n${cardBlockReference}`,
+      blockText,
+      'Second card',
+      { occurrenceIndex: 1, tagName: 'p', text: blockText },
+    )
+    const expanded = expandArticleBlockReferences(result.markdown)
+
+    expect(result.changed).toBe(true)
+    expect(result.markdown.match(/\{\{easymd:block/g)).toHaveLength(1)
+    expect(expanded).toContain(blockText)
+    expect(expanded).toContain('Second card')
   })
 
   it('keeps article block edits in a compact shortcode when replacing preview images', () => {

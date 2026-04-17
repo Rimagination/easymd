@@ -1,12 +1,56 @@
+import type { ViewUpdate } from '@codemirror/view'
 import { EditorView, ViewPlugin } from '@codemirror/view'
 import { toast } from 'sonner'
 import { importFilesAsNewTabs, isImageFile, isTextFile } from '@/lib/file-importer'
 import { uploadImage } from '@/services/upload'
 
 let currentEditorView: EditorView | null = null
+let lastReliableSelection: {
+  docLength: number
+  from: number
+  head: number
+  to: number
+} | null = null
 
 export function getImportEditorView(): EditorView | null {
   return currentEditorView
+}
+
+function rememberSelection(view: EditorView): void {
+  const selection = view.state.selection.main
+  lastReliableSelection = {
+    docLength: view.state.doc.length,
+    from: selection.from,
+    head: selection.head,
+    to: selection.to,
+  }
+}
+
+export function getReliableEditorSelection(view: EditorView): { from: number, head: number, to: number } {
+  const selection = view.state.selection.main
+  const currentAtDocumentStart = selection.from === 0 && selection.to === 0 && view.state.doc.length > 0
+  const rememberedAwayFromStart = Boolean(
+    lastReliableSelection
+    && (lastReliableSelection.from > 0 || lastReliableSelection.to > 0 || lastReliableSelection.head > 0),
+  )
+
+  if (
+    (!view.hasFocus || (currentAtDocumentStart && rememberedAwayFromStart))
+    && lastReliableSelection
+    && lastReliableSelection.docLength === view.state.doc.length
+  ) {
+    return {
+      from: lastReliableSelection.from,
+      head: lastReliableSelection.head,
+      to: lastReliableSelection.to,
+    }
+  }
+
+  return {
+    from: selection.from,
+    head: selection.head,
+    to: selection.to,
+  }
 }
 
 function getFilesFromDataTransfer(dataTransfer: DataTransfer | null): File[] {
@@ -36,6 +80,14 @@ export const importViewTrackerExtension = ViewPlugin.fromClass(
     constructor(view: EditorView) {
       this.view = view
       currentEditorView = view
+      rememberSelection(view)
+    }
+
+    update(update: ViewUpdate) {
+      currentEditorView = update.view
+      if (update.view.hasFocus || update.docChanged) {
+        rememberSelection(update.view)
+      }
     }
 
     destroy() {
@@ -56,7 +108,7 @@ export async function importFilesToEditor(
   }
 
   const { insertPos, replaceAll = false } = options
-  const selection = view.state.selection.main
+  const selection = getReliableEditorSelection(view)
   let currentInsertPos = insertPos ?? selection.from
 
   for (const file of files) {
@@ -150,14 +202,14 @@ export const importDropPasteExtension = EditorView.domEventHandlers({
     }
 
     if (imageFiles.length > 0) {
-      void importFilesToEditor(view, imageFiles, { insertPos: view.state.selection.main.anchor })
+      void importFilesToEditor(view, imageFiles, { insertPos: getReliableEditorSelection(view).head })
     }
   },
   paste(event, view) {
     const files = getFilesFromDataTransfer(event.clipboardData)
     if (files.length) {
       event.preventDefault()
-      const insertPos = view.state.selection.main.anchor
+      const insertPos = getReliableEditorSelection(view).head
       void importFilesToEditor(view, files, { insertPos })
       return
     }

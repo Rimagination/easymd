@@ -32,6 +32,13 @@ export interface ColorTargetPatch {
   text?: string
 }
 
+export interface TextTargetPatch {
+  occurrenceIndex?: number
+  signature?: Record<string, string>
+  tagName: string
+  text?: string
+}
+
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, '&amp;')
@@ -94,6 +101,57 @@ function applyToArticleBlockReference(
   }
 
   return { changed: false, markdown }
+}
+
+function applyToArticleBlockTextReference(
+  markdown: string,
+  target: TextTargetPatch | null | undefined,
+  editBlockMarkdown: (blockMarkdown: string, adjustedTarget?: TextTargetPatch | null) => VisualEditResult,
+): VisualEditResult {
+  if (target?.occurrenceIndex === undefined) {
+    return applyToArticleBlockReference(
+      markdown,
+      blockMarkdown => editBlockMarkdown(blockMarkdown, target),
+    )
+  }
+
+  let occurrenceOffset = 0
+  let cursor = 0
+
+  for (const reference of getArticleBlockReferences(markdown)) {
+    occurrenceOffset += countTextTargetMatches(markdown.slice(cursor, reference.start), target)
+
+    const source = resolveArticleBlockReferenceSource(reference)
+    if (!source) {
+      cursor = reference.end
+      continue
+    }
+
+    const blockMatchCount = countTextTargetMatches(source, target)
+    if (target.occurrenceIndex < occurrenceOffset + blockMatchCount) {
+      const result = editBlockMarkdown(source, {
+        ...target,
+        occurrenceIndex: target.occurrenceIndex - occurrenceOffset,
+      })
+      if (!result.changed) {
+        return { changed: false, markdown }
+      }
+
+      return replaceRange(
+        markdown,
+        reference,
+        createEditedArticleBlockReference(reference.id, result.markdown),
+      )
+    }
+
+    occurrenceOffset += blockMatchCount
+    cursor = reference.end
+  }
+
+  return applyToArticleBlockReference(
+    markdown,
+    blockMarkdown => editBlockMarkdown(blockMarkdown, { ...target, occurrenceIndex: undefined }),
+  )
 }
 
 const htmlAttributePattern = /([:@\w-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g
@@ -241,6 +299,31 @@ interface ElementRange {
   openTag: string
 }
 
+const htmlTextStyleTargetTags = [
+  'span',
+  'strong',
+  'b',
+  'em',
+  'i',
+  'u',
+  's',
+  'mark',
+  'small',
+  'a',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'p',
+  'li',
+  'blockquote',
+  'figcaption',
+  'td',
+  'th',
+]
+
 function findEnclosingElementRange(
   markdown: string,
   range: { end: number, start: number },
@@ -374,19 +457,23 @@ function applyHtmlTextStyleAtRange(
   range: { end: number, start: number },
   style: TextStylePatch,
 ): VisualEditResult | null {
-  const spanRange = findEnclosingElementRange(markdown, range, 'span')
-  if (!spanRange) {
-    return null
+  for (const tagName of htmlTextStyleTargetTags) {
+    const elementRange = findEnclosingElementRange(markdown, range, tagName)
+    if (!elementRange) {
+      continue
+    }
+
+    return replaceRange(
+      markdown,
+      {
+        end: elementRange.openEnd,
+        start: elementRange.openStart,
+      },
+      applyTextStyleToHtmlTag(elementRange.openTag, style),
+    )
   }
 
-  return replaceRange(
-    markdown,
-    {
-      end: spanRange.openEnd,
-      start: spanRange.openStart,
-    },
-    applyTextStyleToHtmlTag(spanRange.openTag, style),
-  )
+  return null
 }
 
 function getMarkdownListMarkerEnd(line: string): number {
@@ -688,11 +775,209 @@ export function normalizePreviewSelection(text: string): string {
   return text.replace(/\s+/g, ' ').trim()
 }
 
+function scoreTextTargetTag(
+  markdown: string,
+  tag: string,
+  openEnd: number,
+  target: TextTargetPatch,
+): number {
+  const attributes = parseTagAttributes(tag)
+  const signature = target.signature ?? {}
+  let score = 0
+
+  for (const [name, expectedValue] of Object.entries(signature)) {
+    const actualValue = attributes[name.toLowerCase()]
+    if (!actualValue || actualValue !== expectedValue) {
+      return -1
+    }
+    score += 3
+  }
+
+  if (target.text) {
+    const bodyText = getElementBodyText(markdown, openEnd, target.tagName)
+    const expectedText = normalizePreviewSelection(target.text)
+    if (bodyText === expectedText) {
+      score += 8
+    }
+    else if (bodyText.includes(expectedText)) {
+      score += 4
+    }
+    else {
+      return -1
+    }
+  }
+
+  return score
+}
+
+function findTextTargetElementRanges(
+  markdown: string,
+  target: TextTargetPatch | null | undefined,
+): Array<ElementRange & { score: number }> {
+  if (!target?.tagName) {
+    return []
+  }
+
+  const pattern = new RegExp(`<${escapeRegExp(target.tagName)}\\b[^>]*>`, 'gi')
+  const lowerMarkdown = markdown.toLowerCase()
+  const closeTag = `</${target.tagName.toLowerCase()}>`
+  const candidates: Array<ElementRange & { score: number }> = []
+
+  for (const match of markdown.matchAll(pattern)) {
+    if (match.index === undefined) {
+      continue
+    }
+
+    const openStart = match.index
+    const openEnd = openStart + match[0].length
+    const closeStart = lowerMarkdown.indexOf(closeTag, openEnd)
+    if (closeStart === -1) {
+      continue
+    }
+
+    const score = scoreTextTargetTag(markdown, match[0], openEnd, target)
+    if (score < 0) {
+      continue
+    }
+
+    candidates.push({
+      closeEnd: closeStart + closeTag.length,
+      closeStart,
+      openEnd,
+      openStart,
+      openTag: match[0],
+      score,
+    })
+  }
+
+  return candidates
+}
+
+function countTextTargetMatches(markdown: string, target: TextTargetPatch | null | undefined): number {
+  if (!target) {
+    return 0
+  }
+
+  return findTextTargetElementRanges(markdown, {
+    ...target,
+    occurrenceIndex: undefined,
+  }).length
+}
+
+function findTextTargetElementRange(
+  markdown: string,
+  target: TextTargetPatch | null | undefined,
+): ElementRange | null {
+  const candidates = findTextTargetElementRanges(markdown, target)
+
+  if (target?.occurrenceIndex !== undefined && candidates[target.occurrenceIndex]) {
+    return candidates[target.occurrenceIndex]
+  }
+
+  return candidates.sort((left, right) => right.score - left.score)[0] ?? null
+}
+
+function replaceTextTargetBodyInSource(
+  markdown: string,
+  target: TextTargetPatch | null | undefined,
+  selectedText: string,
+  replacementText: string,
+): VisualEditResult | null {
+  const targetRange = findTextTargetElementRange(markdown, target)
+  if (!targetRange) {
+    return null
+  }
+
+  const normalizedSelection = normalizePreviewSelection(selectedText)
+  const normalizedReplacement = replacementText.trim()
+  if (!normalizedSelection || !normalizedReplacement) {
+    return { changed: false, markdown }
+  }
+
+  const body = markdown.slice(targetRange.openEnd, targetRange.closeStart)
+  const bodyText = normalizePreviewSelection(body.replace(/<[^>]+>/g, ' '))
+
+  if (bodyText === normalizedSelection) {
+    return replaceRange(
+      markdown,
+      { end: targetRange.closeStart, start: targetRange.openEnd },
+      escapeHtml(normalizedReplacement),
+    )
+  }
+
+  const bodyRange = findTextRange(body, normalizedSelection)
+  if (!bodyRange) {
+    return null
+  }
+
+  return replaceRange(
+    markdown,
+    {
+      end: targetRange.openEnd + bodyRange.end,
+      start: targetRange.openEnd + bodyRange.start,
+    },
+    escapeHtml(normalizedReplacement),
+  )
+}
+
+function applyTextTargetStyleInSource(
+  markdown: string,
+  target: TextTargetPatch | null | undefined,
+  style: TextStylePatch,
+): VisualEditResult | null {
+  const targetRange = findTextTargetElementRange(markdown, target)
+  if (!targetRange) {
+    return null
+  }
+
+  const bodyRange = { end: targetRange.closeStart, start: targetRange.openEnd }
+  if (target?.tagName.toLowerCase() === 'text') {
+    return applySvgTextStyleAtRange(markdown, bodyRange, style)
+  }
+
+  if (style.textAlign) {
+    const inlineStyle: TextStylePatch = { ...style, textAlign: undefined }
+    if (buildStyle(inlineStyle)) {
+      const inlineResult = replaceRange(
+        markdown,
+        { end: targetRange.openEnd, start: targetRange.openStart },
+        applyTextStyleToHtmlTag(targetRange.openTag, inlineStyle),
+      )
+      const nextTargetRange = findTextTargetElementRange(inlineResult.markdown, target)
+      if (nextTargetRange) {
+        const aligned = applyBlockTextAlignAtRange(
+          inlineResult.markdown,
+          { end: nextTargetRange.closeStart, start: nextTargetRange.openEnd },
+          style.textAlign,
+        )
+        if (aligned) {
+          return aligned
+        }
+      }
+      return inlineResult
+    }
+
+    return applyBlockTextAlignAtRange(markdown, bodyRange, style.textAlign)
+  }
+
+  return replaceRange(
+    markdown,
+    { end: targetRange.openEnd, start: targetRange.openStart },
+    applyTextStyleToHtmlTag(targetRange.openTag, style),
+  )
+}
+
 function replacePreviewTextInSource(
   markdown: string,
   selectedText: string,
   replacementText: string,
+  target?: TextTargetPatch | null,
 ): VisualEditResult {
+  const targetedResult = replaceTextTargetBodyInSource(markdown, target, selectedText, replacementText)
+  if (targetedResult?.changed) {
+    return targetedResult
+  }
+
   const normalizedSelection = normalizePreviewSelection(selectedText)
   const normalizedReplacement = replacementText.trim()
 
@@ -707,12 +992,18 @@ function applyPreviewTextStyleInSource(
   markdown: string,
   selectedText: string,
   style: TextStylePatch,
+  target?: TextTargetPatch | null,
 ): VisualEditResult {
   const normalizedSelection = normalizePreviewSelection(selectedText)
   const styleText = buildStyle(style)
 
   if (!normalizedSelection || !styleText) {
     return { changed: false, markdown }
+  }
+
+  const targetedResult = applyTextTargetStyleInSource(markdown, target, style)
+  if (targetedResult?.changed) {
+    return targetedResult
   }
 
   const range = findTextRange(markdown, normalizedSelection)
@@ -988,15 +1279,17 @@ export function replacePreviewText(
   markdown: string,
   selectedText: string,
   replacementText: string,
+  target?: TextTargetPatch | null,
 ): VisualEditResult {
-  const result = replacePreviewTextInSource(markdown, selectedText, replacementText)
+  const result = replacePreviewTextInSource(markdown, selectedText, replacementText, target)
   if (result.changed) {
     return result
   }
 
-  return applyToArticleBlockReference(
+  return applyToArticleBlockTextReference(
     markdown,
-    blockMarkdown => replacePreviewTextInSource(blockMarkdown, selectedText, replacementText),
+    target,
+    (blockMarkdown, adjustedTarget) => replacePreviewTextInSource(blockMarkdown, selectedText, replacementText, adjustedTarget),
   )
 }
 
@@ -1004,15 +1297,17 @@ export function applyPreviewTextStyle(
   markdown: string,
   selectedText: string,
   style: TextStylePatch,
+  target?: TextTargetPatch | null,
 ): VisualEditResult {
-  const result = applyPreviewTextStyleInSource(markdown, selectedText, style)
+  const result = applyPreviewTextStyleInSource(markdown, selectedText, style, target)
   if (result.changed) {
     return result
   }
 
-  return applyToArticleBlockReference(
+  return applyToArticleBlockTextReference(
     markdown,
-    blockMarkdown => applyPreviewTextStyleInSource(blockMarkdown, selectedText, style),
+    target,
+    (blockMarkdown, adjustedTarget) => applyPreviewTextStyleInSource(blockMarkdown, selectedText, style, adjustedTarget),
   )
 }
 

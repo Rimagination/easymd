@@ -8,7 +8,7 @@ import { articleBlockCategories, articleBlockTemplates } from '@/config/article-
 import { trackEvent } from '@/lib/analytics'
 import { createArticleBlockReference } from '@/lib/markdown/render/article-blocks'
 import { cn } from '@/lib/utils'
-import { getImportEditorView } from './editor/file-import'
+import { getImportEditorView, getReliableEditorSelection } from './editor/file-import'
 
 interface ArticleBlockLibraryProps {
   className?: string
@@ -47,7 +47,7 @@ function insertArticleBlock(template: ArticleBlockTemplate, onInserted?: () => v
     return
   }
 
-  const selection = view.state.selection.main
+  const selection = getReliableEditorSelection(view)
   const doc = view.state.doc.toString()
   const insertion = buildInsertion(
     createArticleBlockReference(template.id, template.name),
@@ -59,6 +59,7 @@ function insertArticleBlock(template: ArticleBlockTemplate, onInserted?: () => v
   view.dispatch({
     changes: { from: selection.from, to: selection.to, insert: insertion },
     selection: { anchor: selection.from + insertion.length },
+    scrollIntoView: true,
   })
   view.focus()
   toast.success(`已插入：${template.name}`)

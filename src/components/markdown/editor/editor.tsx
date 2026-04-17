@@ -4,7 +4,7 @@ import { EditorView } from '@codemirror/view'
 import CodeMirror from '@uiw/react-codemirror'
 import { useTheme } from 'next-themes'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { useEditorScrollSync } from '@/components/markdown/hooks/use-scroll-sync'
+import { suppressScrollSync, useEditorScrollSync } from '@/components/markdown/hooks/use-scroll-sync'
 import { useEditorStore } from '@/stores/editor'
 import { useFilesStore } from '@/stores/files'
 import { getAyuCodeMirrorTheme } from '@/themes/codemirror'
@@ -69,13 +69,18 @@ export default function CodeMirrorEditor() {
     const scrollElement = view.scrollDOM
     const scrollTop = scrollElement.scrollTop
     const scrollLeft = scrollElement.scrollLeft
+    const selection = view.state.selection.main
+    const anchor = Math.min(selection.anchor, content.length)
+    const head = Math.min(selection.head, content.length)
 
+    suppressScrollSync()
     view.dispatch({
       changes: {
         from: 0,
         insert: content,
         to: current.length,
       },
+      selection: { anchor, head },
     })
 
     requestAnimationFrame(() => {

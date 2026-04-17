@@ -128,7 +128,7 @@ npx lighthouse http://localhost:4173 --view
 const heavyTasks = tasks.filter(task => task.duration > 50)
 
 for (const task of heavyTasks) {
-  console.log(`${task.name}: ${task.duration}ms`)
+  console.info(`${task.name}: ${task.duration}ms`)
 }
 ```
 

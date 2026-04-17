@@ -1,5 +1,5 @@
 import type { PointerEvent as ReactPointerEvent, RefObject } from 'react'
-import type { ColorTargetPatch, TextStylePatch } from '@/lib/markdown/visual-edit'
+import type { ColorTargetPatch, TextStylePatch, TextTargetPatch } from '@/lib/markdown/visual-edit'
 import { debounce } from 'es-toolkit'
 import {
   AlignCenter,
@@ -21,7 +21,7 @@ import {
 import morphdom from 'morphdom'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { usePreviewScrollSync } from '@/components/markdown/hooks/use-scroll-sync'
+import { suppressScrollSync, usePreviewScrollSync } from '@/components/markdown/hooks/use-scroll-sync'
 import { Phone } from '@/components/mockups/iphone'
 import { Safari } from '@/components/mockups/safari'
 import { Button } from '@/components/ui/button'
@@ -91,6 +91,7 @@ interface VisualSelectionState {
   colorTarget: ColorTargetPatch | null
   imageSrc: string | null
   text: string
+  textTarget: TextTargetPatch | null
 }
 
 interface VisualPanelPosition {
@@ -227,6 +228,38 @@ function buildElementSignature(element: Element): Record<string, string> {
   return signature
 }
 
+function getTextTargetOccurrenceIndex(element: Element): number | undefined {
+  const tagName = element.tagName.toLowerCase()
+  const text = normalizePreviewSelection(element.textContent ?? '')
+  if (!tagName || !text) {
+    return undefined
+  }
+
+  let occurrenceIndex = 0
+  for (const candidate of element.ownerDocument.querySelectorAll(tagName)) {
+    if (normalizePreviewSelection(candidate.textContent ?? '') !== text) {
+      continue
+    }
+
+    if (candidate === element) {
+      return occurrenceIndex
+    }
+
+    occurrenceIndex += 1
+  }
+
+  return undefined
+}
+
+function buildTextTargetPatch(element: HTMLElement | SVGElement): TextTargetPatch {
+  return {
+    occurrenceIndex: getTextTargetOccurrenceIndex(element),
+    signature: buildElementSignature(element),
+    tagName: element.tagName.toLowerCase(),
+    text: normalizePreviewSelection(element.textContent ?? ''),
+  }
+}
+
 function findColorTarget(
   target: Element | null,
 ): { color: string | null, element: Element, patch: ColorTargetPatch } | null {
@@ -306,32 +339,79 @@ function getSelectionRect(selection: Selection | null): DOMRect | null {
   return range.getClientRects()[0] ?? null
 }
 
+const TEXT_EDIT_TARGET_SELECTOR = [
+  'span',
+  'strong',
+  'b',
+  'em',
+  'i',
+  'u',
+  's',
+  'mark',
+  'small',
+  'a',
+  'p',
+  'li',
+  'blockquote',
+  'figcaption',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'td',
+  'th',
+  'text',
+  'tspan',
+].join(',')
+
+function hasDirectReadableText(element: Element): boolean {
+  return Array.from(element.childNodes).some(node =>
+    node.nodeType === 3
+    && Boolean(normalizePreviewSelection(node.textContent ?? '')),
+  )
+}
+
 function getTextEditTarget(target: Element | null): HTMLElement | SVGElement | null {
   if (!target || target.closest('img')) {
     return null
   }
 
-  return target.closest([
-    'span',
-    'strong',
-    'b',
-    'em',
-    'i',
-    'u',
-    's',
-    'mark',
-    'p',
-    'li',
-    'blockquote',
-    'figcaption',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'text',
-  ].join(',')) as HTMLElement | SVGElement | null
+  const closestTextTarget = target.closest(TEXT_EDIT_TARGET_SELECTOR)
+  if (closestTextTarget) {
+    return closestTextTarget as HTMLElement | SVGElement
+  }
+
+  let element: Element | null = target
+  while (element && element.id !== 'easymd') {
+    if (hasDirectReadableText(element)) {
+      return element as HTMLElement | SVGElement
+    }
+    element = element.parentElement
+  }
+
+  return null
+}
+
+function getTextEditTargetFromPoint(
+  doc: Document,
+  event: MouseEvent,
+  target: Element | null,
+): HTMLElement | SVGElement | null {
+  const directTarget = getTextEditTarget(target)
+  if (directTarget) {
+    return directTarget
+  }
+
+  for (const element of doc.elementsFromPoint(event.clientX, event.clientY)) {
+    const textTarget = getTextEditTarget(element)
+    if (textTarget) {
+      return textTarget
+    }
+  }
+
+  return null
 }
 
 function positionToolbarNearIframeRect(
@@ -1087,6 +1167,7 @@ export default function MarkdownRender() {
     colorTarget: null,
     imageSrc: null,
     text: '',
+    textTarget: null,
   })
   const [visualFontFamily, setVisualFontFamily] = useState('')
   const [visualFontSize, setVisualFontSize] = useState('16px')
@@ -1191,7 +1272,13 @@ export default function MarkdownRender() {
       clearSelectedTextTargets(doc)
     }
 
-    setVisualSelection({ backgroundColorTarget: null, colorTarget: null, imageSrc: null, text: '' })
+    setVisualSelection({
+      backgroundColorTarget: null,
+      colorTarget: null,
+      imageSrc: null,
+      text: '',
+      textTarget: null,
+    })
     setVisualImageUrl('')
     setVisualReplacementText('')
   }, [iframeRef])
@@ -1235,6 +1322,7 @@ export default function MarkdownRender() {
       colorTarget: null,
       imageSrc: null,
       text,
+      textTarget: textTarget ? buildTextTargetPatch(textTarget) : null,
     })
     setVisualReplacementText(text)
     setVisualImageUrl('')
@@ -1276,6 +1364,7 @@ export default function MarkdownRender() {
         colorTarget: null,
         imageSrc,
         text: '',
+        textTarget: null,
       })
       setVisualImageUrl(imageSrc ?? '')
       setVisualReplacementText('')
@@ -1283,7 +1372,7 @@ export default function MarkdownRender() {
       return
     }
 
-    const textTarget = getTextEditTarget(target)
+    const textTarget = getTextEditTargetFromPoint(doc, event, target)
     const targetText = normalizePreviewSelection(textTarget?.textContent ?? '')
     if (textTarget && targetText) {
       const backgroundColorTarget = findBackgroundColorTarget(textTarget)
@@ -1294,6 +1383,7 @@ export default function MarkdownRender() {
         colorTarget: null,
         imageSrc: null,
         text: targetText,
+        textTarget: buildTextTargetPatch(textTarget),
       })
       setVisualReplacementText(targetText)
       setVisualImageUrl('')
@@ -1314,6 +1404,7 @@ export default function MarkdownRender() {
         colorTarget: colorTarget.patch,
         imageSrc: null,
         text: '',
+        textTarget: null,
       })
       if (colorTarget.color) {
         setVisualColor(colorTarget.color)
@@ -1380,6 +1471,7 @@ export default function MarkdownRender() {
       return false
     }
 
+    suppressScrollSync()
     contentRef.current = result.markdown
     setContent(result.markdown)
     if (nextSelection) {
@@ -1407,9 +1499,14 @@ export default function MarkdownRender() {
     }
 
     return commitVisualEdit(
-      applyPreviewTextStyle(contentRef.current, visualSelection.text, overrides),
+      applyPreviewTextStyle(
+        contentRef.current,
+        visualSelection.text,
+        overrides,
+        visualSelection.textTarget,
+      ),
     )
-  }, [commitVisualEdit, visualSelection.text])
+  }, [commitVisualEdit, visualSelection.text, visualSelection.textTarget])
 
   const handleTextColorChange = useCallback((color: string) => {
     setVisualColor(color)
@@ -1500,11 +1597,19 @@ export default function MarkdownRender() {
       return
     }
 
-    const result = replacePreviewText(contentRef.current, visualSelection.text, nextText)
-    if (commitVisualEdit(result, { text: nextText })) {
+    const result = replacePreviewText(
+      contentRef.current,
+      visualSelection.text,
+      nextText,
+      visualSelection.textTarget,
+    )
+    const nextTextTarget = visualSelection.textTarget
+      ? { ...visualSelection.textTarget, text: nextText }
+      : null
+    if (commitVisualEdit(result, { text: nextText, textTarget: nextTextTarget })) {
       setVisualReplacementText(nextText)
     }
-  }, [commitVisualEdit, visualSelection.text])
+  }, [commitVisualEdit, visualSelection.text, visualSelection.textTarget])
 
   const applyImageResult = useCallback((nextSrc: string) => {
     if (!visualSelection.imageSrc || !nextSrc.trim()) {

@@ -35,6 +35,19 @@ interface ScrollState {
 
 const editorScrollStates = new WeakMap<EditorView, ScrollState>()
 const previewScrollStates = new WeakMap<HTMLIFrameElement, ScrollState>()
+let scrollSyncSuppressedUntil = 0
+
+export function suppressScrollSync(durationMs = 900): void {
+  if (typeof performance === 'undefined') {
+    return
+  }
+
+  scrollSyncSuppressedUntil = Math.max(scrollSyncSuppressedUntil, performance.now() + durationMs)
+}
+
+function isScrollSyncSuppressed(): boolean {
+  return typeof performance !== 'undefined' && performance.now() < scrollSyncSuppressedUntil
+}
 
 function getEditorScrollState(view: EditorView, onScrollRatioChange: (ratio: number) => void, enabled: boolean): ScrollState {
   let state = editorScrollStates.get(view)
@@ -96,6 +109,7 @@ export function useEditorScrollSync(options: EditorScrollSyncOptions = {}): {
         return
       }
 
+      suppressScrollSync(500)
       state.ignoreScroll = true
       if (state.ignoreScrollTimer) {
         clearTimeout(state.ignoreScrollTimer)
@@ -108,7 +122,7 @@ export function useEditorScrollSync(options: EditorScrollSyncOptions = {}): {
     EditorViewClass.domEventHandlers({
       scroll: (_event: Event, view: EditorView) => {
         const state = editorScrollStates.get(view)
-        if (!state || !state.enabled || state.locked) {
+        if (!state || !state.enabled || state.locked || isScrollSyncSuppressed()) {
           return
         }
 
@@ -144,7 +158,7 @@ export function useEditorScrollSync(options: EditorScrollSyncOptions = {}): {
       }
 
       const scrollState = editorScrollStates.get(view)
-      if (!scrollState || !scrollState.enabled) {
+      if (!scrollState || !scrollState.enabled || isScrollSyncSuppressed()) {
         return
       }
 
@@ -207,9 +221,11 @@ export function usePreviewScrollSync(options: PreviewScrollSyncOptions = {}): {
       getPreviewScrollState(iframe, setScrollFromPreview, enabled)
 
       const element = getIframeScrollElement(iframe)
-      if (element && scrollRatio > 0) {
+      if (element && scrollRatio > 0 && !isScrollSyncSuppressed()) {
         requestAnimationFrame(() => {
-          setScrollRatio(element, scrollRatio)
+          if (!isScrollSyncSuppressed()) {
+            setScrollRatio(element, scrollRatio)
+          }
         })
       }
     }
@@ -220,7 +236,7 @@ export function usePreviewScrollSync(options: PreviewScrollSyncOptions = {}): {
     const unsubscribe = useEditorStore.subscribe((state, prevState) => {
       const iframe = iframeRef.current
       const scrollState = iframe ? previewScrollStates.get(iframe) : null
-      if (!scrollState || !scrollState.enabled) {
+      if (!scrollState || !scrollState.enabled || isScrollSyncSuppressed()) {
         return
       }
 
@@ -254,7 +270,7 @@ export function usePreviewScrollSync(options: PreviewScrollSyncOptions = {}): {
     }
 
     const onScroll = () => {
-      if (!state.enabled || state.locked) {
+      if (!state.enabled || state.locked || isScrollSyncSuppressed()) {
         return
       }
 

@@ -47,9 +47,10 @@ const PREVIEW_CODE_COLLAPSE_STYLE_ID = 'easymd-code-collapse-style'
 const PREVIEW_CODE_COLLAPSED_LINE_COUNT = 16
 const PREVIEW_CODE_SCROLL_RESTORE_FRAMES = 5
 const VISUAL_TOOLBAR_EDGE_INSET = 8
-const VISUAL_TOOLBAR_FALLBACK_WIDTH = 760
-const VISUAL_TOOLBAR_FALLBACK_HEIGHT = 176
+const VISUAL_TOOLBAR_FALLBACK_WIDTH = 576
+const VISUAL_TOOLBAR_FALLBACK_HEIGHT = 236
 const VISUAL_TOOLBAR_SELECTION_GAP = 96
+const VISUAL_TOOLBAR_DRAG_CLICK_THRESHOLD = 4
 const FONT_SIZE_OPTIONS = ['14px', '16px', '18px', '20px', '22px', '24px', '28px']
 const FONT_FAMILY_OPTIONS = [
   { label: '默认字体', value: '' },
@@ -739,6 +740,7 @@ interface VisualEditToolbarProps {
   onReady: (panel: HTMLDivElement) => void
   onReplaceImageFile: () => void
   onReplacementTextChange: (text: string) => void
+  onSurfaceClickThrough: (clientX: number, clientY: number) => void
   onStrikeChange: (enabled: boolean) => void
   onSubscriptChange: (enabled: boolean) => void
   onSuperscriptChange: (enabled: boolean) => void
@@ -779,6 +781,7 @@ function VisualEditToolbar({
   onReady,
   onReplaceImageFile,
   onReplacementTextChange,
+  onSurfaceClickThrough,
   onStrikeChange,
   onSubscriptChange,
   onSuperscriptChange,
@@ -801,29 +804,41 @@ function VisualEditToolbar({
     const startX = event.clientX
     const startY = event.clientY
     const startPosition = position
+    let moved = false
 
     const handlePointerMove = (moveEvent: PointerEvent) => {
+      const deltaX = moveEvent.clientX - startX
+      const deltaY = moveEvent.clientY - startY
+      if (Math.hypot(deltaX, deltaY) > VISUAL_TOOLBAR_DRAG_CLICK_THRESHOLD) {
+        moved = true
+      }
+      if (!moved) {
+        return
+      }
       onPositionChange(clampPanelPosition(
         {
-          x: startPosition.x + moveEvent.clientX - startX,
-          y: startPosition.y + moveEvent.clientY - startY,
+          x: startPosition.x + deltaX,
+          y: startPosition.y + deltaY,
         },
         containerRef.current,
         toolbarRef.current,
       ))
     }
 
-    const stopDragging = () => {
+    const stopDragging = (endEvent: PointerEvent) => {
       window.removeEventListener('pointermove', handlePointerMove)
       window.removeEventListener('pointerup', stopDragging)
       window.removeEventListener('pointercancel', stopDragging)
+      if (!moved) {
+        onSurfaceClickThrough(endEvent.clientX, endEvent.clientY)
+      }
     }
 
     window.addEventListener('pointermove', handlePointerMove)
     window.addEventListener('pointerup', stopDragging)
     window.addEventListener('pointercancel', stopDragging)
     event.preventDefault()
-  }, [containerRef, onPositionChange, position])
+  }, [containerRef, onPositionChange, onSurfaceClickThrough, position])
 
   if (!active) {
     return null
@@ -841,7 +856,7 @@ function VisualEditToolbar({
       ref={setToolbarRef}
       className={`
         pointer-events-auto absolute top-0 left-0 z-30
-        w-[min(74rem,calc(100%-1rem))] max-w-[calc(100%-1rem)] rounded-lg border
+        w-[min(36rem,calc(100%-1rem))] max-w-[calc(100%-1rem)] rounded-lg border
         border-white/70 bg-white/70 p-2 text-slate-800 shadow-2xl
         shadow-slate-900/15 backdrop-blur-xl
       `}
@@ -1333,21 +1348,28 @@ export default function MarkdownRender() {
     moveToolbarToRect(rect)
   }, [iframeRef, moveToolbarToRect, syncTextControlsFromElement])
 
-  const handleVisualPreviewClick = useCallback((event: MouseEvent) => {
-    const doc = iframeRef.current?.contentDocument
-    const target = event.target as Element | null
-    if (!doc || !target) {
-      return
+  const selectVisualTargetAtPoint = useCallback((
+    doc: Document,
+    target: Element | null,
+    clientX: number,
+    clientY: number,
+    preferExistingSelection = true,
+  ): boolean => {
+    if (!target) {
+      return false
     }
-
     if (target.closest('[data-easymd-code-toggle="true"]')) {
-      return
+      return false
     }
 
     const selectionText = normalizePreviewSelection(doc.getSelection()?.toString() ?? '')
-    if (selectionText) {
+    if (preferExistingSelection && selectionText) {
       updateVisualSelection()
-      return
+      return true
+    }
+
+    if (!preferExistingSelection) {
+      doc.getSelection()?.removeAllRanges()
     }
 
     clearSelectedImages(doc)
@@ -1356,7 +1378,6 @@ export default function MarkdownRender() {
 
     const image = target.closest('img') as HTMLImageElement | null
     if (image) {
-      event.preventDefault()
       const imageSrc = image.getAttribute('src') || image.currentSrc || null
       image.setAttribute('data-easymd-selected-image', 'true')
       setVisualSelection({
@@ -1369,10 +1390,10 @@ export default function MarkdownRender() {
       setVisualImageUrl(imageSrc ?? '')
       setVisualReplacementText('')
       moveToolbarToRect(image.getBoundingClientRect())
-      return
+      return true
     }
 
-    const textTarget = getTextEditTargetFromPoint(doc, event, target)
+    const textTarget = getTextEditTargetFromPoint(doc, { clientX, clientY } as MouseEvent, target)
     const targetText = normalizePreviewSelection(textTarget?.textContent ?? '')
     if (textTarget && targetText) {
       const backgroundColorTarget = findBackgroundColorTarget(textTarget)
@@ -1392,12 +1413,11 @@ export default function MarkdownRender() {
         setVisualBackgroundColor(backgroundColorTarget.color)
       }
       moveToolbarToRect(textTarget.getBoundingClientRect())
-      return
+      return true
     }
 
     const colorTarget = findColorTarget(target)
     if (colorTarget) {
-      event.preventDefault()
       colorTarget.element.setAttribute('data-easymd-selected-color-target', 'true')
       setVisualSelection({
         backgroundColorTarget: null,
@@ -1412,16 +1432,57 @@ export default function MarkdownRender() {
       setVisualImageUrl('')
       setVisualReplacementText('')
       moveToolbarToRect(colorTarget.element.getBoundingClientRect())
-      return
+      return true
     }
 
     clearVisualSelection()
+    return false
   }, [
     clearVisualSelection,
-    iframeRef,
     moveToolbarToRect,
     syncTextControlsFromElement,
     updateVisualSelection,
+  ])
+
+  const handleVisualPreviewClick = useCallback((event: MouseEvent) => {
+    const doc = iframeRef.current?.contentDocument
+    const target = event.target as Element | null
+    if (!doc || !target) {
+      return
+    }
+
+    if (selectVisualTargetAtPoint(doc, target, event.clientX, event.clientY)) {
+      event.preventDefault()
+    }
+  }, [
+    iframeRef,
+    selectVisualTargetAtPoint,
+  ])
+
+  const handleToolbarSurfaceClickThrough = useCallback((clientX: number, clientY: number) => {
+    const iframe = iframeRef.current
+    const doc = iframe?.contentDocument
+    if (!iframe || !doc) {
+      return
+    }
+
+    const iframeRect = iframe.getBoundingClientRect()
+    const iframeClientX = clientX - iframeRect.left
+    const iframeClientY = clientY - iframeRect.top
+    if (
+      iframeClientX < 0
+      || iframeClientY < 0
+      || iframeClientX > iframeRect.width
+      || iframeClientY > iframeRect.height
+    ) {
+      return
+    }
+
+    const target = doc.elementFromPoint(iframeClientX, iframeClientY)
+    selectVisualTargetAtPoint(doc, target, iframeClientX, iframeClientY, false)
+  }, [
+    iframeRef,
+    selectVisualTargetAtPoint,
   ])
 
   const handlePreviewContainerPointerDown = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
@@ -1847,6 +1908,7 @@ export default function MarkdownRender() {
         onReady={handleToolbarReady}
         onLetterSpacingChange={handleLetterSpacingChange}
         onReplacementTextChange={handleReplacementTextChange}
+        onSurfaceClickThrough={handleToolbarSurfaceClickThrough}
         onImageUrlChange={handleImageUrlChange}
         onReplaceImageFile={handleReplaceImageFile}
       />

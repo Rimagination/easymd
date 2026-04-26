@@ -131,24 +131,26 @@ export function resolveMarkdownRenderStyle(
   styleId: string,
   importedStyles: ImportedMarkdownStyle[],
   customCss: string,
+  paletteOverrideCss = '',
 ): ResolvedMarkdownRenderStyle {
+  const resolvedCustomCss = [customCss, paletteOverrideCss].filter(Boolean).join('\n')
   const importedStyle = importedStyles.find(style => style.id === styleId)
   if (importedStyle) {
     return {
-      customCss: [importedStyle.css, customCss].filter(Boolean).join('\n'),
+      customCss: [importedStyle.css, resolvedCustomCss].filter(Boolean).join('\n'),
     }
   }
 
   if (isBuiltInMarkdownStyleId(styleId)) {
     return {
       markdownStyle: styleId,
-      customCss,
+      customCss: resolvedCustomCss,
     }
   }
 
   return {
     markdownStyle: markdownStyleIds[0],
-    customCss,
+    customCss: resolvedCustomCss,
   }
 }
 

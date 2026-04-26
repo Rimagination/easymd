@@ -21,11 +21,12 @@ export function usePlatformCopy(platform: Platform): PlatformCopyResult {
   const importedMarkdownStyles = usePreviewStore(state => state.importedMarkdownStyles)
   const codeTheme = usePreviewStore(state => state.codeTheme)
   const customCss = usePreviewStore(state => state.customCss)
+  const paletteOverrideCss = usePreviewStore(state => state.paletteOverrideCss)
   const enableFootnoteLinks = useEditorStore(state => state.enableFootnoteLinks)
   const openLinksInNewWindow = useEditorStore(state => state.openLinksInNewWindow)
   const getRenderedHtml = usePreviewStore(state => state.getRenderedHtml)
   const setRenderedHtml = usePreviewStore(state => state.setRenderedHtml)
-  const resolvedStyle = resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss)
+  const resolvedStyle = resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss, paletteOverrideCss)
 
   const getHtml = useCallback(async (): Promise<string> => {
     const cached = getRenderedHtml(platform)

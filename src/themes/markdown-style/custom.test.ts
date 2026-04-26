@@ -45,4 +45,19 @@ describe('custom markdown styles', () => {
     expect(resolved.customCss).toContain(`${MARKDOWN_STYLE_SCOPE_SELECTOR}{ color: red; }`)
     expect(resolved.customCss).toContain('#easymd p { line-height: 1.8; }')
   })
+
+  it('applies palette override css after the selected style and custom css', () => {
+    const resolved = resolveMarkdownRenderStyle(
+      'ayu-light',
+      [],
+      '#easymd p { line-height: 1.8; }',
+      '#easymd h1 { color: #123456; }',
+    )
+
+    expect(resolved.markdownStyle).toBe('ayu-light')
+    expect(resolved.customCss).toBe([
+      '#easymd p { line-height: 1.8; }',
+      '#easymd h1 { color: #123456; }',
+    ].join('\n'))
+  })
 })

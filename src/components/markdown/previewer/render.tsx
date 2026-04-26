@@ -1154,13 +1154,7 @@ export default function MarkdownRender() {
   const setRenderedHtml = usePreviewStore(state => state.setRenderedHtml)
   const clearRenderedHtmlCache = usePreviewStore(state => state.clearRenderedHtmlCache)
   const resolvedStyle = useMemo(
-    () => {
-      const style = resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss)
-      return {
-        ...style,
-        customCss: [style.customCss, paletteOverrideCss].filter(Boolean).join('\n'),
-      }
-    },
+    () => resolveMarkdownRenderStyle(markdownStyle, importedMarkdownStyles, customCss, paletteOverrideCss),
     [markdownStyle, importedMarkdownStyles, customCss, paletteOverrideCss],
   )
 

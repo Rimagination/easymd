@@ -2,24 +2,14 @@ import { createFileRoute } from '@tanstack/react-router'
 import * as z from 'zod'
 import { corsMiddleware } from '@/lib/middleware/cors'
 import { importWechatArticleFromHtml, parseWechatArticleUrl } from '@/lib/wechat-import'
-
-const MAX_WECHAT_HTML_SIZE = 2_000_000
+import { readWechatArticleHtml, WECHAT_HTML_TOO_LARGE_ERROR } from '@/lib/wechat-import/fetch'
 
 const importWechatSchema = z.object({
   url: z.string().min(1),
 })
 
-async function readBoundedText(response: Response): Promise<string> {
-  const text = await response.text()
-  if (text.length > MAX_WECHAT_HTML_SIZE) {
-    throw new Error('文章内容过大，无法导入。')
-  }
-
-  return text
-}
-
 function isClientImportError(message: string): boolean {
-  return message.includes('正文结构') || message.includes('过大')
+  return message.includes('正文结构') || message === WECHAT_HTML_TOO_LARGE_ERROR
 }
 
 export const Route = createFileRoute('/api/import/wechat')({
@@ -49,7 +39,7 @@ export const Route = createFileRoute('/api/import/wechat')({
             )
           }
 
-          const html = await readBoundedText(response)
+          const html = await readWechatArticleHtml(response)
           const result = await importWechatArticleFromHtml({
             html,
             sourceUrl: parsedUrl.url,

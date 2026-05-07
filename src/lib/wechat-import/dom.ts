@@ -1,15 +1,16 @@
 import type { Element, Root, RootContent } from 'hast'
+import type { WechatArticleImportArticle } from './types'
 import rehypeParse from 'rehype-parse'
 import rehypeSanitize from 'rehype-sanitize'
 import rehypeStringify from 'rehype-stringify'
 import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
 import { parse as parseHtmlToMarkdown } from '@/lib/markdown/parse/html'
-import type { WechatArticleImportArticle } from './types'
 
 interface ExtractedWechatArticle {
   article: WechatArticleImportArticle
   bodyHtml: string
+  fingerprintHtml: string
 }
 
 function toText(value: unknown): string {
@@ -111,7 +112,8 @@ export async function extractWechatArticleFromHtml(
   const title = trimText(titleNode) || '公众号文章'
   const author = trimText(authorNode) || undefined
   const publishTime = trimText(publishNode) || undefined
-  const bodyHtml = await sanitizeFragmentHtml(stringifyFragment(bodyNode))
+  const fingerprintHtml = stringifyFragment(bodyNode)
+  const bodyHtml = await sanitizeFragmentHtml(fingerprintHtml)
   const bodyMarkdown = (await parseHtmlToMarkdown(bodyHtml)).trim()
   if (!bodyMarkdown) {
     throw new Error('这篇文章的正文结构无法识别。')
@@ -140,5 +142,6 @@ export async function extractWechatArticleFromHtml(
       markdown,
     },
     bodyHtml,
+    fingerprintHtml,
   }
 }

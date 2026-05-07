@@ -45,9 +45,10 @@ interface ProcessorOptions {
   platform?: Platform
   footnoteLabel?: string
   referenceTitle?: string
+  markdownStyle?: string
 }
 
-function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References' }: ProcessorOptions) {
+function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References', markdownStyle }: ProcessorOptions) {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
@@ -82,7 +83,7 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidThe
     processor.use(rehypeFootnoteLinks, { referenceTitle })
   }
 
-  const adapterPlugins = getAdapterPlugins(platform, { referenceTitle })
+  const adapterPlugins = getAdapterPlugins(platform, { referenceTitle, markdownStyle })
   for (const plugin of adapterPlugins) {
     if (Array.isArray(plugin)) {
       processor.use(plugin[0] as Plugin, plugin[1])
@@ -116,7 +117,7 @@ export async function render(options: RenderOptions): Promise<string> {
     referenceTitle = 'References',
   } = options
 
-  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform, footnoteLabel, referenceTitle })
+  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform, footnoteLabel, referenceTitle, markdownStyle })
   const expandedMarkdown = expandArticleBlockReferences(markdown)
   const html = (await processor.process(expandedMarkdown)).toString()
 

@@ -120,6 +120,31 @@ describe('wechat render adapter', () => {
     expect(html).toContain('<h1')
     expect(html).toContain('easymd')
   })
+
+  it('inserts purple bar in thu-classic h2', async () => {
+    const html = await render({
+      markdown: '## THU Heading',
+      markdownStyle: 'thu-classic',
+      platform: 'wechat',
+    })
+
+    expect(html).toContain('<h2')
+    expect(html).toContain('THU Heading')
+    expect(html).toContain('#5c307d')
+  })
+
+  it('inserts diamond in thu-classic h3', async () => {
+    const html = await render({
+      markdown: '### THU Section',
+      markdownStyle: 'thu-classic',
+      platform: 'wechat',
+    })
+
+    expect(html).toContain('<h3')
+    expect(html).toContain('THU Section')
+    expect(html).toContain('#7a4d9a')
+    expect(html).toContain('rotate(45deg)')
+  })
 })
 
 describe('katex rendering', () => {

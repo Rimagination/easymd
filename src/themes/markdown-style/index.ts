@@ -17,9 +17,11 @@ export const markdownStyles: MarkdownStyle[] = [
   { id: 'organic', name: 'Organic' },
   { id: 'playful-geometric', name: 'Playful Geometric' },
   { id: 'professional', name: 'Professional' },
+  { id: 'qingying', name: '清影' },
   { id: 'retro', name: 'Retro' },
   { id: 'sketch', name: 'Sketch' },
   { id: 'terminal', name: 'Terminal' },
+  { id: 'thu-classic', name: 'THU Classic' },
 ]
 
 export const markdownStyleIds = markdownStyles.map(s => s.id) as [string, ...string[]]

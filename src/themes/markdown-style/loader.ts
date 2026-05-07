@@ -20,9 +20,24 @@ const themeModules: Record<string, () => Promise<{ default: string }>> = {
   'organic': () => import('./organic.css?raw'),
   'playful-geometric': () => import('./playful-geometric.css?raw'),
   'professional': () => import('./professional.css?raw'),
+  'qingying': async () => {
+    const [base, override] = await Promise.all([
+      themeModules['mdnice-classic'](),
+      import('./qingying.css?raw'),
+    ])
+    return { default: `${base.default}\n${override.default}` }
+  },
   'retro': () => import('./retro.css?raw'),
   'sketch': () => import('./sketch.css?raw'),
   'terminal': () => import('./terminal.css?raw'),
+  'thu-classic': async () => {
+    const [base, qingying, override] = await Promise.all([
+      themeModules['mdnice-classic'](),
+      import('./qingying.css?raw'),
+      import('./thu-classic.css?raw'),
+    ])
+    return { default: `${base.default}\n${qingying.default}\n${override.default}` }
+  },
 }
 
 export async function loadMarkdownStyleCss(id: string): Promise<string | undefined> {

@@ -1,0 +1,236 @@
+/**
+ * THU Classic - 清华紫风格
+ * 微信兼容：使用 border-left 替代 ::before 伪元素
+ */
+
+#easymd {
+  color: #1f1630;
+}
+
+#easymd h1,
+#easymd h2,
+#easymd h3,
+#easymd h4,
+#easymd h5,
+#easymd h6 {
+  color: #5c307d;
+}
+
+#easymd h1 {
+  padding: 14px 28px;
+  border: 1px solid rgba(92, 48, 125, 0.14);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)) padding-box,
+    linear-gradient(135deg, #5c307d, #7a4d9a) border-box;
+  box-shadow:
+    4px 10px 22px rgba(92, 48, 125, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: #fff;
+}
+
+/* h2：左侧紫色条 + 黑色文字 */
+#easymd h2 {
+  margin: 28px 0 18px;
+  padding: 12px 0 12px 24px;
+  border: none;
+  border-left: 18px solid #5c307d;
+  background: none;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+  color: #23142f;
+}
+
+/* h3：空心菱形 + 文字 (预览用 ::before) */
+#easymd h3 {
+  margin: 20px 0 14px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #45245f;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+#easymd h3::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid #7a4d9a;
+  border-radius: 1px;
+  transform: rotate(45deg);
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+#easymd h4,
+#easymd h5,
+#easymd h6 {
+  border-left: 3px solid rgba(92, 48, 125, 0.45);
+  padding-left: 12px;
+  color: #51306d;
+}
+
+#easymd strong,
+#easymd b,
+#easymd em,
+#easymd i,
+#easymd del,
+#easymd s,
+#easymd strike,
+#easymd var,
+#easymd samp,
+#easymd tt,
+#easymd code,
+#easymd a,
+#easymd abbr[title],
+#easymd li::marker,
+#easymd .footnote-ref,
+#easymd .footnote-backref {
+  color: #5c307d;
+}
+
+#easymd a {
+  border-bottom-color: #5c307d;
+}
+
+#easymd a:hover {
+  color: #45245f;
+  border-bottom-color: #45245f;
+}
+
+#easymd ins {
+  background: rgba(92, 48, 125, 0.09);
+}
+
+#easymd mark {
+  background: #ece2f6;
+  color: #2d193d;
+}
+
+#easymd q {
+  color: #6d5b7a;
+}
+
+#easymd blockquote {
+  margin: 18px 0;
+  padding: 16px 20px;
+  border-left: 4px solid #7a4d9a;
+  background: linear-gradient(180deg, rgba(92, 48, 125, 0.06), rgba(92, 48, 125, 0.035));
+  border-radius: 0 12px 12px 0;
+}
+
+#easymd blockquote blockquote {
+  border-left-color: #5c307d;
+  background: rgba(92, 48, 125, 0.08);
+}
+
+#easymd blockquote p {
+  color: #564666;
+}
+
+#easymd .markdown-alert {
+  border-radius: 10px;
+  background: #fbf9fd;
+  box-shadow: inset 0 0 0 1px rgba(92, 48, 125, 0.08);
+}
+
+#easymd .markdown-alert-title {
+  color: #5c307d;
+}
+
+#easymd .markdown-alert-note,
+#easymd .markdown-alert-tip {
+  border-left-color: #7a4d9a;
+  background: linear-gradient(180deg, rgba(92, 48, 125, 0.08), rgba(92, 48, 125, 0.04));
+}
+
+#easymd .markdown-alert-note .markdown-alert-title,
+#easymd .markdown-alert-tip .markdown-alert-title {
+  color: #5c307d;
+}
+
+#easymd table {
+  border-color: rgba(92, 48, 125, 0.28);
+  box-shadow: 0 12px 26px rgba(46, 27, 63, 0.1);
+}
+
+#easymd .figure-table {
+  border-radius: 14px;
+}
+
+#easymd th,
+#easymd td {
+  border-right-color: rgba(92, 48, 125, 0.2);
+  border-bottom-color: rgba(92, 48, 125, 0.18);
+}
+
+#easymd th {
+  border-color: #5c307d;
+  background: #5c307d;
+  color: #fff;
+}
+
+#easymd td {
+  border-color: rgba(92, 48, 125, 0.26);
+}
+
+#easymd tbody tr:nth-child(even) td {
+  background: #faf7fc;
+}
+
+#easymd .frontmatter-table {
+  border-color: rgba(92, 48, 125, 0.3);
+  box-shadow: 0 12px 26px rgba(46, 27, 63, 0.1);
+}
+
+#easymd .frontmatter-table td {
+  border-bottom-color: rgba(92, 48, 125, 0.18);
+}
+
+#easymd .frontmatter-key {
+  background: rgba(92, 48, 125, 0.08);
+  color: #5c307d;
+}
+
+#easymd .footnotes {
+  border-top-color: rgba(92, 48, 125, 0.22);
+}
+
+#easymd .footnote-backref,
+#easymd .data-footnote-backref,
+#easymd dt,
+#easymd .math-inline,
+#easymd summary {
+  color: #5c307d;
+}
+
+#easymd hr {
+  border: none;
+  background-color: #7a4d9a;
+  background: linear-gradient(to right, transparent, #7a4d9a, transparent);
+}
+
+/* 图片阴影柔化 */
+#easymd img,
+#easymd [data-easymd-image-crop='free'] {
+  border-color: #ece5f2 !important;
+  box-shadow: 0 8px 24px rgba(46, 27, 63, 0.08) !important;
+}
+
+#easymd details {
+  border-color: rgba(92, 48, 125, 0.2);
+  background: #fcfafe;
+}
+
+#easymd details[open] summary {
+  border-bottom-color: rgba(92, 48, 125, 0.16);
+}
+
+#easymd figcaption {
+  color: #6d5b7a;
+}

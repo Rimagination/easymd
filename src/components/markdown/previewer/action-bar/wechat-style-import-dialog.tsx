@@ -61,7 +61,7 @@ export function WechatStyleImportDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>从公众号生成主题</DialogTitle>
+          <DialogTitle>从公众号生成主题（开发中）</DialogTitle>
           <DialogDescription>
             输入单篇公开微信公众号文章链接。easymd 会导入正文 Markdown，并生成一个相似气质的原创主题草稿；第一版不镜像图片。
           </DialogDescription>

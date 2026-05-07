@@ -45,7 +45,7 @@ export function MarkdownStyleMenu() {
           />
           <TooltipContent>{styleTooltip}</TooltipContent>
         </Tooltip>
-        <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuContent align="end" className="w-64">
           <DropdownMenuGroup>
             <DropdownMenuLabel>内置样式</DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -83,7 +83,7 @@ export function MarkdownStyleMenu() {
               onClick={() => setWechatImportOpen(true)}
             >
               <Sparkles className="size-4" />
-              从公众号生成主题...
+              从公众号生成主题（开发中）...
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"

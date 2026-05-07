@@ -95,7 +95,7 @@ function readMarginTokenPx(token: string | undefined): number | undefined {
   if (!token) {
     return undefined
   }
-  if (/^-?0(?:\.0+)?$/i.test(token)) {
+  if (/^-?0(?:\.0+)?$/.test(token)) {
     return 0
   }
   const px = token.match(/^(-?\d+(?:\.\d+)?)px$/i)

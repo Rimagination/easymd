@@ -1,6 +1,6 @@
-export type WechatArticleUrlParseResult =
-  | { ok: true, url: string }
-  | { ok: false, error: string }
+export type WechatArticleUrlParseResult
+  = | { ok: true, url: string }
+    | { ok: false, error: string }
 
 export function parseWechatArticleUrl(input: string): WechatArticleUrlParseResult {
   const trimmed = input.trim()

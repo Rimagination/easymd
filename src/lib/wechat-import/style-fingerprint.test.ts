@@ -52,6 +52,18 @@ describe('extractWechatStyleFingerprint', () => {
     expect(fingerprint.spacing.paragraphMarginBlock).toBe(16)
   })
 
+  it('preserves margin shorthand positions with non-px horizontal values', () => {
+    const fingerprint = extractWechatStyleFingerprint('<p style="margin: 0 auto 16px;">body</p>')
+
+    expect(fingerprint.spacing.paragraphMarginBlock).toBe(16)
+  })
+
+  it('preserves margin shorthand positions instead of filtering px values', () => {
+    const fingerprint = extractWechatStyleFingerprint('<p style="margin: 0px auto 16px;">body</p>')
+
+    expect(fingerprint.spacing.paragraphMarginBlock).toBe(16)
+  })
+
   it('reads paragraph margin block from explicit top and bottom spacing', () => {
     const fingerprint = extractWechatStyleFingerprint('<p style="margin-top: 10px; margin-bottom: 18px;">body</p>')
 

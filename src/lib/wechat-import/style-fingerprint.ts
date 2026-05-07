@@ -91,6 +91,17 @@ function readLineHeight(style: string): number | undefined {
   return px ? clamp(Number((Number(px[1]) / fontSize).toFixed(2)), 1.4, 2.2) : undefined
 }
 
+function readMarginTokenPx(token: string | undefined): number | undefined {
+  if (!token) {
+    return undefined
+  }
+  if (/^-?0(?:\.0+)?$/i.test(token)) {
+    return 0
+  }
+  const px = token.match(/^(-?\d+(?:\.\d+)?)px$/i)
+  return px ? Number(px[1]) : undefined
+}
+
 function readMarginBlock(style: string): number | undefined {
   const marginTop = readPx(style, 'margin-top')
   const marginBottom = readPx(style, 'margin-bottom')
@@ -103,14 +114,13 @@ function readMarginBlock(style: string): number | undefined {
     return undefined
   }
 
-  const pxValues = Array.from(margin.matchAll(/(-?\d+(?:\.\d+)?)px/gi), match => Number(match[1]))
-  if (pxValues.length === 0) {
-    return undefined
-  }
-  if (pxValues.length === 1 || pxValues.length === 2) {
-    return pxValues[0]
-  }
-  return Math.max(pxValues[0], pxValues[2])
+  const tokens = margin.trim().split(/\s+/)
+  const topToken = tokens[0]
+  const bottomToken = tokens.length >= 3 ? tokens[2] : tokens[0]
+  const values = [readMarginTokenPx(topToken), readMarginTokenPx(bottomToken)]
+    .filter(value => value !== undefined)
+
+  return values.length > 0 ? Math.max(...values) : undefined
 }
 
 function firstDefined<T>(values: Array<T | undefined>, fallback: T): T {

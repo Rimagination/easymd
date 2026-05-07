@@ -182,6 +182,7 @@ dev-dist/
 .claude
 .opencode
 .agents
+.superpowers/
 
 opencode.json
 .local-uploads/

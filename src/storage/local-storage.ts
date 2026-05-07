@@ -6,8 +6,28 @@ import type { StorageProvider, UploadOptions, UploadResult } from './types'
 import { Buffer } from 'node:buffer'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import process from 'node:process'
 import { env } from '@/env'
 import { StorageError } from './types'
+
+export const DEFAULT_LOCAL_UPLOAD_DIR = './.local-uploads'
+
+export function shouldUseDefaultLocalUploads(): boolean {
+  return !import.meta.env.PROD && process.env.NODE_ENV !== 'production'
+}
+
+export function getLocalUploadDir(): string | undefined {
+  const configuredDir = env.LOCAL_UPLOAD_DIR?.trim()
+  if (configuredDir) {
+    return configuredDir
+  }
+
+  return shouldUseDefaultLocalUploads() ? DEFAULT_LOCAL_UPLOAD_DIR : undefined
+}
+
+export function getLocalUploadPublicPath(): string {
+  return (env.LOCAL_UPLOAD_PUBLIC_PATH || '/uploads').replace(/\/$/, '')
+}
 
 function safeExt(filename: string, contentType: string): string {
   const raw = filename.split('.').pop() || ''
@@ -42,12 +62,12 @@ export class LocalStorage implements StorageProvider {
   private publicBasePath: string
 
   constructor() {
-    const dir = env.LOCAL_UPLOAD_DIR
+    const dir = getLocalUploadDir()
     if (!dir) {
       throw new StorageError('LOCAL_UPLOAD_DIR 未配置', 'local')
     }
     this.baseDir = path.resolve(dir)
-    this.publicBasePath = (env.LOCAL_UPLOAD_PUBLIC_PATH || '/uploads').replace(/\/$/, '')
+    this.publicBasePath = getLocalUploadPublicPath()
   }
 
   async upload(options: UploadOptions): Promise<UploadResult> {

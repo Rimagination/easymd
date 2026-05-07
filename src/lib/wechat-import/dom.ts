@@ -1,18 +1,14 @@
-import type { Root } from 'hast'
+import type { Element, Root, RootContent } from 'hast'
 import rehypeParse from 'rehype-parse'
+import rehypeSanitize from 'rehype-sanitize'
 import rehypeStringify from 'rehype-stringify'
 import { unified } from 'unified'
 import { visit } from 'unist-util-visit'
 import { parse as parseHtmlToMarkdown } from '@/lib/markdown/parse/html'
+import type { WechatArticleImportArticle } from './types'
 
 interface ExtractedWechatArticle {
-  article: {
-    title: string
-    author?: string
-    publishTime?: string
-    sourceUrl: string
-    markdown: string
-  }
+  article: WechatArticleImportArticle
   bodyHtml: string
 }
 
@@ -35,20 +31,17 @@ function trimText(value: unknown): string {
   return toText(value).replace(/\s+/g, ' ').trim()
 }
 
-function getProperty(node: unknown, name: string): unknown {
-  if (!node || typeof node !== 'object') {
-    return undefined
-  }
-  return (node as { properties?: Record<string, unknown> }).properties?.[name]
+function getProperty(node: Element, name: string): unknown {
+  return node.properties?.[name]
 }
 
-function getId(node: unknown): string {
+function getId(node: Element): string {
   const id = getProperty(node, 'id')
   return typeof id === 'string' ? id : ''
 }
 
-function findElementById(tree: Root, id: string): unknown {
-  let found: unknown
+function findElementById(tree: Root, id: string): Element | undefined {
+  let found: Element | undefined
   visit(tree, 'element', (node) => {
     if (!found && getId(node) === id) {
       found = node
@@ -58,7 +51,7 @@ function findElementById(tree: Root, id: string): unknown {
 }
 
 function normalizeWechatImages(tree: Root) {
-  visit(tree, 'element', (node: any) => {
+  visit(tree, 'element', (node) => {
     if (node.tagName !== 'img') {
       return
     }
@@ -71,7 +64,7 @@ function normalizeWechatImages(tree: Root) {
   })
 }
 
-function stringifyFragment(node: any): string {
+function stringifyFragment(node: { children?: RootContent[] }): string {
   const processor = unified().use(rehypeStringify)
   return processor.stringify({
     type: 'root',
@@ -79,12 +72,22 @@ function stringifyFragment(node: any): string {
   } as Root)
 }
 
+async function sanitizeFragmentHtml(html: string): Promise<string> {
+  const processor = unified()
+    .use(rehypeParse, { fragment: true })
+    .use(rehypeSanitize)
+    .use(rehypeStringify)
+
+  const processed = await processor.process(html)
+  return processed.toString()
+}
+
 function frontmatter(sourceUrl: string, author?: string): string {
   return [
     '---',
-    `source: "${sourceUrl.replaceAll('"', '\\"')}"`,
-    author ? `author: "${author.replaceAll('"', '\\"')}"` : '',
-    `importedAt: "${new Date().toISOString()}"`,
+    `source: ${JSON.stringify(sourceUrl)}`,
+    author ? `author: ${JSON.stringify(author)}` : '',
+    `importedAt: ${JSON.stringify(new Date().toISOString())}`,
     '---',
   ].filter(Boolean).join('\n')
 }
@@ -99,7 +102,7 @@ export async function extractWechatArticleFromHtml(
   const titleNode = findElementById(tree, 'activity-name')
   const authorNode = findElementById(tree, 'js_name')
   const publishNode = findElementById(tree, 'publish_time')
-  const bodyNode = findElementById(tree, 'js_content') as { children?: unknown[] } | undefined
+  const bodyNode = findElementById(tree, 'js_content')
 
   if (!bodyNode || !Array.isArray(bodyNode.children) || bodyNode.children.length === 0) {
     throw new Error('这篇文章的正文结构无法识别。')
@@ -108,8 +111,12 @@ export async function extractWechatArticleFromHtml(
   const title = trimText(titleNode) || '公众号文章'
   const author = trimText(authorNode) || undefined
   const publishTime = trimText(publishNode) || undefined
-  const bodyHtml = stringifyFragment(bodyNode)
+  const bodyHtml = await sanitizeFragmentHtml(stringifyFragment(bodyNode))
   const bodyMarkdown = (await parseHtmlToMarkdown(bodyHtml)).trim()
+  if (!bodyMarkdown) {
+    throw new Error('这篇文章的正文结构无法识别。')
+  }
+
   const sourceLine = author
     ? `> 来源：${author}，${sourceUrl}`
     : `> 来源：${sourceUrl}`

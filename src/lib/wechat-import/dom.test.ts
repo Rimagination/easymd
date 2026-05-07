@@ -38,4 +38,39 @@ describe('extractWechatArticleFromHtml', () => {
       extractWechatArticleFromHtml('<h1 id="activity-name">空文章</h1>', 'https://mp.weixin.qq.com/s/demo'),
     ).rejects.toThrow('这篇文章的正文结构无法识别。')
   })
+
+  it('normalizes data-original images to markdown images', async () => {
+    const result = await extractWechatArticleFromHtml(`
+      <div id="js_content">
+        <p><img data-original="https://img.example.com/original.png" alt="原图"></p>
+      </div>
+    `, 'https://mp.weixin.qq.com/s/demo')
+
+    expect(result.article.markdown).toContain('![原图](https://img.example.com/original.png)')
+    expect(result.bodyHtml).toContain('https://img.example.com/original.png')
+  })
+
+  it('returns sanitized body html and markdown', async () => {
+    const result = await extractWechatArticleFromHtml(`
+      <div id="js_content">
+        <p onclick="alert('xss')">安全正文</p>
+        <script>alert('bad')</script>
+      </div>
+    `, 'https://mp.weixin.qq.com/s/demo')
+
+    expect(result.bodyHtml).not.toContain('<script')
+    expect(result.bodyHtml).not.toContain('onclick')
+    expect(result.article.markdown).toContain('安全正文')
+    expect(result.article.markdown).not.toContain('alert')
+  })
+
+  it('throws when sanitized article body has no markdown content', async () => {
+    await expect(
+      extractWechatArticleFromHtml(`
+        <div id="js_content">
+          <script>alert('bad')</script>
+        </div>
+      `, 'https://mp.weixin.qq.com/s/demo'),
+    ).rejects.toThrow('这篇文章的正文结构无法识别。')
+  })
 })

@@ -14,6 +14,9 @@ export interface WechatStyleFingerprint {
     background?: string
     quoteBorder?: string
     codeBackground?: string
+    panelBackground?: string
+    panelBorder?: string
+    highlightBackground?: string
   }
   typography: {
     bodyFontSize?: number
@@ -31,6 +34,7 @@ export interface WechatStyleFingerprint {
   decoration: {
     headingPattern?: 'plain' | 'bar' | 'underline' | 'badge'
     quotePattern?: 'left-border' | 'background' | 'card'
+    panelPattern?: 'none' | 'card' | 'bordered-card'
     imageRadius?: number
     tablePattern?: 'minimal' | 'bordered' | 'striped'
   }

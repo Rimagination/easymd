@@ -24,6 +24,22 @@ describe('extractWechatStyleFingerprint', () => {
     expect(fingerprint.decoration.tablePattern).toBe('bordered')
   })
 
+  it('extracts rgb colors and card surfaces from WeChat section styles', () => {
+    const fingerprint = extractWechatStyleFingerprint(`
+      <section style="display:inline-block;padding:25px 20px;background-color: rgb(247, 247, 247);border-style: solid;border-width:1px;border-color: rgb(223, 222, 221);border-radius:5px;width:100%;">
+        <section style="display:inline-block;width:11px;background-color: rgb(122, 70, 143);height: 30px;"></section>
+        <span style="background-color: rgb(233, 222, 236);">强调文本</span>
+      </section>
+    `)
+
+    expect(fingerprint.colors.accent).toBe('#7a468f')
+    expect(fingerprint.colors.highlightBackground).toBe('#e9deec')
+    expect(fingerprint.colors.panelBackground).toBe('#f7f7f7')
+    expect(fingerprint.colors.panelBorder).toBe('#dfdedd')
+    expect(fingerprint.decoration.headingPattern).toBe('bar')
+    expect(fingerprint.decoration.panelPattern).toBe('bordered-card')
+  })
+
   it('falls back to safe defaults when no style exists', () => {
     const fingerprint = extractWechatStyleFingerprint('<p>正文</p><h2>标题</h2>')
 

@@ -10,6 +10,9 @@ const fingerprint: WechatStyleFingerprint = {
     background: '#ffffff',
     quoteBorder: '#2f80ed',
     codeBackground: '#f6f8fa',
+    panelBackground: '#f7f7f7',
+    panelBorder: '#dfdedd',
+    highlightBackground: '#e9deec',
   },
   typography: {
     bodyFontSize: 16,
@@ -27,6 +30,7 @@ const fingerprint: WechatStyleFingerprint = {
   decoration: {
     headingPattern: 'bar',
     quotePattern: 'card',
+    panelPattern: 'bordered-card',
     imageRadius: 16,
     tablePattern: 'bordered',
   },
@@ -42,6 +46,10 @@ describe('generateWechatThemeCss', () => {
     expect(css).toContain('#easymd h2')
     expect(css).toContain('border-left: 4px solid #2f80ed;')
     expect(css).toContain('#easymd blockquote')
+    expect(css).toContain('background: #f7f7f7;')
+    expect(css).toContain('border: 1px solid #dfdedd;')
+    expect(css).toContain('#easymd strong,')
+    expect(css).toContain('background: #e9deec;')
     expect(css).toContain('border-radius: 16px;')
     expect(css).toContain('#easymd pre')
     expect(css).toContain('#easymd table')

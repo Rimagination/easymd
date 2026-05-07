@@ -52,6 +52,10 @@ export function generateWechatThemeCss(fingerprint: WechatStyleFingerprint): str
   const accent = value(fingerprint.colors.accent, '#2f80ed')
   const quoteBorder = value(fingerprint.colors.quoteBorder, accent)
   const codeBackground = value(fingerprint.colors.codeBackground, '#f6f8fa')
+  const accentSoftFill = softFill(accent, 0.08)
+  const panelBackground = value(fingerprint.colors.panelBackground, accentSoftFill)
+  const panelBorder = value(fingerprint.colors.panelBorder, quoteBorder)
+  const highlightBackground = fingerprint.colors.highlightBackground
   const bodyFontSize = value(fingerprint.typography.bodyFontSize, 16)
   const bodyLineHeight = value(fingerprint.typography.bodyLineHeight, 1.8)
   const h1FontSize = value(fingerprint.typography.h1FontSize, 24)
@@ -62,9 +66,25 @@ export function generateWechatThemeCss(fingerprint: WechatStyleFingerprint): str
   const headingMargin = value(fingerprint.spacing.headingMarginBlock, 24)
   const imageRadius = value(fingerprint.decoration.imageRadius, 0)
   const quoteIsCard = fingerprint.decoration.quotePattern === 'card'
+  const panelIsCard = fingerprint.decoration.panelPattern === 'card' || fingerprint.decoration.panelPattern === 'bordered-card'
+  const panelIsBordered = fingerprint.decoration.panelPattern === 'bordered-card'
   const tableIsBordered = fingerprint.decoration.tablePattern === 'bordered'
   const tableBorder = tableIsBordered ? '1px solid rgba(47, 52, 55, 0.16)' : '0'
-  const accentSoftFill = softFill(accent, 0.08)
+  const paragraphSurface = panelIsCard
+    ? [
+        '  padding: 10px 12px;',
+        `  background: ${panelBackground};`,
+        `  border: ${panelIsBordered ? `1px solid ${panelBorder}` : '0'};`,
+        `  border-radius: ${Math.min(imageRadius, 12)}px;`,
+      ].join('\n')
+    : ''
+  const strongHighlight = highlightBackground
+    ? [
+        `  background: ${highlightBackground};`,
+        '  padding: 1px 4px;',
+        '  border-radius: 3px;',
+      ].join('\n')
+    : ''
 
   return `
 #easymd {
@@ -78,6 +98,7 @@ export function generateWechatThemeCss(fingerprint: WechatStyleFingerprint): str
 #easymd p {
   margin: ${paragraphMargin}px 0;
   color: ${text};
+${paragraphSurface}
 }
 
 #easymd p:last-child {
@@ -128,18 +149,37 @@ ${headingDecoration(fingerprint)}
   margin-top: 0;
 }
 
+#easymd strong,
+#easymd b {
+  color: ${accent};
+  font-weight: 700;
+${strongHighlight}
+}
+
+#easymd mark {
+  padding: 1px 4px;
+  color: ${text};
+  background: ${highlightBackground ?? accentSoftFill};
+  border-radius: 3px;
+}
+
 #easymd blockquote {
   margin: ${sectionMargin}px 0;
   padding: ${quoteIsCard ? '14px 16px' : '4px 0 4px 14px'};
   color: ${muted};
+  border: ${quoteIsCard && panelIsBordered ? `1px solid ${panelBorder}` : '0'};
   border-left: 4px solid ${quoteBorder};
-  background: ${quoteIsCard ? accentSoftFill : 'transparent'};
+  background: ${quoteIsCard ? panelBackground : 'transparent'};
   border-radius: ${quoteIsCard ? Math.min(imageRadius, 12) : 0}px;
 }
 
 #easymd blockquote p {
   margin: 0 0 8px;
   color: inherit;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
 }
 
 #easymd blockquote p:last-child {

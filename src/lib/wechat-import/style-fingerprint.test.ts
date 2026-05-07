@@ -33,4 +33,28 @@ describe('extractWechatStyleFingerprint', () => {
     expect(fingerprint.typography.bodyLineHeight).toBe(1.8)
     expect(fingerprint.decoration.headingPattern).toBe('plain')
   })
+
+  it('matches inline style properties exactly', () => {
+    const fingerprint = extractWechatStyleFingerprint('<p style="background-color:#ffffff;color:#333333">body</p>')
+
+    expect(fingerprint.colors.text).toBe('#333333')
+  })
+
+  it('ignores data-style attributes when reading inline styles', () => {
+    const fingerprint = extractWechatStyleFingerprint('<p data-style="color:#ffffff" style="color:#333333">body</p>')
+
+    expect(fingerprint.colors.text).toBe('#333333')
+  })
+
+  it('reads paragraph margin block from shorthand bottom spacing', () => {
+    const fingerprint = extractWechatStyleFingerprint('<p style="margin: 0 0 16px;">body</p>')
+
+    expect(fingerprint.spacing.paragraphMarginBlock).toBe(16)
+  })
+
+  it('reads paragraph margin block from explicit top and bottom spacing', () => {
+    const fingerprint = extractWechatStyleFingerprint('<p style="margin-top: 10px; margin-bottom: 18px;">body</p>')
+
+    expect(fingerprint.spacing.paragraphMarginBlock).toBe(18)
+  })
 })

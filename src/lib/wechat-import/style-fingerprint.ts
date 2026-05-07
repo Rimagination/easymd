@@ -45,14 +45,30 @@ function normalizeColor(value: string): string | undefined {
   return hex.slice(0, 7).toLowerCase()
 }
 
+function parseStyleDeclarations(style: string): Map<string, string> {
+  const declarations = new Map<string, string>()
+  for (const declaration of style.split(';')) {
+    const separatorIndex = declaration.indexOf(':')
+    if (separatorIndex === -1) {
+      continue
+    }
+
+    const property = declaration.slice(0, separatorIndex).trim().toLowerCase()
+    const value = declaration.slice(separatorIndex + 1).trim()
+    if (property && value) {
+      declarations.set(property, value)
+    }
+  }
+  return declarations
+}
+
 function readStyleAttributes(html: string, tagName: string): string[] {
-  const pattern = new RegExp(`<${tagName}\\b[^>]*\\bstyle=(["'])([\\s\\S]*?)\\1`, 'gi')
+  const pattern = new RegExp(`<${tagName}\\b[^>]*(?:^|\\s)style=(["'])([\\s\\S]*?)\\1`, 'gi')
   return Array.from(html.matchAll(pattern), match => match[2] ?? '')
 }
 
 function readProperty(style: string, property: string): string | undefined {
-  const pattern = new RegExp(`${property}\\s*:\\s*([^;]+)`, 'i')
-  return style.match(pattern)?.[1]?.trim()
+  return parseStyleDeclarations(style).get(property.toLowerCase())
 }
 
 function readPx(style: string, property: string): number | undefined {
@@ -73,6 +89,28 @@ function readLineHeight(style: string): number | undefined {
   const px = value.match(/(\d+(?:\.\d+)?)px/i)
   const fontSize = readPx(style, 'font-size') ?? DEFAULT_FINGERPRINT.typography.bodyFontSize ?? 16
   return px ? clamp(Number((Number(px[1]) / fontSize).toFixed(2)), 1.4, 2.2) : undefined
+}
+
+function readMarginBlock(style: string): number | undefined {
+  const marginTop = readPx(style, 'margin-top')
+  const marginBottom = readPx(style, 'margin-bottom')
+  if (marginTop !== undefined || marginBottom !== undefined) {
+    return Math.max(marginTop ?? 0, marginBottom ?? 0)
+  }
+
+  const margin = readProperty(style, 'margin')
+  if (!margin) {
+    return undefined
+  }
+
+  const pxValues = Array.from(margin.matchAll(/(-?\d+(?:\.\d+)?)px/gi), match => Number(match[1]))
+  if (pxValues.length === 0) {
+    return undefined
+  }
+  if (pxValues.length === 1 || pxValues.length === 2) {
+    return pxValues[0]
+  }
+  return Math.max(pxValues[0], pxValues[2])
 }
 
 function firstDefined<T>(values: Array<T | undefined>, fallback: T): T {
@@ -105,7 +143,7 @@ export function extractWechatStyleFingerprint(html: string): WechatStyleFingerpr
     18,
   )
   const bodyLineHeight = firstDefined(paragraphStyles.map(readLineHeight), DEFAULT_FINGERPRINT.typography.bodyLineHeight ?? 1.8)
-  const paragraphMarginBlock = clamp(readPx(paragraphStyle, 'margin') ?? DEFAULT_FINGERPRINT.spacing.paragraphMarginBlock ?? 12, 8, 24)
+  const paragraphMarginBlock = clamp(readMarginBlock(paragraphStyle) ?? DEFAULT_FINGERPRINT.spacing.paragraphMarginBlock ?? 12, 8, 24)
 
   const hasHeadingBar = /border-left\s*:/i.test(h2Style)
   const hasHeadingUnderline = /border-bottom\s*:/i.test(h2Style)

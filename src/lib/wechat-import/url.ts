@@ -16,6 +16,10 @@ export function parseWechatArticleUrl(input: string): WechatArticleUrlParseResul
     return { ok: false, error: '请输入有效的文章链接。' }
   }
 
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    return { ok: false, error: '请输入有效的文章链接。' }
+  }
+
   if (url.hostname !== 'mp.weixin.qq.com') {
     return { ok: false, error: '仅支持单篇微信公众号文章链接。' }
   }

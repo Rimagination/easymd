@@ -1,0 +1,167 @@
+/**
+ * Qingying - MDNice Classic with calm image cards
+ */
+
+#easymd h1,
+#easymd h2,
+#easymd h3,
+#easymd h4,
+#easymd h5,
+#easymd h6 {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+#easymd > h1:first-child,
+#easymd > h2:first-child,
+#easymd > h3:first-child,
+#easymd > h4:first-child,
+#easymd > h5:first-child,
+#easymd > h6:first-child {
+  margin-top: 0;
+}
+
+#easymd h1 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+#easymd h1.svg-heading {
+  margin: 16px 0;
+  padding: 0;
+}
+
+#easymd > h1.svg-heading:first-child {
+  margin-top: 0;
+}
+
+#easymd table {
+  width: 100%;
+  margin: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 150, 136, 0.32);
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
+}
+
+#easymd .figure-table {
+  display: block;
+  margin: 18px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 14px;
+}
+
+#easymd .figure-table table {
+  margin: 0;
+}
+
+#easymd th,
+#easymd td {
+  border: none;
+  border-right: 1px solid rgba(0, 150, 136, 0.24);
+  border-bottom: 1px solid rgba(0, 150, 136, 0.2);
+}
+
+#easymd tr > th:last-child,
+#easymd tr > td:last-child {
+  border-right: none;
+}
+
+#easymd tr:last-child > th,
+#easymd tr:last-child > td {
+  border-bottom: none;
+}
+
+#easymd tbody tr:nth-child(even) td {
+  background: #f6fbfa;
+}
+
+#easymd table tr:first-child > th:first-child,
+#easymd table tr:first-child > td:first-child {
+  border-top-left-radius: 13px;
+}
+
+#easymd table tr:first-child > th:last-child,
+#easymd table tr:first-child > td:last-child {
+  border-top-right-radius: 13px;
+}
+
+#easymd table > tbody > tr:last-child > td:first-child,
+#easymd table > tr:last-child > td:first-child {
+  border-bottom-left-radius: 13px;
+}
+
+#easymd table > tbody > tr:last-child > td:last-child,
+#easymd table > tr:last-child > td:last-child {
+  border-bottom-right-radius: 13px;
+}
+
+#easymd .frontmatter-table {
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
+}
+
+#easymd img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  margin: 18px auto;
+  padding: 8px !important;
+  border: 1px solid #f1f3f5 !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.18) !important;
+}
+
+#easymd [data-easymd-image-crop='free'] {
+  display: block;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 18px auto;
+  padding: 8px !important;
+  border: 1px solid #f1f3f5 !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.18) !important;
+}
+
+#easymd [data-easymd-image-crop='free'] img {
+  width: inherit;
+  height: auto;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#easymd picture {
+  display: block;
+  max-width: 100%;
+}
+
+#easymd picture img {
+  margin: 18px auto;
+}
+
+#easymd figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 18px 0;
+}
+
+#easymd figure img {
+  margin: 0 auto;
+}
+
+#easymd figcaption {
+  margin-top: 8px;
+}

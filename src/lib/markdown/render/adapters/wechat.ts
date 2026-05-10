@@ -3,6 +3,7 @@ import type { Plugin } from 'unified'
 import type { PlatformAdapter } from './types'
 
 import { visit } from 'unist-util-visit'
+import { rehypeWechatHeading } from '../plugins'
 
 interface FootnoteLink {
   id: number
@@ -331,6 +332,7 @@ export const wechatAdapter: PlatformAdapter = {
   id: 'wechat',
   name: '微信公众号',
   getPlugins: options => [
+    [rehypeWechatHeading, { markdownStyle: options?.markdownStyle }],
     rehypeWechatListNormalize,
     rehypeWechatCodeWhitespace,
     [rehypeWechatFootnoteLinks, { referenceTitle: options?.referenceTitle }],

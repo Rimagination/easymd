@@ -6,6 +6,7 @@ export type Platform = typeof platforms[number]
 
 export interface AdapterOptions {
   referenceTitle?: string
+  markdownStyle?: string
 }
 
 export interface PlatformAdapter {

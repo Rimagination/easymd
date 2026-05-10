@@ -8,7 +8,7 @@
 import type { StorageProvider } from './types'
 import { env } from '@/env'
 import { DCStorage } from './dc-storage'
-import { LocalStorage } from './local-storage'
+import { getLocalUploadDir, LocalStorage } from './local-storage'
 import { S3Storage } from './s3-storage'
 
 export { DCStorage } from './dc-storage'
@@ -24,7 +24,7 @@ export function isS3Configured(): boolean {
 
 /** 判断是否配置了本地存储 */
 export function isLocalConfigured(): boolean {
-  return Boolean(env.LOCAL_UPLOAD_DIR)
+  return Boolean(getLocalUploadDir())
 }
 
 /** 获取存储提供商实例 */

@@ -1,7 +1,7 @@
 import { readFile, stat } from 'node:fs/promises'
 import path from 'node:path'
 import { createFileRoute } from '@tanstack/react-router'
-import { env } from '@/env'
+import { getLocalUploadDir } from '@/storage/local-storage'
 
 function contentTypeForExt(ext: string): string {
   switch (ext) {
@@ -19,7 +19,7 @@ export const Route = createFileRoute('/uploads/$')({
   server: {
     handlers: {
       GET: async ({ request }) => {
-        const baseDir = env.LOCAL_UPLOAD_DIR
+        const baseDir = getLocalUploadDir()
         if (!baseDir) {
           return new Response('Not Found', { status: 404 })
         }

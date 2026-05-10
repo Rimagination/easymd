@@ -17,8 +17,8 @@ describe('markdown styles', () => {
     expect(markdownStyles).toContainEqual({ id: 'qingying', name: '清影' })
   })
 
-  it('registers thu-classic in the style list', () => {
-    expect(markdownStyles).toContainEqual({ id: 'thu-classic', name: 'THU Classic' })
+  it('shows thu-classic as the first style with the expected visible label', () => {
+    expect(markdownStyles[0]).toEqual({ id: 'thu-classic', name: 'THU-classic' })
   })
 
   it('maps mdnice-classic to a css file with the expected selectors', () => {

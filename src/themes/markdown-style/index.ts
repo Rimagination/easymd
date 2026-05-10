@@ -4,6 +4,7 @@ export interface MarkdownStyle {
 }
 
 export const markdownStyles: MarkdownStyle[] = [
+  { id: 'thu-classic', name: 'THU-classic' },
   { id: 'ayu-light', name: 'Ayu Light' },
   { id: 'bauhaus', name: 'Bauhaus' },
   { id: 'blueprint', name: 'Blueprint' },
@@ -21,7 +22,6 @@ export const markdownStyles: MarkdownStyle[] = [
   { id: 'retro', name: 'Retro' },
   { id: 'sketch', name: 'Sketch' },
   { id: 'terminal', name: 'Terminal' },
-  { id: 'thu-classic', name: 'THU Classic' },
 ]
 
 export const markdownStyleIds = markdownStyles.map(s => s.id) as [string, ...string[]]

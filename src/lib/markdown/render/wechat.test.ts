@@ -136,7 +136,7 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('width:18px;height:32px;background:#5c307d;vertical-align:middle;margin-right:10px"></span>')
   })
 
-  it('inserts a real diamond character in thu-classic h3 for WeChat copy', async () => {
+  it('inserts a real diamond character into thu-classic h3 text for WeChat copy', async () => {
     const html = await render({
       markdown: '### THU Section',
       markdownStyle: 'thu-classic',
@@ -145,9 +145,9 @@ describe('wechat render adapter', () => {
 
     expect(html).toContain('<h3')
     expect(html).toContain('THU Section')
-    expect(html).toContain('#7a4d9a')
-    expect(html).toContain('\u25C7')
+    expect(html).toContain('\u25C7\u00A0THU Section')
     expect(html).toContain('data-easymd-wechat-heading')
+    expect(html).not.toContain('display:inline-block;color:#7a4d9a')
     expect(html).not.toContain('rotate(45deg)')
   })
 })

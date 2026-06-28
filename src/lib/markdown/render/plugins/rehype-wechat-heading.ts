@@ -1,4 +1,4 @@
-import type { Element, Root } from 'hast'
+import type { Element, Root, Text } from 'hast'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 
@@ -17,15 +17,21 @@ function createBar(): Element {
   }
 }
 
-function createDiamond(): Element {
+function createDiamondText(): Text {
   return {
-    type: 'element',
-    tagName: 'span',
-    properties: {
-      style: 'display:inline-block;color:#7a4d9a;font-size:18px;font-weight:700;line-height:1;vertical-align:middle;margin-right:8px',
-    },
-    children: [{ type: 'text', value: '\u25C7' }],
+    type: 'text',
+    value: '\u25C7\u00A0',
   }
+}
+
+function prependDiamondText(node: Element) {
+  const firstChild = node.children[0]
+  if (firstChild?.type === 'text') {
+    firstChild.value = `\u25C7\u00A0${firstChild.value}`
+    return
+  }
+
+  node.children.unshift(createDiamondText())
 }
 
 const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
@@ -43,7 +49,7 @@ const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
           ...node.properties,
           dataEasymdWechatHeading: 'true',
         }
-        node.children.unshift(createDiamond())
+        prependDiamondText(node)
       }
     })
   }

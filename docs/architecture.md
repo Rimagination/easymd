@@ -109,7 +109,7 @@ src/
 2. **扩展处理** - GFM、Math、Frontmatter 等插件
 3. **转换阶段** - `remark-rehype` 转为 HTML AST
 4. **增强阶段** - 外部链接、GitHub Alert、KaTeX、代码高亮
-5. **平台适配** - 针对微信/知乎/掘金的特殊处理
+5. **平台适配** - 针对微信/知乎的特殊处理
 6. **样式内联** - `juice` 将 CSS 内联到元素
 
 ### 平台适配器
@@ -120,7 +120,6 @@ src/
 | ------ | -------------------------------------------------- |
 | WeChat | 链接转脚注、代码空格用 `\u00A0` 保护、表格滚动容器 |
 | Zhihu  | 适配知乎编辑器样式规范                             |
-| Juejin | 适配掘金编辑器样式规范                             |
 
 ---
 
@@ -218,17 +217,15 @@ src/
 | ------------- | ------------------------ | ----------------------- |
 | `/`           | `_layout.index.tsx`      | 主页（编辑器 + 预览器） |
 | `/about`      | `_layout.about.tsx`      | 关于页面（弹窗）        |
-| `/docs`       | `docs.tsx`               | API 文档（Scalar UI）   |
 | `/docs/mcp`   | `_layout.docs.mcp.tsx`   | MCP 配置说明（弹窗）    |
 | `/docs/skill` | `_layout.docs.skill.tsx` | AI Skill 文档（弹窗）   |
 
 ### API 路由
 
-| 路径                | 文件                  | 说明                 |
-| ------------------- | --------------------- | -------------------- |
-| `/api/*`            | `api.$.ts`            | Markdown API（oRPC） |
-| `/api/upload/image` | `api.upload.image.ts` | 图片上传             |
-| `/mcp`              | `mcp.ts`              | MCP 协议端点         |
+| 路径                | 文件                  | 说明         |
+| ------------------- | --------------------- | ------------ |
+| `/api/upload/image` | `api.upload.image.ts` | 图片上传     |
+| `/mcp`              | `mcp.ts`              | MCP 协议端点 |
 
 ### 布局结构
 

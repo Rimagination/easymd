@@ -30,8 +30,8 @@ pnpm dev
 
 ## 当前取舍
 
-- 已移除掘金相关支持
-- 已移除 REST API 与 Scalar 文档页
+- 已移除额外内容平台适配，聚焦微信公众号与知乎
+- 已移除旧接口文档页，保留 MCP 配置入口
 - 已移除 PWA、安装到桌面和文件关联能力
 - 已移除命令面板，保留普通按钮栏操作
 
@@ -50,6 +50,7 @@ pnpm dev
 - [功能说明](./docs/features.md)
 - [架构设计](./docs/architecture.md)
 - [UI 设计](./docs/design.md)
+- AI 使用入口：运行项目后查看 `/docs/skill` 与 `/docs/mcp`
 
 ## 许可证
 

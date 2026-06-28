@@ -13,6 +13,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { env } from '@/env'
+import { EASYMD_MCP_TOOLS } from '@/lib/agent-docs/easymd'
 import { createPageHead } from '@/lib/seo'
 
 export const Route = createFileRoute('/_layout/docs/mcp')({
@@ -61,9 +62,26 @@ function McpConfigContent() {
       {/* MCP Server 地址 */}
       <div className="space-y-2">
         <p className="text-sm text-muted-foreground">Server 地址</p>
+        <p className="text-xs text-muted-foreground">
+          MCP 是 easymd Web 和 easymd Skill 共用的确定性能力层，不代表其中任一产品本身。
+        </p>
         <div className="flex items-center gap-2 rounded-md bg-muted px-3 py-2">
           <code className="flex-1 truncate text-sm">{mcpUrl}</code>
           <CopyButton text={mcpUrl} className="shrink-0" />
+        </div>
+      </div>
+
+      {/* MCP 工具列表 */}
+      <div className="space-y-2">
+        <p className="text-sm text-muted-foreground">可用工具</p>
+        <div className="grid gap-2">
+          {EASYMD_MCP_TOOLS.map(tool => (
+            <div key={tool.name} className="rounded-md border px-3 py-2">
+              <div className="text-sm font-medium">{tool.title}</div>
+              <code className="text-xs text-muted-foreground">{tool.name}</code>
+              <p className="mt-1 text-xs text-muted-foreground">{tool.description}</p>
+            </div>
+          ))}
         </div>
       </div>
 

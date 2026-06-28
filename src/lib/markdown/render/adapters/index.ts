@@ -1,12 +1,15 @@
 import type { Pluggable } from 'unified'
 import type { AdapterOptions, Platform, PlatformAdapter } from './types'
+import { rehypeWechatHeading } from '../plugins'
 import { wechatAdapter } from './wechat'
 import { zhihuAdapter } from './zhihu'
 
 const htmlAdapter: PlatformAdapter = {
   id: 'html',
   name: 'HTML',
-  getPlugins: () => [],
+  getPlugins: options => [
+    [rehypeWechatHeading, { markdownStyle: options?.markdownStyle, inlineH2Bar: false }],
+  ],
 }
 
 const adapters: Record<Platform, PlatformAdapter> = {

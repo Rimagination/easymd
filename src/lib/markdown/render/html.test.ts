@@ -17,6 +17,27 @@ describe('markdown -> html render (general)', () => {
     expect(html).toMatch(/<h2[^>]*>.*二级标题.*<\/h2>/)
   })
 
+  it('keeps thu-classic h3 diamond as real preview text', async () => {
+    const html = await render({
+      markdown: '### THU Section',
+      markdownStyle: 'thu-classic',
+    })
+
+    expect(html).toContain('\u25C7\u00A0THU Section')
+    expect(html).toContain('data-easymd-wechat-heading')
+    expect(html).not.toContain('display:inline-block;color:#7a4d9a')
+  })
+
+  it('does not add an inline thu-classic h2 bar to html preview', async () => {
+    const html = await render({
+      markdown: '## THU Heading',
+      markdownStyle: 'thu-classic',
+    })
+
+    expect(html).toContain('THU Heading')
+    expect(html).not.toContain('width:18px;height:32px;background:#5c307d')
+  })
+
   it('renders mdnice classic h1 as a normal heading for wysiwyg compatibility', async () => {
     const html = await render({
       markdown: '# easymd',

@@ -4,6 +4,7 @@ import { visit } from 'unist-util-visit'
 
 interface Options {
   markdownStyle?: string
+  inlineH2Bar?: boolean
 }
 
 function createBar(): Element {
@@ -41,7 +42,7 @@ const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
 
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
-      if (node.tagName === 'h2') {
+      if (node.tagName === 'h2' && options.inlineH2Bar !== false) {
         node.children.unshift(createBar())
       }
       if (node.tagName === 'h3') {

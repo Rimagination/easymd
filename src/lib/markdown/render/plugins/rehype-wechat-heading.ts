@@ -13,7 +13,7 @@ function createBar(): Element {
     properties: {
       style: 'display:inline-block;width:18px;height:32px;background:#5c307d;vertical-align:middle;margin-right:10px',
     },
-    children: [],
+    children: [{ type: 'text', value: '\u00A0' }],
   }
 }
 
@@ -22,9 +22,9 @@ function createDiamond(): Element {
     type: 'element',
     tagName: 'span',
     properties: {
-      style: 'display:inline-block;width:10px;height:10px;border:1.5px solid #7a4d9a;border-radius:1px;transform:rotate(45deg);vertical-align:middle;margin-right:8px',
+      style: 'display:inline-block;color:#7a4d9a;font-size:18px;font-weight:700;line-height:1;vertical-align:middle;margin-right:8px',
     },
-    children: [],
+    children: [{ type: 'text', value: '\u25C7' }],
   }
 }
 
@@ -39,6 +39,10 @@ const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
         node.children.unshift(createBar())
       }
       if (node.tagName === 'h3') {
+        node.properties = {
+          ...node.properties,
+          dataEasymdWechatHeading: 'true',
+        }
         node.children.unshift(createDiamond())
       }
     })

@@ -55,14 +55,13 @@
   font-weight: 700;
 }
 
-#easymd h3::before {
-  content: '';
+#easymd h3:not([data-easymd-wechat-heading])::before {
+  content: '\25C7';
   display: inline-block;
-  width: 10px;
-  height: 10px;
-  border: 1.5px solid #7a4d9a;
-  border-radius: 1px;
-  transform: rotate(45deg);
+  color: #7a4d9a;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
   vertical-align: middle;
   margin-right: 8px;
 }

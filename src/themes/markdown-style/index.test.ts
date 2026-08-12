@@ -21,6 +21,10 @@ describe('markdown styles', () => {
     expect(markdownStyles[0]).toEqual({ id: 'thu-classic', name: 'THU-classic' })
   })
 
+  it('registers qing as the article-inspired style', () => {
+    expect(markdownStyles).toContainEqual({ id: 'qing', name: 'qing' })
+  })
+
   it('maps mdnice-classic to a css file with the expected selectors', () => {
     const loaderSource = readFileSync(new URL('./loader.ts', import.meta.url), 'utf8')
     const css = readFileSync(new URL('./mdnice-classic.css', import.meta.url), 'utf8')
@@ -57,14 +61,28 @@ describe('markdown styles', () => {
     expect(css).toContain('border-top-left-radius: 13px')
   })
 
-  it('maps thu-classic to qingying plus purple heading overrides', () => {
+  it('maps qing to the article-inspired white and teal overrides', () => {
     const loaderSource = readFileSync(new URL('./loader.ts', import.meta.url), 'utf8')
+    const css = readFileSync(new URL('./qing.css', import.meta.url), 'utf8')
+
+    expect(loaderSource).toContain(`'qing': async () =>`)
+    expect(loaderSource).toContain(`import('./qing.css?raw')`)
+    expect(css).toContain('#easymd h2')
+    expect(css).toContain('border-left: 4px solid #0f766e')
+    expect(css).toContain('background: #ffffff')
+    expect(css).toContain('border-radius: 6px')
+    expect(css).not.toContain('#5c307d')
+  })
+
+  it('keeps thu-classic mapped to the original purple style', () => {
     const css = readFileSync(new URL('./thu-classic.css', import.meta.url), 'utf8')
 
-    expect(loaderSource).toContain(`'thu-classic': async () =>`)
-    expect(loaderSource).toContain(`import('./thu-classic.css?raw')`)
-    expect(css).toContain('#easymd h2')
     expect(css).toContain('#5c307d')
     expect(css).toContain('background: #faf7fc')
+    expect(css).toContain('border-left: 6px solid #5c307d')
+    expect(css).toContain('display: flex')
+    expect(css).toContain('align-items: center')
+    expect(css).toContain('#easymd h3::before')
+    expect(css).not.toContain('h3:not([data-easymd-wechat-heading])::before')
   })
 })

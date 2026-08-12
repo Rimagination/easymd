@@ -23,7 +23,9 @@ describe('markdown -> html render (general)', () => {
       markdownStyle: 'thu-classic',
     })
 
-    expect(html).toContain('\u25C7\u00A0THU Section')
+    expect(html).toContain('font-size:24px')
+    expect(html).toContain('\u25C7')
+    expect((html.match(/\u25C7/g) ?? []).length).toBe(1)
     expect(html).toContain('data-easymd-wechat-heading')
     expect(html).not.toContain('display:inline-block;color:#7a4d9a')
   })
@@ -35,6 +37,21 @@ describe('markdown -> html render (general)', () => {
     })
 
     expect(html).toContain('THU Heading')
+    expect(html).not.toContain('data-easymd-inline-bar')
+    expect(html).not.toContain('width:18px;height:32px;background:#5c307d')
+  })
+
+  it('uses the article-inspired style without THU heading decorations', async () => {
+    const html = await render({
+      markdown: '## Qing Heading\n\n### Qing Subheading',
+      markdownStyle: 'qing',
+      platform: 'wechat',
+    })
+
+    expect(html).toContain('Qing Heading')
+    expect(html).toContain('Qing Subheading')
+    expect(html).not.toContain('data-easymd-wechat-heading')
+    expect(html).not.toContain('\u25C7\u00A0Qing Subheading')
     expect(html).not.toContain('width:18px;height:32px;background:#5c307d')
   })
 

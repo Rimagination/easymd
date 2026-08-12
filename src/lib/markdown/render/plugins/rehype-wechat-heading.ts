@@ -1,4 +1,4 @@
-import type { Element, Root, Text } from 'hast'
+import type { Element, Root } from 'hast'
 import type { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 
@@ -12,27 +12,25 @@ function createBar(): Element {
     type: 'element',
     tagName: 'span',
     properties: {
-      style: 'display:inline-block;width:18px;height:32px;background:#5c307d;vertical-align:middle;margin-right:10px',
+      style: 'display:inline-block;width:6px;height:31px;background:#5c307d;vertical-align:middle;margin-right:12px',
     },
     children: [{ type: 'text', value: '\u00A0' }],
   }
 }
 
-function createDiamondText(): Text {
+function createDiamond(): Element {
   return {
-    type: 'text',
-    value: '\u25C7\u00A0',
+    type: 'element',
+    tagName: 'span',
+    properties: {
+      style: 'display:inline-block;flex:none;color:#5c307d;font-size:24px;font-weight:700;line-height:1;vertical-align:middle;margin-right:0',
+    },
+    children: [{ type: 'text', value: '\u25C7' }],
   }
 }
 
-function prependDiamondText(node: Element) {
-  const firstChild = node.children[0]
-  if (firstChild?.type === 'text') {
-    firstChild.value = `\u25C7\u00A0${firstChild.value}`
-    return
-  }
-
-  node.children.unshift(createDiamondText())
+function prependDiamond(node: Element) {
+  node.children.unshift(createDiamond())
 }
 
 const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
@@ -43,6 +41,10 @@ const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
       if (node.tagName === 'h2' && options.inlineH2Bar !== false) {
+        node.properties = {
+          ...node.properties,
+          dataEasymdInlineBar: 'true',
+        }
         node.children.unshift(createBar())
       }
       if (node.tagName === 'h3') {
@@ -50,7 +52,7 @@ const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
           ...node.properties,
           dataEasymdWechatHeading: 'true',
         }
-        prependDiamondText(node)
+        prependDiamond(node)
       }
     })
   }

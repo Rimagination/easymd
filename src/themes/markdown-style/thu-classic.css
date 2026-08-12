@@ -32,20 +32,37 @@
 
 /* h2：左侧紫色条 + 黑色文字 */
 #easymd h2 {
-  margin: 28px 0 18px;
-  padding: 12px 0 12px 24px;
+  margin: 36px 0 18px;
+  padding: 2px 0 2px 12px;
   border: none;
-  border-left: 18px solid #5c307d;
+  border-left: 6px solid #5c307d;
   background: none;
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  line-height: 1.45;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 1.5;
   color: #23142f;
 }
 
-/* h3：空心菱形 + 文字 (预览用 ::before) */
+#easymd h2[data-easymd-inline-bar] {
+  padding-left: 0;
+  border-left: none;
+}
+
+#easymd h2[data-easymd-inline-bar] > span:first-child {
+  display: inline-block;
+  width: 6px;
+  height: 31px;
+  margin-right: 12px;
+  background: #5c307d;
+  vertical-align: middle;
+}
+
+/* h3：空心菱形 + 文字 (由渲染器插入真实字符，避免微信伪元素重复) */
 #easymd h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
   margin: 20px 0 14px;
   padding: 0;
   border: none;
@@ -53,17 +70,12 @@
   color: #45245f;
   font-size: 19px;
   font-weight: 700;
+  line-height: 1.5;
 }
 
-#easymd h3:not([data-easymd-wechat-heading])::before {
-  content: '\25C7';
-  display: inline-block;
-  color: #7a4d9a;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1;
-  vertical-align: middle;
-  margin-right: 8px;
+#easymd h3::before {
+  display: none;
+  content: none;
 }
 
 #easymd h4,

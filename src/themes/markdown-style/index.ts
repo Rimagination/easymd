@@ -5,6 +5,7 @@ export interface MarkdownStyle {
 
 export const markdownStyles: MarkdownStyle[] = [
   { id: 'thu-classic', name: 'THU-classic' },
+  { id: 'qing', name: 'qing' },
   { id: 'ayu-light', name: 'Ayu Light' },
   { id: 'bauhaus', name: 'Bauhaus' },
   { id: 'blueprint', name: 'Blueprint' },

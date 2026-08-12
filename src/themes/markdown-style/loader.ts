@@ -27,6 +27,14 @@ const themeModules: Record<string, () => Promise<{ default: string }>> = {
     ])
     return { default: `${base.default}\n${override.default}` }
   },
+  'qing': async () => {
+    const [base, qingying, override] = await Promise.all([
+      themeModules['mdnice-classic'](),
+      import('./qingying.css?raw'),
+      import('./qing.css?raw'),
+    ])
+    return { default: `${base.default}\n${qingying.default}\n${override.default}` }
+  },
   'retro': () => import('./retro.css?raw'),
   'sketch': () => import('./sketch.css?raw'),
   'terminal': () => import('./terminal.css?raw'),

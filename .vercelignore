@@ -1,0 +1,8 @@
+.codex
+.local-uploads
+.output
+.playwright-cli
+.tmp-*.log
+.worktrees
+deploy-dry.json
+node_modules

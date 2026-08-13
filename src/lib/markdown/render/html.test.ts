@@ -178,6 +178,19 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('References')
   })
 
+  it('keeps thu-classic external links without generated references', async () => {
+    const html = await render({
+      markdown: '[Example](https://example.com)',
+      markdownStyle: 'thu-classic',
+      enableFootnoteLinks: true,
+      platform: 'html',
+    })
+
+    expect(html).toContain('href="https://example.com"')
+    expect(html).not.toContain('footnote-ref')
+    expect(html).not.toContain('References')
+  })
+
   it('uses link title as reference title while keeping a short marker in body', async () => {
     const html = await render({
       markdown: '杩欓噷闇€瑕佸紩鐢? [鍙傝€?](https://example.com/article "瀹屾暣鏂囩珷鍚嶇О")',

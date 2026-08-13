@@ -154,6 +154,18 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('display:inline-block;color:#7a4d9a')
     expect(html).not.toContain('rotate(45deg)')
   })
+
+  it('keeps thu-classic external links clickable without generated references', async () => {
+    const html = await render({
+      markdown: '[Example](https://example.com)',
+      markdownStyle: 'thu-classic',
+      platform: 'wechat',
+    })
+
+    expect(html).toContain('href="https://example.com"')
+    expect(html).not.toContain('footnote-ref')
+    expect(html).not.toContain('References')
+  })
 })
 
 describe('katex rendering', () => {

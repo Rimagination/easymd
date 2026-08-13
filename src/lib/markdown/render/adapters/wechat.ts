@@ -1,5 +1,5 @@
 import type { Element, Root, Text } from 'hast'
-import type { Plugin } from 'unified'
+import type { Pluggable, Plugin } from 'unified'
 import type { PlatformAdapter } from './types'
 
 import { visit } from 'unist-util-visit'
@@ -331,10 +331,17 @@ const rehypeWechatFootnoteLinks: Plugin<[WechatFootnoteLinkOptions?], Root> = (o
 export const wechatAdapter: PlatformAdapter = {
   id: 'wechat',
   name: '微信公众号',
-  getPlugins: options => [
-    [rehypeWechatHeading, { markdownStyle: options?.markdownStyle }],
-    rehypeWechatListNormalize,
-    rehypeWechatCodeWhitespace,
-    [rehypeWechatFootnoteLinks, { referenceTitle: options?.referenceTitle }],
-  ],
+  getPlugins: (options) => {
+    const plugins = [
+      [rehypeWechatHeading, { markdownStyle: options?.markdownStyle }],
+      rehypeWechatListNormalize,
+      rehypeWechatCodeWhitespace,
+    ] as Pluggable[]
+
+    if (options?.markdownStyle !== 'thu-classic') {
+      plugins.push([rehypeWechatFootnoteLinks, { referenceTitle: options?.referenceTitle }])
+    }
+
+    return plugins
+  },
 }

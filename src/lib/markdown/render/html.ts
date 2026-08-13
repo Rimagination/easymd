@@ -79,7 +79,7 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidThe
     .use(rehypeHighlight)
     .use(rehypeFigureWrapper)
 
-  if (enableFootnoteLinks && platform !== 'wechat') {
+  if (enableFootnoteLinks && platform !== 'wechat' && markdownStyle !== 'thu-classic') {
     processor.use(rehypeFootnoteLinks, { referenceTitle })
   }
 

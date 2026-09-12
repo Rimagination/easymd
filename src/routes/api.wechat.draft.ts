@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import * as z from 'zod'
 import { wechatDraftMiddleware } from '@/lib/middleware/wechat-draft'
-import { isDraftSessionAuthorized } from '@/lib/wechat-draft/auth'
+import { getWechatAccountContext } from '@/lib/wechat-draft/account'
+import { getWechatAuthorizerAccessToken, isWechatPlatformConfigured } from '@/lib/wechat-draft/platform'
 import { publishWechatDraft, WechatDraftError, wechatDraftLimits } from '@/lib/wechat-draft/service'
 
 const draftFieldsSchema = z.object({
@@ -37,11 +38,16 @@ export const Route = createFileRoute('/api/wechat/draft')({
     middleware: [wechatDraftMiddleware],
     handlers: {
       POST: async ({ request }) => {
-        if (!isDraftSessionAuthorized(request)) {
-          return Response.json({ error: '请先完成公众号发布认证。' }, { status: 401 })
+        if (!isWechatPlatformConfigured()) {
+          return Response.json({ error: '公众号连接服务尚未配置，请联系 easymd 管理员。' }, { status: 503 })
         }
 
         try {
+          const context = await getWechatAccountContext(request)
+          if (!context.browserId || !context.record) {
+            return Response.json({ error: '请先连接你的公众号。' }, { status: 401 })
+          }
+
           const contentLength = Number(request.headers.get('content-length'))
           if (Number.isFinite(contentLength) && contentLength > wechatDraftLimits.maxRequestBytes) {
             return Response.json({ error: '请求内容过大，请减少封面或正文内容。' }, { status: 413 })
@@ -66,6 +72,7 @@ export const Route = createFileRoute('/api/wechat/draft')({
             ? String(coverValue.name)
             : undefined
 
+          const authorizerAccessToken = await getWechatAuthorizerAccessToken(context.browserId)
           const result = await publishWechatDraft({
             ...fields,
             cover,
@@ -73,7 +80,7 @@ export const Route = createFileRoute('/api/wechat/draft')({
             needOpenComment: fields.needOpenComment === '1',
             onlyFansCanComment: fields.onlyFansCanComment === '1',
             showCoverPic: fields.showCoverPic === '1',
-          })
+          }, authorizerAccessToken)
 
           return Response.json({
             contentBytes: result.contentBytes,

@@ -25,7 +25,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { prepareWechatHtmlForCopy } from '@/lib/actions/copy-platform'
 import { extractWechatDraftMetadata } from '@/lib/wechat-draft/metadata'
 import {
-  authenticateWechatDraft,
+  disconnectWechatAccount,
   getWechatDraftSession,
   publishWechatDraft,
 } from '@/services/wechat-draft'
@@ -45,11 +45,15 @@ interface HtmlStats {
   images: number
 }
 
-function readStoredCoverMediaId(): string {
+function getCoverStorageKey(accountId?: string): string {
+  return `${COVER_MEDIA_ID_STORAGE_KEY}:${accountId || 'unbound'}`
+}
+
+function readStoredCoverMediaId(accountId?: string): string {
   if (typeof window === 'undefined') {
     return ''
   }
-  return window.localStorage.getItem(COVER_MEDIA_ID_STORAGE_KEY) ?? ''
+  return window.localStorage.getItem(getCoverStorageKey(accountId)) ?? ''
 }
 
 function getHtmlStats(html: string): HtmlStats {
@@ -86,7 +90,6 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
   const [author, setAuthor] = useState('')
   const [digest, setDigest] = useState('')
   const [sourceUrl, setSourceUrl] = useState('')
-  const [publishToken, setPublishToken] = useState('')
   const [coverFile, setCoverFile] = useState<File>()
   const [coverMediaId, setCoverMediaId] = useState('')
   const [showCoverPic, setShowCoverPic] = useState(false)
@@ -98,10 +101,10 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
   const [result, setResult] = useState<WechatDraftPublishResult | null>(null)
 
   const htmlStats = useMemo(() => getHtmlStats(renderedHtml), [renderedHtml])
-  const hasCover = Boolean(coverFile || coverMediaId || session?.defaultCoverConfigured)
+  const hasCover = Boolean(coverFile || coverMediaId)
   const canSubmit = Boolean(
     session?.configured
-    && (session.authenticated || publishToken.trim())
+    && session.connected
     && renderedHtml
     && title.trim()
     && hasCover
@@ -124,9 +127,8 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
     setAuthor(metadata.author)
     setDigest(metadata.digest)
     setSourceUrl(metadata.sourceUrl)
-    setPublishToken('')
     setCoverFile(undefined)
-    setCoverMediaId(readStoredCoverMediaId())
+    setCoverMediaId('')
     setShowCoverPic(false)
     setNeedOpenComment(false)
     setOnlyFansCanComment(false)
@@ -139,6 +141,7 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
       .then((nextSession) => {
         if (!canceled) {
           setSession(nextSession)
+          setCoverMediaId(readStoredCoverMediaId(nextSession.account?.appid))
         }
       })
       .catch((nextError) => {
@@ -179,23 +182,17 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
 
   const handleSubmit = async () => {
     if (!session?.configured) {
-      setError('线上公众号接口尚未配置。')
+      setError('公众号连接服务尚未启用，请稍后重试。')
+      return
+    }
+    if (!session.connected) {
+      setError('请先连接你的公众号。')
       return
     }
 
     setLoading(true)
     setError('')
     try {
-      let authenticatedSession = session
-      if (!authenticatedSession.authenticated) {
-        if (!publishToken.trim()) {
-          throw new Error('请输入线上发布口令。')
-        }
-        authenticatedSession = await authenticateWechatDraft(publishToken.trim())
-        setSession(authenticatedSession)
-        setPublishToken('')
-      }
-
       const html = renderedHtml || await getHtml()
       setPreparing(true)
       const preparedHtml = await prepareWechatHtmlForCopy(html)
@@ -214,7 +211,7 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
 
       setResult(published)
       if (published.coverMediaId && typeof window !== 'undefined') {
-        window.localStorage.setItem(COVER_MEDIA_ID_STORAGE_KEY, published.coverMediaId)
+        window.localStorage.setItem(getCoverStorageKey(session.account?.appid), published.coverMediaId)
       }
       toast.success('已同步到微信草稿箱。')
     }
@@ -223,6 +220,31 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
     }
     finally {
       setPreparing(false)
+      setLoading(false)
+    }
+  }
+
+  const handleConnect = () => {
+    if (typeof window === 'undefined') {
+      return
+    }
+    const returnTo = `${window.location.pathname}${window.location.search}`
+    window.location.assign(`/api/wechat/authorize?returnTo=${encodeURIComponent(returnTo)}`)
+  }
+
+  const handleDisconnect = async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const nextSession = await disconnectWechatAccount()
+      setSession(nextSession)
+      setCoverMediaId('')
+      toast.success('已解除公众号连接。')
+    }
+    catch (nextError) {
+      setError(nextError instanceof Error ? nextError.message : '解除公众号连接失败。')
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -243,32 +265,41 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
         `}
       >
         <DialogHeader>
-          <DialogTitle>同步到微信公众号草稿箱</DialogTitle>
+          <DialogTitle>同步到我的公众号草稿箱</DialogTitle>
           <DialogDescription>
-            文章会在服务端完成图片处理和草稿写入。这里不需要填写 AppID 或 AppSecret。
+            文章会在服务端完成图片处理和草稿写入。每个用户只会写入自己已连接的公众号。
           </DialogDescription>
         </DialogHeader>
 
-        {session?.configured && !session.authenticated && (
-          <Field>
-            <FieldLabel htmlFor="wechat-draft-publish-token">线上发布口令</FieldLabel>
-            <Input
-              id="wechat-draft-publish-token"
-              type="password"
-              value={publishToken}
-              onChange={event => setPublishToken(event.target.value)}
-              placeholder="请输入至少 32 个字符的线上发布口令"
-              disabled={loading}
-            />
-            <FieldDescription>口令只用于建立短期发布会话，不会保存到浏览器。</FieldDescription>
-          </Field>
-        )}
-
         {session && !session.configured && (
           <Alert variant="destructive">
-            <AlertTitle>线上发布尚未配置</AlertTitle>
+            <AlertTitle>公众号连接暂不可用</AlertTitle>
             <AlertDescription>
-              请先在 Vercel 配置 WECHAT_APPID、WECHAT_APPSECRET 和 EASYMD_WECHAT_PUBLISH_TOKEN。
+              连接服务正在配置中，请稍后再试。
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {session?.configured && session.connected && session.account && (
+          <Alert>
+            <AlertTitle>{`已连接：${session.account.nickname}`}</AlertTitle>
+            <AlertDescription className="flex flex-wrap items-center gap-2">
+              <span>{session.account.username || session.account.principalName || session.account.appid}</span>
+              <Button type="button" variant="outline" size="sm" onClick={handleDisconnect} disabled={loading}>
+                解除连接
+              </Button>
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {session?.configured && !session.connected && (
+          <Alert>
+            <AlertTitle>先连接你的公众号</AlertTitle>
+            <AlertDescription className="flex flex-wrap items-center gap-2">
+              <span>请使用公众号管理员微信扫码授权，easymd 不会要求你填写 AppID 或 AppSecret。</span>
+              <Button type="button" size="sm" onClick={handleConnect} disabled={loading}>
+                连接我的公众号
+              </Button>
             </AlertDescription>
           </Alert>
         )}
@@ -341,11 +372,9 @@ export function WechatDraftDialog({ open, onOpenChange, getHtml }: WechatDraftDi
             <FieldDescription>
               {coverFile?.name
                 ? `本次使用：${coverFile.name}`
-                : session?.defaultCoverConfigured
-                  ? '服务端已配置默认封面。选择新图片可覆盖默认封面。'
-                  : coverMediaId
-                    ? '已保存上次使用的封面素材。选择新图片可更换。'
-                    : '请上传 JPG 或 PNG 封面。'}
+                : coverMediaId
+                  ? '已保存上次使用的封面素材。选择新图片可更换。'
+                  : '请上传 JPG 或 PNG 封面。'}
             </FieldDescription>
           </Field>
 

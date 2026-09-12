@@ -115,4 +115,29 @@ describe('wechat draft publisher', () => {
       title: '标题',
     })).rejects.toThrow('正文图片地址指向受限网络')
   })
+
+  it('publishes with a per-account token without global account credentials', async () => {
+    delete process.env.WECHAT_APPID
+    delete process.env.WECHAT_APPSECRET
+    const calls: string[] = []
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const url = String(input)
+      calls.push(url)
+      if (url.includes('/cgi-bin/draft/add')) {
+        return Response.json({ media_id: 'draft-media-id' })
+      }
+      throw new Error(`Unexpected URL: ${url}`)
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const result = await publishWechatDraft({
+      coverMediaId: 'cover-media-id',
+      html: '<section id="easymd"><p>正文</p></section>',
+      title: '标题',
+    }, 'authorizer-access-token')
+
+    expect(result.draftMediaId).toBe('draft-media-id')
+    expect(calls).toHaveLength(1)
+    expect(calls[0]).toContain('access_token=authorizer-access-token')
+  })
 })

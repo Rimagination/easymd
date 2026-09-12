@@ -1,9 +1,21 @@
 import { apiFetch } from '@/lib/api'
 
 export interface WechatDraftSession {
-  authenticated: boolean
+  account: WechatAccount | null
   configured: boolean
-  defaultCoverConfigured: boolean
+  connected: boolean
+  setup?: {
+    configured: boolean
+    storageConfigured: boolean
+  }
+}
+
+export interface WechatAccount {
+  appid: string
+  headImg: string
+  nickname: string
+  principalName: string
+  username: string
 }
 
 export interface WechatDraftPublishResult {
@@ -30,20 +42,16 @@ function normalizeWechatDraftError(error: unknown): string {
 
 export async function getWechatDraftSession(): Promise<WechatDraftSession> {
   try {
-    return await apiFetch<WechatDraftSession>('/api/wechat/draft/session')
+    return await apiFetch<WechatDraftSession>('/api/wechat/account')
   }
   catch (error) {
     throw new Error(normalizeWechatDraftError(error))
   }
 }
 
-export async function authenticateWechatDraft(token: string): Promise<WechatDraftSession> {
+export async function disconnectWechatAccount(): Promise<WechatDraftSession> {
   try {
-    return await apiFetch<WechatDraftSession>('/api/wechat/draft/session', {
-      method: 'POST',
-      body: JSON.stringify({ token }),
-      headers: { 'Content-Type': 'application/json' },
-    })
+    return await apiFetch<WechatDraftSession>('/api/wechat/account', { method: 'DELETE' })
   }
   catch (error) {
     throw new Error(normalizeWechatDraftError(error))

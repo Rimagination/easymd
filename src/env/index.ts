@@ -44,6 +44,13 @@ export const env = {
   get WECHAT_DEFAULT_COVER_MEDIA_ID() { return getPrivate('WECHAT_DEFAULT_COVER_MEDIA_ID') },
   get WECHAT_IMAGE_HOSTS() { return getPrivate('WECHAT_IMAGE_HOSTS') },
 
+  // WeChat Open Platform third-party authorization (server-only)
+  get WECHAT_COMPONENT_APPID() { return getPrivate('WECHAT_COMPONENT_APPID') },
+  get WECHAT_COMPONENT_APPSECRET() { return getPrivate('WECHAT_COMPONENT_APPSECRET') },
+  get WECHAT_COMPONENT_TOKEN() { return getPrivate('WECHAT_COMPONENT_TOKEN') },
+  get WECHAT_COMPONENT_ENCODING_AES_KEY() { return getPrivate('WECHAT_COMPONENT_ENCODING_AES_KEY') },
+  get EASYMD_WECHAT_DATA_KEY() { return getPrivate('EASYMD_WECHAT_DATA_KEY') },
+
   // 统计分析（服务端运行时读取，支持 Docker 运行时配置）
   get ANALYTICS_SCRIPT_URL() { return getPrivate('ANALYTICS_SCRIPT_URL') },
   get ANALYTICS_SITE_ID() { return getPrivate('ANALYTICS_SITE_ID') },

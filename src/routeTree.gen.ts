@@ -15,6 +15,10 @@ import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
 import { Route as UploadsSplatRouteImport } from './routes/uploads.$'
 import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
 import { Route as ApiWechatDraftRouteImport } from './routes/api.wechat.draft'
+import { Route as ApiWechatComponentRouteImport } from './routes/api.wechat.[component]'
+import { Route as ApiWechatCallbackRouteImport } from './routes/api.wechat.callback'
+import { Route as ApiWechatAuthorizeRouteImport } from './routes/api.wechat.authorize'
+import { Route as ApiWechatAccountRouteImport } from './routes/api.wechat.account'
 import { Route as ApiUploadImageRouteImport } from './routes/api.upload.image'
 import { Route as ApiImportWechatRouteImport } from './routes/api.import.wechat'
 import { Route as LayoutDocsSkillRouteImport } from './routes/_layout.docs.skill'
@@ -48,6 +52,26 @@ const LayoutAboutRoute = LayoutAboutRouteImport.update({
 const ApiWechatDraftRoute = ApiWechatDraftRouteImport.update({
   id: '/api/wechat/draft',
   path: '/api/wechat/draft',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWechatComponentRoute = ApiWechatComponentRouteImport.update({
+  id: '/api/wechat/component',
+  path: '/api/wechat/component',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWechatCallbackRoute = ApiWechatCallbackRouteImport.update({
+  id: '/api/wechat/callback',
+  path: '/api/wechat/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWechatAuthorizeRoute = ApiWechatAuthorizeRouteImport.update({
+  id: '/api/wechat/authorize',
+  path: '/api/wechat/authorize',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiWechatAccountRoute = ApiWechatAccountRouteImport.update({
+  id: '/api/wechat/account',
+  path: '/api/wechat/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiUploadImageRoute = ApiUploadImageRouteImport.update({
@@ -85,6 +109,10 @@ export interface FileRoutesByFullPath {
   '/docs/skill': typeof LayoutDocsSkillRoute
   '/api/import/wechat': typeof ApiImportWechatRoute
   '/api/upload/image': typeof ApiUploadImageRoute
+  '/api/wechat/account': typeof ApiWechatAccountRoute
+  '/api/wechat/authorize': typeof ApiWechatAuthorizeRoute
+  '/api/wechat/callback': typeof ApiWechatCallbackRoute
+  '/api/wechat/component': typeof ApiWechatComponentRoute
   '/api/wechat/draft': typeof ApiWechatDraftRouteWithChildren
   '/api/wechat/draft/session': typeof ApiWechatDraftSessionRoute
 }
@@ -97,6 +125,10 @@ export interface FileRoutesByTo {
   '/docs/skill': typeof LayoutDocsSkillRoute
   '/api/import/wechat': typeof ApiImportWechatRoute
   '/api/upload/image': typeof ApiUploadImageRoute
+  '/api/wechat/account': typeof ApiWechatAccountRoute
+  '/api/wechat/authorize': typeof ApiWechatAuthorizeRoute
+  '/api/wechat/callback': typeof ApiWechatCallbackRoute
+  '/api/wechat/component': typeof ApiWechatComponentRoute
   '/api/wechat/draft': typeof ApiWechatDraftRouteWithChildren
   '/api/wechat/draft/session': typeof ApiWechatDraftSessionRoute
 }
@@ -111,6 +143,10 @@ export interface FileRoutesById {
   '/_layout/docs/skill': typeof LayoutDocsSkillRoute
   '/api/import/wechat': typeof ApiImportWechatRoute
   '/api/upload/image': typeof ApiUploadImageRoute
+  '/api/wechat/account': typeof ApiWechatAccountRoute
+  '/api/wechat/authorize': typeof ApiWechatAuthorizeRoute
+  '/api/wechat/callback': typeof ApiWechatCallbackRoute
+  '/api/wechat/component': typeof ApiWechatComponentRoute
   '/api/wechat/draft': typeof ApiWechatDraftRouteWithChildren
   '/api/wechat/draft/session': typeof ApiWechatDraftSessionRoute
 }
@@ -125,6 +161,10 @@ export interface FileRouteTypes {
     | '/docs/skill'
     | '/api/import/wechat'
     | '/api/upload/image'
+    | '/api/wechat/account'
+    | '/api/wechat/authorize'
+    | '/api/wechat/callback'
+    | '/api/wechat/component'
     | '/api/wechat/draft'
     | '/api/wechat/draft/session'
   fileRoutesByTo: FileRoutesByTo
@@ -137,6 +177,10 @@ export interface FileRouteTypes {
     | '/docs/skill'
     | '/api/import/wechat'
     | '/api/upload/image'
+    | '/api/wechat/account'
+    | '/api/wechat/authorize'
+    | '/api/wechat/callback'
+    | '/api/wechat/component'
     | '/api/wechat/draft'
     | '/api/wechat/draft/session'
   id:
@@ -150,6 +194,10 @@ export interface FileRouteTypes {
     | '/_layout/docs/skill'
     | '/api/import/wechat'
     | '/api/upload/image'
+    | '/api/wechat/account'
+    | '/api/wechat/authorize'
+    | '/api/wechat/callback'
+    | '/api/wechat/component'
     | '/api/wechat/draft'
     | '/api/wechat/draft/session'
   fileRoutesById: FileRoutesById
@@ -160,6 +208,10 @@ export interface RootRouteChildren {
   UploadsSplatRoute: typeof UploadsSplatRoute
   ApiImportWechatRoute: typeof ApiImportWechatRoute
   ApiUploadImageRoute: typeof ApiUploadImageRoute
+  ApiWechatAccountRoute: typeof ApiWechatAccountRoute
+  ApiWechatAuthorizeRoute: typeof ApiWechatAuthorizeRoute
+  ApiWechatCallbackRoute: typeof ApiWechatCallbackRoute
+  ApiWechatComponentRoute: typeof ApiWechatComponentRoute
   ApiWechatDraftRoute: typeof ApiWechatDraftRouteWithChildren
 }
 
@@ -205,6 +257,34 @@ declare module '@tanstack/react-router' {
       path: '/api/wechat/draft'
       fullPath: '/api/wechat/draft'
       preLoaderRoute: typeof ApiWechatDraftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/wechat/component': {
+      id: '/api/wechat/component'
+      path: '/api/wechat/component'
+      fullPath: '/api/wechat/component'
+      preLoaderRoute: typeof ApiWechatComponentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/wechat/callback': {
+      id: '/api/wechat/callback'
+      path: '/api/wechat/callback'
+      fullPath: '/api/wechat/callback'
+      preLoaderRoute: typeof ApiWechatCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/wechat/authorize': {
+      id: '/api/wechat/authorize'
+      path: '/api/wechat/authorize'
+      fullPath: '/api/wechat/authorize'
+      preLoaderRoute: typeof ApiWechatAuthorizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/wechat/account': {
+      id: '/api/wechat/account'
+      path: '/api/wechat/account'
+      fullPath: '/api/wechat/account'
+      preLoaderRoute: typeof ApiWechatAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/upload/image': {
@@ -280,6 +360,10 @@ const rootRouteChildren: RootRouteChildren = {
   UploadsSplatRoute: UploadsSplatRoute,
   ApiImportWechatRoute: ApiImportWechatRoute,
   ApiUploadImageRoute: ApiUploadImageRoute,
+  ApiWechatAccountRoute: ApiWechatAccountRoute,
+  ApiWechatAuthorizeRoute: ApiWechatAuthorizeRoute,
+  ApiWechatCallbackRoute: ApiWechatCallbackRoute,
+  ApiWechatComponentRoute: ApiWechatComponentRoute,
   ApiWechatDraftRoute: ApiWechatDraftRouteWithChildren,
 }
 export const routeTree = rootRouteImport

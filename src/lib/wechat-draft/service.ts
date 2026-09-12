@@ -627,14 +627,20 @@ async function serializeContent(root: Root): Promise<string> {
   return unified().use(rehypeStringify).stringify(root)
 }
 
-export async function publishWechatDraft(input: WechatDraftPublishInput): Promise<WechatDraftPublishResult> {
-  assertConfigured()
+export async function publishWechatDraft(
+  input: WechatDraftPublishInput,
+  authorizerAccessToken?: string,
+): Promise<WechatDraftPublishResult> {
+  if (!authorizerAccessToken?.trim()) {
+    assertConfigured()
+  }
 
   const title = input.title.trim()
   const author = input.author?.trim() ?? ''
   const digest = input.digest?.trim() ?? ''
   const sourceUrl = input.sourceUrl?.trim() ?? ''
-  const coverMediaId = input.coverMediaId?.trim() || env.WECHAT_DEFAULT_COVER_MEDIA_ID?.trim() || ''
+  const coverMediaId = input.coverMediaId?.trim()
+    || (authorizerAccessToken ? '' : env.WECHAT_DEFAULT_COVER_MEDIA_ID?.trim() || '')
 
   if (!title) {
     throw new WechatDraftError('标题不能为空。')
@@ -669,7 +675,7 @@ export async function publishWechatDraft(input: WechatDraftPublishInput): Promis
     throw new WechatDraftError(`正文图片不能超过 ${MAX_CONTENT_IMAGES} 张。`)
   }
 
-  const accessToken = await getAccessToken()
+  const accessToken = authorizerAccessToken?.trim() || await getAccessToken()
   const allowedImageHosts = getAllowedImageHosts(input.allowedImageHosts)
   const uploadedImages = new Map<string, string>()
   let imageIndex = 0

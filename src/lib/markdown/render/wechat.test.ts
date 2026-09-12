@@ -121,21 +121,25 @@ describe('wechat render adapter', () => {
     expect(html).toContain('easymd')
   })
 
-  it('inserts one narrow purple bar in thu-classic h2 for WeChat copy', async () => {
+  it('renders an adaptive purple bar and wrapped content in thu-classic h2 for WeChat copy', async () => {
     const html = await render({
-      markdown: '## THU Heading',
+      markdown: '## 这是一个足够长的 THU Heading，用于验证标题换行时竖杠仍然跟随标题高度',
       markdownStyle: 'thu-classic',
       platform: 'wechat',
     })
 
     expect(html).toContain('<h2')
-    expect(html).toContain('THU Heading')
+    expect(html).toContain('这是一个足够长的 THU Heading，用于验证标题换行时竖杠仍然跟随标题高度')
     expect(html).toContain('#5c307d')
     expect(html).toContain('data-easymd-inline-bar')
-    expect(html).toContain('width:6px;height:31px;background:#5c307d')
-    expect(html).not.toContain('width:18px;height:32px;background:#5c307d')
+    expect(html).toContain('display:flex')
+    expect(html).toContain('align-items:center')
+    expect(html).toContain('align-self:stretch')
+    expect(html).toContain('min-height:31px')
+    expect(html).toContain('min-width:0;flex:1 1 auto')
+    expect(html).not.toMatch(/(?:^|[;"])height:\s*31px(?:;|")/u)
     expect(html).toContain('\u00A0')
-    expect((html.match(/width:6px;height:31px;background:#5c307d/g) ?? []).length).toBe(1)
+    expect(html).toMatch(/<h2[^>]*data-easymd-inline-bar[^>]*>.*<span[^>]*>.*THU Heading.*<\/span><\/h2>/)
   })
 
   it('inserts a real diamond character into thu-classic h3 text for WeChat copy', async () => {

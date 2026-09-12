@@ -37,6 +37,13 @@ export const env = {
   get LOCAL_UPLOAD_DIR() { return getPrivate('LOCAL_UPLOAD_DIR') },
   get LOCAL_UPLOAD_PUBLIC_PATH() { return getPrivate('LOCAL_UPLOAD_PUBLIC_PATH') },
 
+  // WeChat draft publishing (server-only)
+  get WECHAT_APPID() { return getPrivate('WECHAT_APPID') },
+  get WECHAT_APPSECRET() { return getPrivate('WECHAT_APPSECRET') },
+  get EASYMD_WECHAT_PUBLISH_TOKEN() { return getPrivate('EASYMD_WECHAT_PUBLISH_TOKEN') },
+  get WECHAT_DEFAULT_COVER_MEDIA_ID() { return getPrivate('WECHAT_DEFAULT_COVER_MEDIA_ID') },
+  get WECHAT_IMAGE_HOSTS() { return getPrivate('WECHAT_IMAGE_HOSTS') },
+
   // 统计分析（服务端运行时读取，支持 Docker 运行时配置）
   get ANALYTICS_SCRIPT_URL() { return getPrivate('ANALYTICS_SCRIPT_URL') },
   get ANALYTICS_SITE_ID() { return getPrivate('ANALYTICS_SITE_ID') },

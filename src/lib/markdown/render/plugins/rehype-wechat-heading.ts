@@ -12,9 +12,20 @@ function createBar(): Element {
     type: 'element',
     tagName: 'span',
     properties: {
-      style: 'display:inline-block;width:6px;height:31px;background:#5c307d;vertical-align:middle;margin-right:12px',
+      style: 'display:block;flex:0 0 6px;width:6px;min-height:31px;height:auto;align-self:stretch;background:#5c307d;margin-right:12px',
     },
     children: [{ type: 'text', value: '\u00A0' }],
+  }
+}
+
+function wrapHeadingContent(node: Element): Element {
+  return {
+    type: 'element',
+    tagName: 'span',
+    properties: {
+      style: 'display:block;min-width:0;flex:1 1 auto',
+    },
+    children: node.children,
   }
 }
 
@@ -41,11 +52,15 @@ const rehypeWechatHeading: Plugin<[Options?], Root> = (options = {}) => {
   return (tree) => {
     visit(tree, 'element', (node: Element) => {
       if (node.tagName === 'h2' && options.inlineH2Bar !== false) {
+        const currentStyle = typeof node.properties?.style === 'string'
+          ? node.properties.style
+          : ''
         node.properties = {
           ...node.properties,
           dataEasymdInlineBar: 'true',
+          style: [currentStyle, 'display:flex;align-items:center;padding:0;border-left:none'].filter(Boolean).join(';'),
         }
-        node.children.unshift(createBar())
+        node.children = [createBar(), wrapHeadingContent(node)]
       }
       if (node.tagName === 'h3') {
         node.properties = {

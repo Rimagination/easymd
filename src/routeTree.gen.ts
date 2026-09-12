@@ -14,10 +14,12 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
 import { Route as UploadsSplatRouteImport } from './routes/uploads.$'
 import { Route as LayoutAboutRouteImport } from './routes/_layout.about'
+import { Route as ApiWechatDraftRouteImport } from './routes/api.wechat.draft'
 import { Route as ApiUploadImageRouteImport } from './routes/api.upload.image'
 import { Route as ApiImportWechatRouteImport } from './routes/api.import.wechat'
 import { Route as LayoutDocsSkillRouteImport } from './routes/_layout.docs.skill'
 import { Route as LayoutDocsMcpRouteImport } from './routes/_layout.docs.mcp'
+import { Route as ApiWechatDraftSessionRouteImport } from './routes/api.wechat.draft.session'
 
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
@@ -43,6 +45,11 @@ const LayoutAboutRoute = LayoutAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => LayoutRoute,
 } as any)
+const ApiWechatDraftRoute = ApiWechatDraftRouteImport.update({
+  id: '/api/wechat/draft',
+  path: '/api/wechat/draft',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiUploadImageRoute = ApiUploadImageRouteImport.update({
   id: '/api/upload/image',
   path: '/api/upload/image',
@@ -63,6 +70,11 @@ const LayoutDocsMcpRoute = LayoutDocsMcpRouteImport.update({
   path: '/docs/mcp',
   getParentRoute: () => LayoutRoute,
 } as any)
+const ApiWechatDraftSessionRoute = ApiWechatDraftSessionRouteImport.update({
+  id: '/session',
+  path: '/session',
+  getParentRoute: () => ApiWechatDraftRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof LayoutIndexRoute
@@ -73,6 +85,8 @@ export interface FileRoutesByFullPath {
   '/docs/skill': typeof LayoutDocsSkillRoute
   '/api/import/wechat': typeof ApiImportWechatRoute
   '/api/upload/image': typeof ApiUploadImageRoute
+  '/api/wechat/draft': typeof ApiWechatDraftRouteWithChildren
+  '/api/wechat/draft/session': typeof ApiWechatDraftSessionRoute
 }
 export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
@@ -83,6 +97,8 @@ export interface FileRoutesByTo {
   '/docs/skill': typeof LayoutDocsSkillRoute
   '/api/import/wechat': typeof ApiImportWechatRoute
   '/api/upload/image': typeof ApiUploadImageRoute
+  '/api/wechat/draft': typeof ApiWechatDraftRouteWithChildren
+  '/api/wechat/draft/session': typeof ApiWechatDraftSessionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -95,6 +111,8 @@ export interface FileRoutesById {
   '/_layout/docs/skill': typeof LayoutDocsSkillRoute
   '/api/import/wechat': typeof ApiImportWechatRoute
   '/api/upload/image': typeof ApiUploadImageRoute
+  '/api/wechat/draft': typeof ApiWechatDraftRouteWithChildren
+  '/api/wechat/draft/session': typeof ApiWechatDraftSessionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,6 +125,8 @@ export interface FileRouteTypes {
     | '/docs/skill'
     | '/api/import/wechat'
     | '/api/upload/image'
+    | '/api/wechat/draft'
+    | '/api/wechat/draft/session'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/mcp'
@@ -117,6 +137,8 @@ export interface FileRouteTypes {
     | '/docs/skill'
     | '/api/import/wechat'
     | '/api/upload/image'
+    | '/api/wechat/draft'
+    | '/api/wechat/draft/session'
   id:
     | '__root__'
     | '/_layout'
@@ -128,6 +150,8 @@ export interface FileRouteTypes {
     | '/_layout/docs/skill'
     | '/api/import/wechat'
     | '/api/upload/image'
+    | '/api/wechat/draft'
+    | '/api/wechat/draft/session'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -136,6 +160,7 @@ export interface RootRouteChildren {
   UploadsSplatRoute: typeof UploadsSplatRoute
   ApiImportWechatRoute: typeof ApiImportWechatRoute
   ApiUploadImageRoute: typeof ApiUploadImageRoute
+  ApiWechatDraftRoute: typeof ApiWechatDraftRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -175,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutAboutRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/api/wechat/draft': {
+      id: '/api/wechat/draft'
+      path: '/api/wechat/draft'
+      fullPath: '/api/wechat/draft'
+      preLoaderRoute: typeof ApiWechatDraftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/upload/image': {
       id: '/api/upload/image'
       path: '/api/upload/image'
@@ -203,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDocsMcpRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/api/wechat/draft/session': {
+      id: '/api/wechat/draft/session'
+      path: '/session'
+      fullPath: '/api/wechat/draft/session'
+      preLoaderRoute: typeof ApiWechatDraftSessionRouteImport
+      parentRoute: typeof ApiWechatDraftRoute
+    }
   }
 }
 
@@ -223,12 +262,25 @@ const LayoutRouteChildren: LayoutRouteChildren = {
 const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
+interface ApiWechatDraftRouteChildren {
+  ApiWechatDraftSessionRoute: typeof ApiWechatDraftSessionRoute
+}
+
+const ApiWechatDraftRouteChildren: ApiWechatDraftRouteChildren = {
+  ApiWechatDraftSessionRoute: ApiWechatDraftSessionRoute,
+}
+
+const ApiWechatDraftRouteWithChildren = ApiWechatDraftRoute._addFileChildren(
+  ApiWechatDraftRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   LayoutRoute: LayoutRouteWithChildren,
   McpRoute: McpRoute,
   UploadsSplatRoute: UploadsSplatRoute,
   ApiImportWechatRoute: ApiImportWechatRoute,
   ApiUploadImageRoute: ApiUploadImageRoute,
+  ApiWechatDraftRoute: ApiWechatDraftRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

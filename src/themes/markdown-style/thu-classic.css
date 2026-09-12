@@ -45,17 +45,27 @@
 }
 
 #easymd h2[data-easymd-inline-bar] {
-  padding-left: 0;
+  display: flex;
+  align-items: center;
+  padding: 0;
   border-left: none;
 }
 
 #easymd h2[data-easymd-inline-bar] > span:first-child {
-  display: inline-block;
+  display: block;
+  flex: 0 0 6px;
   width: 6px;
-  height: 31px;
+  min-height: 31px;
+  height: auto;
   margin-right: 12px;
   background: #5c307d;
-  vertical-align: middle;
+  align-self: stretch;
+}
+
+#easymd h2[data-easymd-inline-bar] > span:nth-child(2) {
+  display: block;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 /* h3：空心菱形 + 文字 (由渲染器插入真实字符，避免微信伪元素重复) */

@@ -1,4 +1,4 @@
-// 把 easymd 的 Markdown 管线打成单文件 ESM，供 DSH bundle 内联使用。
+// 把 easymd 的 Markdown 管线打成单文件 ESM，供 DSH bundle（dsh-plugin/）内联使用。
 // 用法：node dsh-build/build.mjs [outfile]
 import { readFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url'
 import { build } from 'esbuild'
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const DEFAULT_OUTFILE = resolve(repoRoot, 'dsh-plugin/lib/easymd-markdown.mjs')
 
 /** 处理 Vite 的 `?raw` 导入：读取文件原文并作为 default 导出。 */
 const rawTextPlugin = {
@@ -28,13 +29,18 @@ const rawTextPlugin = {
   },
 }
 
-async function main() {
-  const outfile = resolve(process.argv[2] ?? resolve(repoRoot, '../dsh-easymd/lib/easymd-markdown.mjs'))
+/**
+ * 构建单文件引擎。
+ * @param {string} [outfile] 产物路径，默认 dsh-plugin/lib/easymd-markdown.mjs
+ * @returns {Promise<string>} 产物绝对路径
+ */
+export async function buildEngine(outfile = DEFAULT_OUTFILE) {
+  const target = resolve(outfile)
 
   await build({
     absWorkingDir: repoRoot,
     entryPoints: [resolve(repoRoot, 'dsh-build/entry.ts')],
-    outfile,
+    outfile: target,
     bundle: true,
     platform: 'node',
     format: 'esm',
@@ -60,10 +66,17 @@ async function main() {
     logLevel: 'info',
   })
 
+  return target
+}
+
+async function main() {
+  const outfile = await buildEngine(process.argv[2] ?? DEFAULT_OUTFILE)
   console.info(`built ${outfile}`)
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exitCode = 1
-})
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error)
+    process.exitCode = 1
+  })
+}

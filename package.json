@@ -22,6 +22,9 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit",
+    "dsh:build": "node dsh-build/build.mjs",
+    "dsh:pack": "pnpm --dir dsh-plugin pack",
+    "dsh:publish": "pnpm --dir dsh-plugin publish --access public --no-git-checks",
     "shadcn": "shadcn",
     "prepare": "simple-git-hooks"
   },

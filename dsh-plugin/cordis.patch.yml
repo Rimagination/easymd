@@ -1,0 +1,7 @@
+# dsh-easymd 的 bundle 层：单行即可同时注册原生工具与 skill。
+- insert:
+    - id: easymd
+      name: dsh-easymd
+      config:
+        # 关掉工具只保留 skill：tools: false
+        tools: true

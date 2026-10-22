@@ -13,6 +13,9 @@ export default antfu({
     '**/*.gen.ts',
     'src/components/ui/**',
     'src/hooks/use-mobile.tsx',
+    // 发布前生成的产物与副本，不参与源码检查
+    'dsh-plugin/lib/**',
+    'dsh-plugin/skills/**',
   ],
 }, {
   plugins: {

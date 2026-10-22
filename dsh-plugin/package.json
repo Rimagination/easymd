@@ -1,0 +1,63 @@
+{
+  "name": "easymd-dsh",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness bundle shipped from the easymd project: native 微信公众号/知乎 Markdown tools (render, lint, parse, extract) plus the easymd skill.",
+  "author": {
+    "name": "Rimagination",
+    "url": "https://github.com/Rimagination"
+  },
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/Rimagination/easymd/tree/main/dsh-plugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rimagination/easymd.git",
+    "directory": "dsh-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/Rimagination/easymd/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "easymd",
+    "markdown",
+    "wechat",
+    "zhihu"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.png",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "cordis.patch.yml",
+    "icon.png",
+    "index.js",
+    "lib/*.mjs",
+    "locale/*.json",
+    "skills/**"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/prepare-package.mjs",
+    "sync-skills": "node scripts/sync-skills.mjs",
+    "check-skills": "node scripts/sync-skills.mjs --check",
+    "prepack": "node scripts/prepare-package.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

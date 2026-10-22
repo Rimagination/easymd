@@ -1,0 +1,31 @@
+easymd-dsh
+==========
+
+This directory is the DeepSeek Harness distribution layer of the easymd project:
+https://github.com/Rimagination/easymd/tree/main/dsh-plugin
+
+It contains:
+
+  * index.js / cordis.patch.yml — the DSH bundle that registers easymd's
+    render / lint / parse / extract capabilities as native tools and registers
+    the easymd skill;
+  * lib/easymd-markdown.mjs — a single-file ESM build of this repository's
+    Markdown pipeline (src/lib/markdown/** and src/themes/**), produced by
+    dsh-build/build.mjs with esbuild;
+  * skills/easymd/** — a copy of this repository's skills/easymd directory.
+
+Everything in this directory is part of the easymd work, so it carries the
+repository's license: GNU Affero General Public License v3.0 (AGPL-3.0-only).
+See LICENSE.
+
+The Corresponding Source is the easymd repository itself:
+
+  * https://github.com/Rimagination/easymd — full source, including
+    dsh-build/ (how lib/easymd-markdown.mjs is produced) and skills/easymd/;
+  * the exact commit used for a given release is recorded in the git tag
+    (dsh-v<version>) and can be rebuilt with:
+
+      pnpm install
+      pnpm dsh:build
+
+Repository license: https://github.com/Rimagination/easymd/blob/main/LICENSE

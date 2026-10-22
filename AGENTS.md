@@ -23,7 +23,16 @@ pnpm dev
 pnpm build
 pnpm lint:fix
 pnpm test
+pnpm dsh:build     # 重建 DSH 插件引擎
+pnpm dsh:pack      # 打包 DSH 插件
 ```
+
+## DSH 发行层
+
+- `dsh-build/` 只负责把 `src/lib/markdown` + `src/themes` 打成单文件引擎，别在这里加业务逻辑
+- `dsh-plugin/` 是正式发布的 bundle（npm 包 `easymd-dsh`），版本必须和仓库根一致
+- `dsh-plugin/lib`、`dsh-plugin/skills`、`dsh-plugin/LICENSE` 是 `prepack` 生成物，已 gitignore，不要手改
+- 改 skill 只改仓库根 `skills/easymd/`
 
 ## 代码约定
 

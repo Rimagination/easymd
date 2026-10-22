@@ -1,0 +1,5 @@
+# npm 包发布前由 scripts/prepare-package.mjs 生成
+lib/
+skills/
+LICENSE
+*.tgz

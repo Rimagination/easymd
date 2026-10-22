@@ -16,7 +16,12 @@ easymd 的 DSH 发行层：把本仓库的确定性 Markdown 能力注册成 DSH
 | `easymd_extract` | Markdown → 纯文本（去标记，保留段落）                                                                                               |
 | `easymd_options` | 列出当前可用的主题 / 配色 / 平台 id（JSON）                                                                                         |
 
-外加 skill `easymd`：微信公众号 / 知乎排版规范、组件库、HTML 模板与交付自查清单（`skills/easymd/references/`，来自仓库根 `skills/easymd`）。
+外加仓库里的全部 skill（`skills/<name>/SKILL.md`，与其它 Agent 共用同一份源）：
+
+| skill         | 作用                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| `easymd`      | 微信公众号 / 知乎排版规范、组件库、HTML 模板与交付自查清单（`skills/easymd/references/`） |
+| `tech-review` | 科技评论与深度科技图文写作：选题、证据组织、面向中文读者的表达（`skills/tech-review/`）   |
 
 ## 安装
 

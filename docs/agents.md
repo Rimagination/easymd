@@ -2,13 +2,13 @@
 
 easymd 不是某一个 Agent 的插件。同一套 Markdown 管线（`src/lib/markdown` + `src/themes`）通过四种形态对外提供能力，按宿主的能力选一种即可。
 
-| 形态       | 包 / 入口                                                   | 适用宿主                                              | 需要联网 |
-| ---------- | ----------------------------------------------------------- | ----------------------------------------------------- | -------- |
-| Skill      | `skills/easymd/`（仓库内，Markdown 规范 + 模板 + 自查清单） | Codex、Claude Code、DSH 等读 skill 的 Agent           | 否       |
-| 本地 MCP   | `easymd-mcp`（stdio，`agents/mcp/`）                        | Claude Desktop、Cursor、Cline、Codex、任何 MCP 客户端 | 否       |
-| 远程 MCP   | `https://easymd.vercel.app/mcp`                             | 支持 HTTP MCP 的客户端                                | 是       |
-| DSH bundle | `easymd-dsh`（`agents/dsh/`，原生工具 + skill）             | DeepSeek Harness                                      | 否       |
-| 网页       | `pnpm dev` → `localhost:2663`                               | 人                                                    | 否       |
+| 形态       | 包 / 入口                                                         | 适用宿主                                              | 需要联网 |
+| ---------- | ----------------------------------------------------------------- | ----------------------------------------------------- | -------- |
+| Skill      | `skills/*/SKILL.md`（`easymd` 排版 + `tech-review` 科技评论写作） | Codex、Claude Code、DSH 等读 skill 的 Agent           | 否       |
+| 本地 MCP   | `easymd-mcp`（stdio，`agents/mcp/`）                              | Claude Desktop、Cursor、Cline、Codex、任何 MCP 客户端 | 否       |
+| 远程 MCP   | `https://easymd.vercel.app/mcp`                                   | 支持 HTTP MCP 的客户端                                | 是       |
+| DSH bundle | `easymd-dsh`（`agents/dsh/`，原生工具 + skill）                   | DeepSeek Harness                                      | 否       |
+| 网页       | `pnpm dev` → `localhost:2663`                                     | 人                                                    | 否       |
 
 ## 目录
 
@@ -20,7 +20,7 @@ agent-build/        # 两种产物共用一套构建
 agents/
 ├── dsh/            # easymd-dsh：DSH bundle
 └── mcp/            # easymd-mcp：stdio MCP server
-skills/easymd/      # 唯一 skill 源，各宿主共用
+skills/             # 各宿主共用的 skill 源（easymd、tech-review）
 ```
 
 ## 构建与发布

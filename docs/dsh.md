@@ -6,11 +6,11 @@
 
 ## 它做了什么
 
-| 层       | 内容                                                                                                           |
-| -------- | -------------------------------------------------------------------------------------------------------------- |
-| 原生工具 | `easymd_render`、`easymd_lint`、`easymd_parse`、`easymd_extract`、`easymd_options`，在 DSH Host 进程内直接执行 |
-| skill    | `skills/easymd`（微信公众号 / 知乎排版规范、组件库、模板、自查清单）                                           |
-| 引擎     | `agents/dsh/lib/easymd-markdown.mjs`，esbuild 打成的单文件 ESM，约 4.6 MB，首次调用才加载                      |
+| 层       | 内容                                                                                                                      |
+| -------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 原生工具 | `easymd_render`、`easymd_lint`、`easymd_parse`、`easymd_extract`、`easymd_options`，在 DSH Host 进程内直接执行            |
+| skill    | 仓库里**全部** skill（`skills/*/SKILL.md`）：`easymd`（排版规范、组件库、模板、自查清单）与 `tech-review`（科技评论写作） |
+| 引擎     | `agents/dsh/lib/easymd-markdown.mjs`，esbuild 打成的单文件 ESM，约 4.6 MB，首次调用才加载                                 |
 
 之所以走原生工具而不是 stdio MCP：easymd 的 `/mcp` 是 TanStack Start 的一个路由，不是独立进程；内联构建既能离线用，也没有 PATH / 子进程路径问题。需要 MCP 的宿主用 `easymd-mcp`，远程 MCP 也仍然保留。
 

@@ -1,15 +1,15 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 // easymd 的 Markdown 管线在打包时被内联为单文件（AGPL-3.0-only）。
-// 这里只做两件事：把 4 个确定性能力注册成 DSH 原生工具，并注册 easymd skill。
+// 这里做两件事：把 4 个确定性能力注册成 DSH 原生工具，并注册仓库里的全部 skill。
 const packageRoot = dirname(fileURLToPath(import.meta.url))
 const enginePath = resolve(packageRoot, 'lib/easymd-markdown.mjs')
 // npm tarball 里是 prepack 生成的副本；仓库 checkout 里直接读 skills/ 源文件。
-const SKILL_CANDIDATES = [
-  resolve(packageRoot, 'skills/easymd/SKILL.md'),
-  resolve(packageRoot, '../../skills/easymd/SKILL.md'),
+const SKILL_ROOTS = [
+  resolve(packageRoot, 'skills'),
+  resolve(packageRoot, '../../skills'),
 ]
 
 const SKILL_NOTE = [
@@ -246,44 +246,69 @@ export function apply(ctx, config = {}) {
   }
 
   if (wantSkill) {
-    let skillPath
-    let raw
-    for (const candidate of SKILL_CANDIDATES) {
-      try {
-        raw = readFileSync(candidate, 'utf8')
-        skillPath = candidate
-        break
-      }
-      catch {
-        // npm tarball 与仓库 checkout 的 skill 位置不同，按顺序回退。
-      }
+    const loaded = loadSkills()
+    if (!loaded.length) {
+      console.warn(`[easymd] 读不到 skill 文件，已尝试：${SKILL_ROOTS.join(', ')}`)
     }
 
-    if (!raw) {
-      console.warn(`[easymd] 读不到 skill 文件，已尝试：${SKILL_CANDIDATES.join(', ')}`)
-    }
-
-    if (raw) {
+    for (const { path: skillPath, raw } of loaded) {
       const { meta, body } = parseFrontmatter(raw)
       const name = meta.name || 'easymd'
       const description = meta.description
       if (!description) {
         console.warn(`[easymd] skill ${skillPath} 缺少 description`)
+        continue
       }
-      else {
-        const skill = {
-          name,
-          description,
-          source: 'runtime',
-          content: SKILL_NOTE + body.replace(/^\s+/, ''),
-          resourceBase: { kind: 'directory', path: dirname(skillPath) },
-        }
-        if (meta.whenToUse)
-          skill.whenToUse = meta.whenToUse
-        ctx.effect(() => ctx.skills.register(skill))
+      const skill = {
+        name,
+        description,
+        source: 'runtime',
+        // 只有 easymd 主 skill 需要那段“改用原生工具”的提示。
+        content: (name === 'easymd' ? SKILL_NOTE : '') + body.replace(/^\s+/, ''),
+        resourceBase: { kind: 'directory', path: dirname(skillPath) },
       }
+      if (meta.whenToUse) {
+        skill.whenToUse = meta.whenToUse
+      }
+      ctx.effect(() => ctx.skills.register(skill))
     }
   }
+}
+
+/**
+ * 收集所有 skill：每个子目录一个 SKILL.md。
+ * 先找包内的 skills/（npm tarball），找不到再回退到仓库根的 skills/。
+ */
+function loadSkills() {
+  for (const root of SKILL_ROOTS) {
+    let entries
+    try {
+      entries = readdirSync(root, { withFileTypes: true })
+    }
+    catch {
+      continue
+    }
+
+    const found = []
+    for (const entry of entries) {
+      if (!entry.isDirectory()) {
+        continue
+      }
+      const file = resolve(root, entry.name, 'SKILL.md')
+      try {
+        found.push({ path: file, raw: readFileSync(file, 'utf8') })
+      }
+      catch {
+        // 目录里没有 SKILL.md，跳过
+      }
+    }
+
+    if (found.length) {
+      return found
+    }
+  }
+
+  return []
 }
 
 /** 读取 SKILL.md 头部那种很小的 YAML 子集（name/description/whenToUse）。 */

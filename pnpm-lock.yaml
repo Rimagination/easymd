@@ -134,6 +134,9 @@ importers:
       es-toolkit:
         specifier: ^1.44.0
         version: 1.44.0
+      esbuild:
+        specifier: 0.27.1
+        version: 0.27.1
       eslint:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.6.1)

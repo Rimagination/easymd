@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "easymd 排版",
+    "title": "easymd",
     "description": "微信公众号 / 知乎 Markdown 排版：渲染内联样式 HTML、lint 修复、HTML 转 Markdown、提取纯文本，并附带 easymd skill。"
   }
 }

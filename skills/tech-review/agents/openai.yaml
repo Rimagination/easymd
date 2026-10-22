@@ -1,0 +1,4 @@
+interface:
+  display_name: 科技评论
+  short_description: 以可核实的证据写科技报道，并规划或制作解释性配图
+  default_prompt: 用 $tech-review 围绕这个主题写一篇面向中文读者的科技评论图文。

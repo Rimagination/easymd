@@ -1,12 +1,12 @@
 // 把仓库里的规范 skill 复制进 npm 包；npm 只上传 files 里的内容。
-// 源目录默认 ../skills/easymd（仓库根），可用 EASYMD_SRC 覆盖。
+// 源目录默认 ../../skills/easymd（仓库根），可用 EASYMD_SRC 覆盖。
 import { cpSync, existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const pluginRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const sourceRoot = resolve(process.env.EASYMD_SRC ?? resolve(pluginRoot, '../skills/easymd'))
+const sourceRoot = resolve(process.env.EASYMD_SRC ?? resolve(pluginRoot, '../../skills/easymd'))
 const targetRoot = resolve(pluginRoot, 'skills/easymd')
 const checkOnly = process.argv.includes('--check')
 

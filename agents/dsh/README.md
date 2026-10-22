@@ -2,6 +2,8 @@
 
 easymd 的 DSH 发行层：把本仓库的确定性 Markdown 能力注册成 DSH 原生工具，并附带 `easymd` skill。这个目录不是一个独立项目——它随 easymd 仓库一起版本化，`pnpm dsh:pack` / `pnpm dsh:publish` 从仓库根发起。
 
+其它宿主（Claude Desktop / Cursor / Codex…）用 `easymd-mcp`，见 [docs/agents.md](../../docs/agents.md)。
+
 装完即用，**不需要**联网访问 `easymd.vercel.app`，也不需要另外跑 MCP server。
 
 ## 提供的工具
@@ -21,8 +23,8 @@ easymd 的 DSH 发行层：把本仓库的确定性 Markdown 能力注册成 DSH
 三种方式都走 DSH 的 **Plugins → Add plugin**：
 
 1. **npm 包名**（推荐）：`easymd-dsh`
-2. **tarball**：`pnpm dsh:pack` 产出的 `dsh-plugin/easymd-dsh-<version>.tgz` 绝对路径
-3. **本地目录**：本目录的绝对路径（需先 `pnpm dsh:build` 生成 `lib/easymd-markdown.mjs`）
+2. **tarball**：`pnpm dsh:pack` 产出的 `agents/dsh/easymd-dsh-<version>.tgz` 绝对路径
+3. **本地目录**：本目录的绝对路径（需先 `pnpm agent:build` 生成 `lib/easymd-markdown.mjs`）
 
 装完确认 bundle 是 **On**，然后新开一个会话：工具列表里应出现 `easymd_render` 等 5 个工具，技能目录里应出现 `easymd`。
 
@@ -39,7 +41,7 @@ easymd 的 DSH 发行层：把本仓库的确定性 Markdown 能力注册成 DSH
 ## 维护
 
 ```bash
-pnpm dsh:build     # 只重建引擎 → dsh-plugin/lib/easymd-markdown.mjs
+pnpm agent:build   # 重建引擎 → agents/dsh/lib/easymd-markdown.mjs
 pnpm dsh:pack      # 构建 + 同步 skill + 拷贝 LICENSE，然后 npm pack
 pnpm dsh:publish   # 同上，并发布到 registry.npmjs.org
 ```

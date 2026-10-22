@@ -9,7 +9,7 @@ const enginePath = resolve(packageRoot, 'lib/easymd-markdown.mjs')
 // npm tarball 里是 prepack 生成的副本；仓库 checkout 里直接读 skills/ 源文件。
 const SKILL_CANDIDATES = [
   resolve(packageRoot, 'skills/easymd/SKILL.md'),
-  resolve(packageRoot, '../skills/easymd/SKILL.md'),
+  resolve(packageRoot, '../../skills/easymd/SKILL.md'),
 ]
 
 const SKILL_NOTE = [

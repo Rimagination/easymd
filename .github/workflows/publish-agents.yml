@@ -1,0 +1,55 @@
+name: publish agent packages
+
+# 打 agent-v* 标签时发布 agents/ 下的两个包（easymd-dsh、easymd-mcp）。
+# 需要仓库 secret NPM_TOKEN（Granular Access Token，允许这两个包的 publish）。
+on:
+  push:
+    tags:
+      - 'agent-v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Check tag matches package versions
+        run: |
+          tag="${GITHUB_REF_NAME#agent-v}"
+          root="$(node -p "require('./package.json').version")"
+          dsh="$(node -p "require('./agents/dsh/package.json').version")"
+          mcp="$(node -p "require('./agents/mcp/package.json').version")"
+          echo "tag=$tag root=$root dsh=$dsh mcp=$mcp"
+          for v in "$root" "$dsh" "$mcp"; do
+            if [ "$tag" != "$v" ]; then
+              echo "tag agent-v$tag does not match version $v" >&2
+              exit 1
+            fi
+          done
+
+      - run: pnpm dsh:pack
+      - run: pnpm mcp:pack
+
+      - run: pnpm --dir agents/dsh publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - run: pnpm --dir agents/mcp publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

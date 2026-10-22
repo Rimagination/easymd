@@ -23,15 +23,20 @@ pnpm dev
 pnpm build
 pnpm lint:fix
 pnpm test
-pnpm dsh:build     # 重建 DSH 插件引擎
-pnpm dsh:pack      # 打包 DSH 插件
+pnpm agent:build   # 构建 Agent 产物（引擎 + stdio MCP server）
+pnpm dsh:pack      # 打包 DSH bundle
+pnpm mcp:pack      # 打包 stdio MCP server
 ```
 
-## DSH 发行层
+## Agent 适配层
 
-- `dsh-build/` 只负责把 `src/lib/markdown` + `src/themes` 打成单文件引擎，别在这里加业务逻辑
-- `dsh-plugin/` 是正式发布的 bundle（npm 包 `easymd-dsh`），版本必须和仓库根一致
-- `dsh-plugin/lib`、`dsh-plugin/skills`、`dsh-plugin/LICENSE` 是 `prepack` 生成物，已 gitignore，不要手改
+easymd 不只服务某一个 Agent，`agents/` 下按宿主分形态，共用同一套管线：
+
+- `agent-build/` 只做打包（`entry.ts` → 引擎，`entry-mcp.ts` → MCP server），不要在这里加业务逻辑
+- `agents/dsh/` = npm 包 `easymd-dsh`（DSH bundle，原生工具 + skill）
+- `agents/mcp/` = npm 包 `easymd-mcp`（stdio MCP server，任何 MCP 客户端可用）
+- 两个包的 `version` 必须等于仓库根 `package.json`，`prepack` 会校验
+- `agents/*/lib`、`agents/*/dist`、`agents/dsh/skills`、`agents/*/LICENSE` 都是生成物，已 gitignore，不要手改
 - 改 skill 只改仓库根 `skills/easymd/`
 
 ## 代码约定

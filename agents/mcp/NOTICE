@@ -1,0 +1,25 @@
+easymd-mcp
+==========
+
+Local stdio MCP server built from the easymd project:
+https://github.com/Rimagination/easymd/tree/main/agents/mcp
+
+It exposes easymd's deterministic Markdown capabilities to any MCP-capable
+agent — render (WeChat / Zhihu / HTML with inlined CSS), lint, parse, extract —
+without requiring the web app or network access.
+
+This package is part of the easymd work and reuses the repository's Markdown
+pipeline and tool definitions, so it is distributed under the same license:
+GNU Affero General Public License v3.0 (AGPL-3.0-only). See LICENSE.
+
+Corresponding Source:
+
+  * https://github.com/Rimagination/easymd — full source, including
+    agent-build/ (entry-mcp.ts and build.mjs, which produce dist/easymd-mcp.mjs)
+    and src/lib/mcp/easymd-server.ts (the shared tool definitions);
+  * rebuild with:
+
+      pnpm install
+      node agent-build/build.mjs mcp
+
+Repository license: https://github.com/Rimagination/easymd/blob/main/LICENSE

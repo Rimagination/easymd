@@ -1,0 +1,49 @@
+{
+  "name": "easymd-mcp",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "stdio MCP server for easymd: render / lint / parse / extract Markdown for WeChat Official Accounts and Zhihu, from any MCP-capable agent.",
+  "author": {
+    "name": "Rimagination",
+    "url": "https://github.com/Rimagination"
+  },
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/Rimagination/easymd/tree/main/agents/mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rimagination/easymd.git",
+    "directory": "agents/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/Rimagination/easymd/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "easymd",
+    "markdown",
+    "wechat",
+    "zhihu",
+    "claude",
+    "codex"
+  ],
+  "bin": {
+    "easymd-mcp": "dist/easymd-mcp.mjs"
+  },
+  "files": [
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "dist/*.mjs"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/prepare-package.mjs",
+    "prepack": "node scripts/prepare-package.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

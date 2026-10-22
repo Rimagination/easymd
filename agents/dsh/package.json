@@ -8,11 +8,11 @@
     "url": "https://github.com/Rimagination"
   },
   "license": "AGPL-3.0-only",
-  "homepage": "https://github.com/Rimagination/easymd/tree/main/dsh-plugin",
+  "homepage": "https://github.com/Rimagination/easymd/tree/main/agents/dsh",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Rimagination/easymd.git",
-    "directory": "dsh-plugin"
+    "directory": "agents/dsh"
   },
   "bugs": {
     "url": "https://github.com/Rimagination/easymd/issues"

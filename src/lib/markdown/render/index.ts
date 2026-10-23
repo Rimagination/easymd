@@ -29,9 +29,10 @@ export const renderDefinition = {
     customCss: z.string().max(250000, 'Custom CSS cannot exceed 250000 characters').optional().default('').describe('Custom CSS applied after the selected theme. Scope selectors under #easymd, for example: #easymd h1 { color: red; }'),
     enableFootnoteLinks: z.boolean().optional().default(true).describe('Whether to transform links into footnotes when supported.'),
     openLinksInNewWindow: z.boolean().optional().default(true).describe('Whether to add target="_blank" to external links.'),
+    showFrontmatter: z.boolean().optional().default(false).describe('Whether to render YAML/TOML frontmatter as a metadata table. Hidden by default.'),
     platform: platformSchema.optional().default('html').describe('Target platform used for output-specific adaptations.'),
     footnoteLabel: z.string().max(50).optional().default('Footnotes').describe('Footnote section title.'),
-    referenceTitle: z.string().max(50).optional().default('References').describe('Reference section title for collected links.'),
+    referenceTitle: z.string().max(50).optional().describe('Reference section title for collected links. Defaults to 参考资料 for WeChat or THU-classic.'),
   }),
   outputSchema: z.object({
     result: z.string().describe('Rendered HTML fragment with inline CSS.'),

@@ -10,24 +10,44 @@ interface FootnoteLink {
 
 interface Options {
   referenceTitle?: string
+  plainTextLinks?: boolean
 }
 
 const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
-  const { referenceTitle = 'References' } = options
+  const { referenceTitle = 'References', plainTextLinks = false } = options
 
   return (tree) => {
     const links: FootnoteLink[] = []
     const seenUrls = new Set<string>()
     let counter = 1
+    let inReferenceSection = false
 
     visit(tree, 'element', (node: Element, index, parent) => {
+      if (plainTextLinks && /^h[1-6]$/.test(node.tagName)) {
+        inReferenceSection = /^(?:参考资料|参考文献)$/.test(extractReferenceText(node).trim())
+        return
+      }
+
       if (node.tagName !== 'a' || !node.properties?.href) {
         return
       }
 
       const href = String(node.properties.href)
-      if (!href.startsWith('http://') && !href.startsWith('https://')) {
+      if (!/^(?:https?:\/\/|mailto:|tel:)/i.test(href)) {
         return
+      }
+
+      const text = extractReferenceText(node)
+      if (plainTextLinks) {
+        node.tagName = 'span'
+        delete node.properties.href
+        delete node.properties.target
+        delete node.properties.rel
+
+        if (inReferenceSection) {
+          node.properties.style = 'word-break: break-all;'
+          return
+        }
       }
 
       if (seenUrls.has(href)) {
@@ -44,7 +64,6 @@ const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
         return
       }
 
-      const text = extractReferenceText(node)
       const id = counter++
       links.push({ id, href, text })
       seenUrls.add(href)
@@ -92,8 +111,8 @@ const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
               },
               {
                 type: 'element',
-                tagName: 'a',
-                properties: { href: link.href },
+                tagName: plainTextLinks ? 'span' : 'a',
+                properties: plainTextLinks ? { style: 'word-break: break-all;' } : { href: link.href },
                 children: [{ type: 'text', value: link.href }],
               },
             ],

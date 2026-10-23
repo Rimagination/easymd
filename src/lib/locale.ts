@@ -5,12 +5,12 @@ export interface MarkdownLocaleTexts {
 
 const ZH_HANS: MarkdownLocaleTexts = {
   footnoteLabel: '脚注',
-  referenceTitle: '参考链接',
+  referenceTitle: '参考资料',
 }
 
 const ZH_HANT: MarkdownLocaleTexts = {
   footnoteLabel: '註腳',
-  referenceTitle: '參考連結',
+  referenceTitle: '參考資料',
 }
 
 const LOCALE_TEXTS: Record<string, MarkdownLocaleTexts> = {

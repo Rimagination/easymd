@@ -1,3 +1,4 @@
+import type { Element, Root } from 'hast'
 import type { Plugin } from 'unified'
 import type { Platform } from './adapters'
 import juice from 'juice'
@@ -13,6 +14,7 @@ import remarkMath from 'remark-math'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
+import { visit } from 'unist-util-visit'
 import { loadCodeThemeCss } from '@/themes/code-theme/loader'
 import { loadMarkdownStyleCss } from '@/themes/markdown-style/loader'
 import { loadKatexCss } from '../utils'
@@ -31,6 +33,7 @@ export interface RenderOptions {
   customCss?: string
   enableFootnoteLinks?: boolean
   openLinksInNewWindow?: boolean
+  showFrontmatter?: boolean
   platform?: Platform
   footnoteLabel?: string
   referenceTitle?: string
@@ -39,6 +42,7 @@ export interface RenderOptions {
 interface ProcessorOptions {
   enableFootnoteLinks?: boolean
   openLinksInNewWindow?: boolean
+  showFrontmatter?: boolean
   mermaidTheme?: string
   infographicTheme?: string
   infographicPalette?: string
@@ -48,18 +52,30 @@ interface ProcessorOptions {
   markdownStyle?: string
 }
 
-function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References', markdownStyle }: ProcessorOptions) {
+const rehypeManualCitations: Plugin<[], Root> = () => (tree) => {
+  visit(tree, 'element', (node: Element) => {
+    if (node.tagName === 'sup' && node.children.length === 1 && node.children[0].type === 'text' && /^\[\d+\]$/.test(node.children[0].value)) {
+      node.properties.className = ['footnote-ref']
+    }
+  })
+}
+
+function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, showFrontmatter = false, mermaidTheme, infographicTheme, infographicPalette, platform = 'html', footnoteLabel = 'Footnotes', referenceTitle = 'References', markdownStyle }: ProcessorOptions) {
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkMath)
     .use(remarkFrontmatter, ['yaml', 'toml'])
-    .use(remarkFrontmatterTable)
-    .use(remarkRehype, {
-      allowDangerousHtml: true,
-      footnoteLabel,
-      footnoteLabelTagName: 'h4',
-    })
+
+  if (showFrontmatter) {
+    processor.use(remarkFrontmatterTable)
+  }
+
+  processor.use(remarkRehype, {
+    allowDangerousHtml: true,
+    footnoteLabel,
+    footnoteLabelTagName: 'h4',
+  })
 
   if (openLinksInNewWindow) {
     processor.use(rehypeExternalLinks, {
@@ -72,6 +88,7 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidThe
     .use(rehypeRaw)
     .use(rehypeGithubAlert)
     .use(rehypeSanitize, sanitizeSchema)
+    .use(rehypeManualCitations)
     .use(rehypeSvgHeading, { enabled: false })
     .use(rehypeMermaid, { theme: mermaidTheme })
     .use(rehypeInfographic, { theme: infographicTheme, palette: infographicPalette })
@@ -79,8 +96,8 @@ function createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidThe
     .use(rehypeHighlight)
     .use(rehypeFigureWrapper)
 
-  if (enableFootnoteLinks && platform !== 'wechat' && markdownStyle !== 'thu-classic') {
-    processor.use(rehypeFootnoteLinks, { referenceTitle })
+  if (enableFootnoteLinks && platform !== 'wechat') {
+    processor.use(rehypeFootnoteLinks, { referenceTitle, plainTextLinks: markdownStyle === 'thu-classic' })
   }
 
   const adapterPlugins = getAdapterPlugins(platform, { referenceTitle, markdownStyle })
@@ -112,12 +129,14 @@ export async function render(options: RenderOptions): Promise<string> {
     customCss = '',
     enableFootnoteLinks = true,
     openLinksInNewWindow = true,
+    showFrontmatter = false,
     platform = 'html',
     footnoteLabel = 'Footnotes',
-    referenceTitle = 'References',
+    referenceTitle,
   } = options
 
-  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, mermaidTheme, infographicTheme, infographicPalette, platform, footnoteLabel, referenceTitle, markdownStyle })
+  const resolvedReferenceTitle = referenceTitle ?? (platform === 'wechat' || markdownStyle === 'thu-classic' ? '参考资料' : 'References')
+  const processor = createProcessor({ enableFootnoteLinks, openLinksInNewWindow, showFrontmatter, mermaidTheme, infographicTheme, infographicPalette, platform, footnoteLabel, referenceTitle: resolvedReferenceTitle, markdownStyle })
   const expandedMarkdown = expandArticleBlockReferences(markdown)
   const html = (await processor.process(expandedMarkdown)).toString()
 

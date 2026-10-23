@@ -11,19 +11,35 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('href="https://example.com"')
     expect(html).toContain('<span>示例</span>')
     expect(html).toMatch(/<sup[^>]*>\[1\]<\/sup>/)
-    expect(html).toContain('References')
+    expect(html).toContain('参考资料')
     expect(html).toContain('https://example.com')
   })
 
-  it('keeps mp.weixin links clickable and not footnoted', async () => {
+  it('renders mp.weixin article links as numbered plain-text references', async () => {
     const html = await render({
       markdown: '[公众号](https://mp.weixin.qq.com/s/abc)',
       platform: 'wechat',
     })
 
-    expect(html).toContain('href="https://mp.weixin.qq.com/s/abc"')
-    expect(html).not.toContain('footnote-ref')
-    expect(html).not.toContain('References')
+    expect(html).not.toMatch(/<a\b/)
+    expect(html).toContain('footnote-ref')
+    expect(html).toContain('https://mp.weixin.qq.com/s/abc')
+    expect(html).toContain('参考资料')
+  })
+
+  it('keeps a manually cited Markdown draft as one plain-text reference list', async () => {
+    const html = await render({
+      markdown: '这项结果<sup>[1]</sup>，后文再次引用<sup>[1]</sup>。\n\n## 参考资料\n\n1. 作者. 论文标题. 2026. https://example.com/paper',
+      markdownStyle: 'thu-classic',
+      platform: 'wechat',
+    })
+
+    expect(html).not.toMatch(/<a\b/)
+    expect(html.match(/class="footnote-ref"/g)).toHaveLength(2)
+    expect(html.match(/\[1\]/g)).toHaveLength(2)
+    expect(html.match(/https:\/\/example\.com\/paper/g)).toHaveLength(1)
+    expect(html).not.toContain('footnotes')
+    expect(html).toContain('参考资料')
   })
 
   it('footnotes mailto and tel links', async () => {
@@ -36,7 +52,7 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('href="tel:123"')
     expect(html).toContain('mailto:test@example.com')
     expect(html).toContain('tel:123')
-    expect(html).toContain('References')
+    expect(html).toContain('参考资料')
   })
 
   it('keeps nested lists valid', async () => {
@@ -159,16 +175,20 @@ describe('wechat render adapter', () => {
     expect(html).not.toContain('rotate(45deg)')
   })
 
-  it('keeps thu-classic external links clickable without generated references', async () => {
+  it('renders thu-classic external links as numbered plain-text references', async () => {
     const html = await render({
-      markdown: '[Example](https://example.com)',
+      markdown: '[来源](https://example.com/path "正式标题") 和 [来源](https://example.com/path)',
       markdownStyle: 'thu-classic',
       platform: 'wechat',
     })
 
-    expect(html).toContain('href="https://example.com"')
-    expect(html).not.toContain('footnote-ref')
-    expect(html).not.toContain('References')
+    expect(html).not.toMatch(/<a\b/)
+    expect(html.match(/footnote-ref/g)).toHaveLength(2)
+    expect(html.match(/\[1\]/g)).toHaveLength(2)
+    expect(html).not.toContain('[2]')
+    expect(html).toContain('正式标题')
+    expect(html).toContain('https://example.com/path')
+    expect(html).toContain('参考资料')
   })
 })
 

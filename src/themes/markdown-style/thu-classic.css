@@ -219,7 +219,38 @@
 }
 
 #easymd .footnotes {
+  margin-top: 32px;
+  padding-top: 14px;
   border-top-color: rgba(92, 48, 125, 0.22);
+}
+
+#easymd .footnotes h4 {
+  margin: 0 0 12px;
+  padding: 0;
+  border: none;
+  color: #5c307d;
+  font-size: 16px;
+}
+
+#easymd .footnotes ol {
+  padding-left: 1.5em;
+  color: #564666;
+}
+
+#easymd .footnotes li {
+  margin-bottom: 9px;
+  line-height: 1.6;
+}
+
+#easymd .footnotes li span:last-child {
+  word-break: break-all;
+}
+
+#easymd .footnote-ref {
+  padding-left: 2px;
+  font-size: 0.75em;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 #easymd .footnote-backref,

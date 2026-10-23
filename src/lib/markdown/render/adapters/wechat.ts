@@ -11,16 +11,6 @@ interface FootnoteLink {
   text: string
 }
 
-function isWechatArticleUrl(href: string): boolean {
-  try {
-    const url = new URL(href, 'https://example.invalid')
-    return url.hostname === 'mp.weixin.qq.com'
-  }
-  catch {
-    return false
-  }
-}
-
 function shouldSkipFootnote(href: string): boolean {
   return href.startsWith('#')
     || href.startsWith('/')
@@ -220,14 +210,20 @@ interface WechatFootnoteLinkOptions {
 }
 
 const rehypeWechatFootnoteLinks: Plugin<[WechatFootnoteLinkOptions?], Root> = (options = {}) => {
-  const { referenceTitle = 'References' } = options
+  const { referenceTitle = '参考资料' } = options
 
   return (tree) => {
     const links: FootnoteLink[] = []
     const hrefToId = new Map<string, number>()
     let counter = 1
+    let inReferenceSection = false
 
     visit(tree, 'element', (node: Element, index, parent) => {
+      if (/^h[1-6]$/.test(node.tagName)) {
+        inReferenceSection = /^(?:参考资料|参考文献)$/.test(extractLinkText(node).trim())
+        return
+      }
+
       if (node.tagName !== 'a' || typeof index !== 'number' || !hasChildren(parent)) {
         return
       }
@@ -256,14 +252,15 @@ const rehypeWechatFootnoteLinks: Plugin<[WechatFootnoteLinkOptions?], Root> = (o
         return
       }
 
-      if (isWechatArticleUrl(href)) {
-        return
-      }
-
       node.tagName = 'span'
       delete node.properties?.href
       delete node.properties?.target
       delete node.properties?.rel
+
+      if (inReferenceSection) {
+        node.properties.style = 'word-break: break-all;'
+        return
+      }
 
       if (shouldSkipFootnote(href)) {
         return
@@ -338,9 +335,7 @@ export const wechatAdapter: PlatformAdapter = {
       rehypeWechatCodeWhitespace,
     ] as Pluggable[]
 
-    if (options?.markdownStyle !== 'thu-classic') {
-      plugins.push([rehypeWechatFootnoteLinks, { referenceTitle: options?.referenceTitle }])
-    }
+    plugins.push([rehypeWechatFootnoteLinks, { referenceTitle: options?.referenceTitle }])
 
     return plugins
   },

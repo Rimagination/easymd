@@ -176,19 +176,40 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('footnote-ref')
     expect(html).toContain('[1]')
     expect(html).toContain('References')
+    expect(html).toContain('href="https://example.com"')
   })
 
-  it('keeps thu-classic external links without generated references', async () => {
+  it('renders thu-classic citations as numbered plain-text references', async () => {
     const html = await render({
-      markdown: '[Example](https://example.com)',
+      markdown: '[来源甲](https://example.com/one "甲的正式标题") 和 [来源乙](https://example.com/two) 再引 [来源甲](https://example.com/one)',
       markdownStyle: 'thu-classic',
       enableFootnoteLinks: true,
       platform: 'html',
     })
 
-    expect(html).toContain('href="https://example.com"')
-    expect(html).not.toContain('footnote-ref')
-    expect(html).not.toContain('References')
+    expect(html).not.toMatch(/<a\b/)
+    expect(html.match(/class="footnote-ref"/g)).toHaveLength(3)
+    expect(html.match(/\[1\]/g)).toHaveLength(2)
+    expect(html).toContain('[2]')
+    expect(html).toContain('甲的正式标题')
+    expect(html).toContain('https://example.com/one')
+    expect(html).toContain('https://example.com/two')
+    expect(html).toContain('参考资料')
+    expect(html).toMatch(/word-break:\s*break-all/)
+  })
+
+  it('previews a manually cited draft without generating duplicate references', async () => {
+    const html = await render({
+      markdown: '研究结论<sup>[1]</sup>。\n\n## 参考文献\n\n1. 作者. 论文标题. 2026. https://example.com/paper',
+      markdownStyle: 'thu-classic',
+      platform: 'html',
+    })
+
+    expect(html).not.toMatch(/<a\b/)
+    expect(html).toContain('class="footnote-ref"')
+    expect(html.match(/https:\/\/example\.com\/paper/g)).toHaveLength(1)
+    expect(html).not.toContain('class="footnotes"')
+    expect(html).toContain('参考文献')
   })
 
   it('uses link title as reference title while keeping a short marker in body', async () => {
@@ -237,9 +258,19 @@ describe('markdown -> html render (general)', () => {
     expect(html).toContain('rel="noreferrer noopener"')
   })
 
-  it('converts YAML frontmatter to table', async () => {
+  it('hides YAML frontmatter from the article preview by default', async () => {
     const markdown = '---\ntitle: 测试标题\nauthor: 作者\n---\n\n正文内容'
     const html = await render({ markdown })
+
+    expect(html).not.toContain('<table')
+    expect(html).not.toContain('测试标题')
+    expect(html).not.toContain('author')
+    expect(html).toContain('正文内容')
+  })
+
+  it('renders YAML frontmatter when explicitly requested', async () => {
+    const markdown = '---\ntitle: 测试标题\nauthor: 作者\n---\n\n正文内容'
+    const html = await render({ markdown, showFrontmatter: true })
 
     expect(html).toContain('<table')
     expect(html).toContain('title')
@@ -328,6 +359,7 @@ describe('platform-specific rendering', () => {
     })
 
     expect(html).toContain('标题')
+    expect(html).toContain('href="https://example.com"')
   })
 
   it('renders for zhihu code blocks without errors', async () => {
@@ -347,10 +379,10 @@ describe('i18n support', () => {
       markdown: '[链接](https://example.com)',
       enableFootnoteLinks: true,
       platform: 'html',
-      referenceTitle: '参考链接',
+      referenceTitle: '参考文献',
     })
 
-    expect(html).toContain('参考链接')
+    expect(html).toContain('参考文献')
     expect(html).not.toContain('References')
   })
 
@@ -358,10 +390,10 @@ describe('i18n support', () => {
     const html = await render({
       markdown: '[链接](https://example.com)',
       platform: 'wechat',
-      referenceTitle: '参考链接',
+      referenceTitle: '参考文献',
     })
 
-    expect(html).toContain('参考链接')
+    expect(html).toContain('参考文献')
     expect(html).not.toContain('References')
   })
 

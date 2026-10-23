@@ -52,11 +52,18 @@ description: "Use when Codex needs easymd for 微信公众号/知乎文章排版
 
 ## 推荐参数
 
-| 场景                 | platform | markdownStyle             | codeTheme                 |
-| -------------------- | -------- | ------------------------- | ------------------------- |
-| 微信公众号正式文章   | `wechat` | `professional` 或用户指定 | `kimbie-light`            |
-| 知乎专栏             | `zhihu`  | `ayu-light` 或用户指定    | `kimbie-light`            |
-| 通用网页 / HTML 导出 | `html`   | 用户指定或 `ayu-light`    | 用户指定或 `kimbie-light` |
+| 场景                 | platform | markdownStyle            | codeTheme                 |
+| -------------------- | -------- | ------------------------ | ------------------------- |
+| 微信公众号正式文章   | `wechat` | `thu-classic` 或用户指定 | `kimbie-light`            |
+| 知乎专栏             | `zhihu`  | `ayu-light` 或用户指定   | `kimbie-light`            |
+| 通用网页 / HTML 导出 | `html`   | 用户指定或 `ayu-light`   | 用户指定或 `kimbie-light` |
+
+## 微信文章引用
+
+- 从可编辑的公众号 Markdown 初稿开始使用引用格式。交给 `$wxwrite` 或 `$tech-review` 写作时明确传递这项要求；Humanizer Pass 保留角标与文末资料表。
+- 正文在有来源的事实后写 `<sup>[1]</sup>`；文末写 `## 参考资料` 或 `## 参考文献`，再用编号列表逐条写出作者或机构、标题、日期或 DOI（已知时）和完整可见网址。编号按首次出现顺序排列，同一来源复用编号；没有外部来源时不虚构资料表。
+- 草稿示例：`研究结论<sup>[1]</sup>`；文末 `1. 作者. 标题. 年份. https://example.com/paper`。来源网址写成普通文字，不用 Markdown 超链接、HTML `<a>` 或行内代码。把收到的来源超链接改成此格式后再交付草稿。
+- 渲染微信稿时保留已有编号表，将网址输出为可复制明文，避免重复生成资料表。`thu-classic` 优先检查角标、编号对应关系和长网址换行。
 
 ## 没有 MCP 时
 
@@ -65,6 +72,14 @@ description: "Use when Codex needs easymd for 微信公众号/知乎文章排版
 1. 正式精排仍然读取 `references/` 资料包。
 2. 手写可复制 HTML，使用 `article-template.html` 的结构和组件样式。
 3. 如需用户可视化微调，再引导打开 `https://easymd.vercel.app` 或本地 `http://localhost:2663`。
+
+## 网页预览交接
+
+用户说“把这份 Markdown 放到网页预览/编辑”时，可直接使用一句话路由：
+
+> 打开 easymd Web，导入这份 Markdown；同次选择的本地图片会自动上传并替换相对路径，完成后在网页中预览、编辑，最后导出 Markdown。
+
+交接时保留原文结构和图片引用；YAML frontmatter 仅作为元数据保留，预览与复制默认隐藏，不要把它当成文章正文。只有用户明确要求文章化展示时，才清理 YAML frontmatter 或改写标题。Web 编辑内容保存在浏览器本地，交付文件必须通过“导出 Markdown”拿回本机。
 
 ## 边界
 

@@ -198,10 +198,10 @@ describe('markdown -> html render (general)', () => {
     expect(html).toMatch(/word-break:\s*break-all/)
   })
 
-  it('previews a manually cited draft without generating duplicate references', async () => {
+  it.each([undefined, 'thu-classic'])('previews a manually cited draft without duplicate references with style %s', async (markdownStyle) => {
     const html = await render({
       markdown: '研究结论<sup>[1]</sup>。\n\n## 参考文献\n\n1. 作者. 论文标题. 2026. https://example.com/paper',
-      markdownStyle: 'thu-classic',
+      markdownStyle,
       platform: 'html',
     })
 

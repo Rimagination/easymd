@@ -21,9 +21,21 @@ const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
     const seenUrls = new Set<string>()
     let counter = 1
     let inReferenceSection = false
+    let hasManualCitation = false
+    let hasReferenceSection = false
+
+    visit(tree, 'element', (node: Element) => {
+      if (/^h[1-6]$/.test(node.tagName) && /^(?:参考资料|参考文献)$/.test(extractReferenceText(node).trim())) {
+        hasReferenceSection = true
+      }
+      if (node.tagName === 'sup' && node.children.length === 1 && node.children[0].type === 'text' && /^\[\d+\]$/.test(node.children[0].value)) {
+        hasManualCitation = true
+      }
+    })
+    const usePlainTextLinks = plainTextLinks || (hasManualCitation && hasReferenceSection)
 
     visit(tree, 'element', (node: Element, index, parent) => {
-      if (plainTextLinks && /^h[1-6]$/.test(node.tagName)) {
+      if (usePlainTextLinks && /^h[1-6]$/.test(node.tagName)) {
         inReferenceSection = /^(?:参考资料|参考文献)$/.test(extractReferenceText(node).trim())
         return
       }
@@ -38,7 +50,7 @@ const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
       }
 
       const text = extractReferenceText(node)
-      if (plainTextLinks) {
+      if (usePlainTextLinks) {
         node.tagName = 'span'
         delete node.properties.href
         delete node.properties.target
@@ -111,8 +123,8 @@ const rehypeFootnoteLinks: Plugin<[Options?], Root> = (options = {}) => {
               },
               {
                 type: 'element',
-                tagName: plainTextLinks ? 'span' : 'a',
-                properties: plainTextLinks ? { style: 'word-break: break-all;' } : { href: link.href },
+                tagName: usePlainTextLinks ? 'span' : 'a',
+                properties: usePlainTextLinks ? { style: 'word-break: break-all;' } : { href: link.href },
                 children: [{ type: 'text', value: link.href }],
               },
             ],
